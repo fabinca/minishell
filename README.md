@@ -3,7 +3,6 @@
 Your shell should:
 | To Do | Status | Assignee |
 | --- | --- | --- |
-
 |• Display a prompt when waiting for a new command.| | |
 
 |• Have a working history.| | |
