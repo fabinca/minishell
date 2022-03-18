@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/18 14:02:55 by cfabian           #+#    #+#             */
-/*   Updated: 2022/02/01 13:11:16 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 13:44:56 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,6 @@
 /* free everything if malloc fails, return 0*/
 /* terminate **Str array with a 0 pointer*/
 #include "../libft.h"
-
-static size_t	ft_strlen_c(char *str, char end)
-{
-	size_t	len;
-
-	len = 0;
-	while (str[len] != 0 && str[len] != end)
-		len++;
-	return (len);
-}
 
 static int	ft_nb_parts(const char *s, char c)
 {
