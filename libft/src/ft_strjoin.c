@@ -1,36 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strjoin.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/05/14 12:05:36 by cfabian           #+#    #+#             */
+/*   Updated: 2021/12/01 18:28:33 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
+char	*ft_strjoin(char const *s1, char const *s2)
+{
+	size_t	i;
+	size_t	j;
+	char	*ptr;
+
+	ptr = (char *)malloc(ft_strlen(s1) + ft_strlen(s2) + 1);
+	if (!ptr)
 		return (0);
-	}	
-	while (1)
+	i = 0;
+	while (*(s1 + i))
 	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
+		ptr[i] = s1[i];
+		i++;
 	}
-	return (0);
+	j = 0;
+	while (*(s2 + j))
+	{
+		ptr[i] = s2[j];
+		i++;
+		j++;
+	}
+	ptr[i] = 0;
+	return (ptr);
 }

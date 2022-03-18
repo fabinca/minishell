@@ -1,36 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_lstsize.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/05/20 14:14:52 by cfabian           #+#    #+#             */
+/*   Updated: 2021/12/01 18:28:25 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
+int	ft_lstsize(t_list *lst)
+{
+	int		lst_len;
+
+	if (!lst)
 		return (0);
-	}	
-	while (1)
+	lst_len = 1;
+	while (lst->next != NULL)
 	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
+		lst_len++;
+		lst = lst->next;
 	}
-	return (0);
+	return (lst_len);
 }

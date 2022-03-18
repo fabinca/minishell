@@ -1,36 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/05/14 13:36:16 by cfabian           #+#    #+#             */
+/*   Updated: 2021/12/01 18:28:34 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
+char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
+{
+	char	*str;
+	size_t	i;
+
+	str = (char *)malloc(ft_strlen(s) + 1);
+	if (!str)
 		return (0);
-	}	
-	while (1)
+	i = 0;
+	while (s[i])
 	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
+		str[i] = f(i, s[i]);
+		i++;
 	}
-	return (0);
+	str[i] = 0;
+	return (str);
 }

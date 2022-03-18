@@ -1,36 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isspace.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/11/29 21:43:41 by cfabian           #+#    #+#             */
+/*   Updated: 2022/01/17 17:50:56 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
-		return (0);
-	}	
-	while (1)
-	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
-	}
+int	ft_isspace(int c)
+{
+	if (c == ' ' || c == '\f' || c == '\n'
+		|| c == '\r' || c == '\t' || c == '\v')
+		return (1);
 	return (0);
 }

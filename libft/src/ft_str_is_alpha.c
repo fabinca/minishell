@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_str_is_alpha.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/04/19 09:09:56 by cfabian           #+#    #+#             */
+/*   Updated: 2022/01/18 16:16:32 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
+int	ft_str_is_alpha(char *str)
 {
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+	int	i;
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		perror("getcwd error");
-		return (0);
-	}	
-	while (1)
-	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
+		if (str[i] < 'A' | str[i] > 'z' | (str[i] > 'Z' & str[i] < 'a'))
+			return (0);
+		i++;
 	}
-	return (0);
+	return (1);
 }

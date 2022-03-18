@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_realloc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/11/29 22:00:46 by cfabian           #+#    #+#             */
+/*   Updated: 2021/12/01 18:28:28 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
-		return (0);
-	}	
-	while (1)
-	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
-	}
-	return (0);
+void	*ft_realloc(void *ptr1, size_t size)
+{
+	void	*ptr2;
+
+	ptr2 = (void *)ft_calloc(1, size);
+	if (!ptr2)
+		return (NULL);
+	ft_memmove(ptr2, ptr1, ft_strlen(ptr1));
+	free (ptr1);
+	return (ptr2);
 }

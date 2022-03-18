@@ -1,36 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_isprint.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Created: 2021/05/13 18:16:47 by cfabian           #+#    #+#             */
+/*   Updated: 2021/12/01 18:28:15 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
-int	main(void)
-{
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+/* A printable character is a character that is not a control character. */
+/* Declaration int isprint(int c); */
+/* Parameters c − This is the character to be checked. */
+/* This function returns a non-zero value(true) if c is a */
+/* printable character else, zero (false). */
+#include "../libft.h"
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
-		return (0);
-	}	
-	while (1)
-	{
-		line = readline(prompt);
-		add_history(line);
-		//evaluate(line);
-		free(line);
-	}
+int	ft_isprint(int c)
+{
+	if (c >= 32 && c <= 126)
+		return (1);
 	return (0);
 }
