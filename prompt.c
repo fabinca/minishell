@@ -34,29 +34,22 @@ char	*ft_strrchr(const char *s, int c)
 	return (NULL);
 }
 
-int	display_prompt(void)
+void	display_prompt(void)
 {
-	char *s;
-	char *dir;
-	char	cwd[PATH_MAX];
+	char	*user;
+	char	*dir;
+	char	*pwd;
+	char	*desktop;
 
-	if (getcwd(cwd, sizeof(cwd)) != NULL)
-	{
-		s =  getenv("USER");
-		dir = ft_strrchr(cwd, '/');
-		printf("%s@42Wolfsburg %s %% ", s, &dir[1]);
-		return (0);
-	}
-	else
-	{
-		printf("getcwd error");
-		return (1);
-	}
+	user =  getenv("USER");
+	desktop = getenv("NAME");
+	pwd = getenv("PWD");
+	dir = ft_strrchr(pwd, '/');
+	printf("%s@%s:~%s$ ", user, desktop, dir);
 }
 
 int	main(void)
 {
-	if (display_prompt() == 1)
-		return (1);
+	display_prompt();
 	return (0);
 }
