@@ -6,21 +6,11 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 13:36:24 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 16:28:53 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-static size_t	ft_strlen_c(char *str, char end)
-{
-	size_t	len;
-
-	len = 0;
-	while (str[len] != 0 && str[len] != end)
-		len++;
-	return (len);
-}
 
 static size_t	token_length(char *str)
 {
@@ -45,6 +35,72 @@ static size_t	token_length(char *str)
 	return (len);
 }
 
+int	handle_quote(char c, bool quote[2])
+{
+	if (c == '"' && !quote[1])
+	{
+		quote[0] = !quote[0];
+		return (1);
+	}
+	if (c == 39 && !quote[0])
+	{
+		quote[1] = !quote[1];
+		return (1);
+	}
+	return (0);
+}
+
+void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
+{
+	size_t	end;
+	char	*envvar;
+
+	end = -1;
+	while (string[++end] != 0)
+	{
+		if (string[end] == 39 || string[end] == '"')
+		{
+			end--;
+			break ;
+		}
+	}
+	(*i) += end;
+	envvar = getenv(ft_substr(string, 1, end));
+	if (!envvar)
+		return ;
+	ft_strlcat(buf, envvar, MAX_TOKEN_LEN);
+	*j += ft_strlen(envvar);
+}
+
+void	quotes_and_envvars(char *string, size_t len)
+{
+	size_t	i;
+	size_t	j;
+	char	buf[MAX_TOKEN_LEN];
+	bool	quote[2];
+
+	i = -1;
+	j = 0;
+	quote[0] = 0;
+	quote[1] = 0;
+	while (++i <= len)
+	{
+		if (handle_quote(string[i], quote))
+			continue ;
+		if (!quote[1] && string[i] == '$' && \
+		string[i + 1] != ' ' && string[i + 1] != 0)
+			expand_envvar((string + i), buf, &i, &j);
+		else
+		{
+			buf[j] = string[i];
+			j++;
+		}
+	}
+	free(string);
+	string = ft_calloc(j + 1, sizeof(char));
+	ft_strlcpy(string, buf, j);
+}
+
 t_list	*lexer(char *line)
 {
 	t_list			*lexer_start;
@@ -56,25 +112,25 @@ t_list	*lexer(char *line)
 	while (token.start < len)
 	{
 		token.len = token_length((line + token.start));
-		//printf("%ld\n", token.len);
 		token.string = ft_substr_strip_space(line, token.start, token.len);
-		// -> replace $[...] if not ' '
+		quotes_and_envvars(token.string, token.len);
 		token.start = token.start + token.len;
-		printf("%s\n", token.string);
 		ft_lstadd_back(&lexer_start, ft_lstnew(token.string));
 	}
 	return (lexer_start);
 }
 
-int	main(int argc, char **argv)
+int	main(void)
 {
-	char	*line;
+	char	line[100] = "1$'HOME' 2'$HOME' 3$HOME''a 4$! 5$?";
 	t_list	*start;
 
-	if (argc > 1)
-		line = argv[1];
 	start = lexer(line);
-	if (start)
-		return (0);
+	printf("%s\n", line);
+	while (start->next)
+	{
+		start = start->next;
+		printf("%s\n", (char *)start->content);
+	}
 	return (1);
 }
