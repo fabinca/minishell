@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 16:44:49 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 16:46:39 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static size_t	token_length(char *str)
 	return (len);
 }
 
-int	handle_quote(char c, bool quote[2])
+static int	handle_quote(char c, bool quote[2])
 {
 	if (c == '"' && !quote[1])
 	{
@@ -50,7 +50,7 @@ int	handle_quote(char c, bool quote[2])
 	return (0);
 }
 
-void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
+static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 {
 	size_t	end;
 	char	*envvar;
@@ -77,7 +77,7 @@ void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	*j += ft_strlen(envvar);
 }
 
-void	quotes_and_envvars(char *string, size_t len)
+static void	quotes_and_envvars(char *string, size_t len)
 {
 	size_t	i;
 	size_t	j;

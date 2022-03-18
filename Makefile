@@ -6,13 +6,15 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/16 15:32:09 by cfabian          ###   ########.fr        #
+#    Updated: 2022/03/18 16:52:18 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	minishell
 SRC 		= 	src
-SRCS 		= 	$(SRC)/main.c
+SRCS 		= 	$(SRC)/main.c \
+				$(SRC)/evaluate.c \
+				$(SRC)/lexer.c \
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

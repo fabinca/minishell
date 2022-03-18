@@ -6,11 +6,11 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/16 17:21:09 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 16:52:39 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "../minishell.h"
 // Display a prompt when waiting for a new command.
 // Have a working history.
 int	main(void)
@@ -29,7 +29,7 @@ int	main(void)
 	{
 		line = readline(prompt);
 		add_history(line);
-		//evaluate(line);
+		evaluate(line);
 		free(line);
 	}
 	return (0);
