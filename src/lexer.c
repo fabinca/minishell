@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 16:28:53 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 16:44:49 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,11 @@ void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	size_t	end;
 	char	*envvar;
 
-	end = -1;
+	end = 0;
 	while (string[++end] != 0)
 	{
+		if (string[1] == '?')
+			break ;
 		if (string[end] == 39 || string[end] == '"')
 		{
 			end--;
@@ -65,7 +67,10 @@ void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 		}
 	}
 	(*i) += end;
-	envvar = getenv(ft_substr(string, 1, end));
+	if (string[1] != '?')
+		envvar = getenv(ft_substr(string, 1, end));
+	//else
+	//	envvar = last exit status
 	if (!envvar)
 		return ;
 	ft_strlcat(buf, envvar, MAX_TOKEN_LEN);
@@ -119,10 +124,10 @@ t_list	*lexer(char *line)
 	}
 	return (lexer_start);
 }
-
+/*
 int	main(void)
 {
-	char	line[100] = "1$'HOME' 2'$HOME' 3$HOME''a 4$! 5$?";
+	char	line[100] = "1$'HOME' 2'$HOME' 3$HOME''a 4$!bla 5$?bla";
 	t_list	*start;
 
 	start = lexer(line);
@@ -134,3 +139,4 @@ int	main(void)
 	}
 	return (1);
 }
+*/
