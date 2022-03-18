@@ -1,8 +1,12 @@
 #include <unistd.h> //getcwd
 #include <stdio.h>
-#include <string.h>
-#include <limits.h>
 #include <stdlib.h>
+#include <stdio.h>
+
+#define GRN  "\x1B[1;32m"
+#define BLU  "\x1B[1;34m"
+#define NRM  "\x1B[0m"
+
 
 size_t	ft_strlen(const char *s)
 {
@@ -45,11 +49,14 @@ void	display_prompt(void)
 	desktop = getenv("NAME");
 	pwd = getenv("PWD");
 	dir = ft_strrchr(pwd, '/');
-	printf("%s@%s:~%s$ ", user, desktop, dir);
+	printf("%s%s@%s:%s~%s$%s ", GRN, user, desktop, BLU, dir, NRM);
 }
 
 int	main(void)
 {
+	int	n;
+
 	display_prompt();
+	scanf("%d", &n);
 	return (0);
 }
