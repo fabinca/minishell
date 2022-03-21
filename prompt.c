@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 16:24:57 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/18 16:54:42 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/19 18:52:48 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,11 +15,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <readline/readline.h>
+#include <readline/history.h>
 
 
 #define GRN  "\x1B[1;32m"
 #define BLU  "\x1B[1;34m"
 #define NRM  "\x1B[0m"
+#define MAX_LENGTH 100
 
 
 size_t	ft_strlen(const char *s)
@@ -65,13 +67,22 @@ void	display_prompt(void)
 	pwd = getenv("PWD");
 	dir = ft_strrchr(pwd, '/');
 	printf("%s%s@%s:%s~%s$%s ", GRN, user, desktop, BLU, dir, NRM);
-	line = readline("");
 }
+
 
 int	main(void)
 {
-	int	n;
+	int	background;
+	char *line;
 
-	display_prompt();
+	background = 0;
+	while (background == 0)
+	{
+		//display_prompt();
+		line = readline("\033[1;34m\033[1mMinishell\033[0m$ ");
+		parse_builtin(line);
+		add_history(line);
+		free(line);
+	}
 	return (0);
 }
