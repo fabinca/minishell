@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 16:46:39 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/21 13:56:04 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 {
 	size_t	end;
 	char	*envvar;
+	char 	*str;
 
 	end = 0;
 	while (string[++end] != 0)
@@ -67,17 +68,21 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 		}
 	}
 	(*i) += end;
-	if (string[1] != '?')
-		envvar = getenv(ft_substr(string, 1, end));
-	//else
-	//	envvar = last exit status
+	if (string[1] == '?')
+	{
+		//	envvar = last exit status
+		return ;
+	}
+	str = ft_substr(string, 1, end);
+	envvar = getenv(str);
+	free(str);
 	if (!envvar)
 		return ;
 	ft_strlcat(buf, envvar, MAX_TOKEN_LEN);
 	*j += ft_strlen(envvar);
 }
 
-static void	quotes_and_envvars(char *string, size_t len)
+static char *quotes_and_envvars(char *string, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -101,9 +106,15 @@ static void	quotes_and_envvars(char *string, size_t len)
 			j++;
 		}
 	}
-	free(string);
-	string = ft_calloc(j + 1, sizeof(char));
-	ft_strlcpy(string, buf, j);
+	buf[j] = 0;
+	if (j != i)
+	{
+		free(string);
+		printf("%s\n", buf);
+		string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
+		ft_strlcpy(string, buf, ft_strlen(buf) + 1);
+	}
+	return (string);
 }
 
 t_list	*lexer(char *line)
@@ -111,32 +122,48 @@ t_list	*lexer(char *line)
 	t_list			*lexer_start;
 	const size_t	len = ft_strlen(line);
 	t_tok			token;
+	t_list			*new;
 
 	token.start = 0;
-	lexer_start = ft_lstnew("START");
+	lexer_start = NULL;
 	while (token.start < len)
 	{
 		token.len = token_length((line + token.start));
 		token.string = ft_substr_strip_space(line, token.start, token.len);
-		quotes_and_envvars(token.string, token.len);
+		//ft_printf("%s \n", token.string);
+		token.string = quotes_and_envvars(token.string, token.len);
+		//ft_printf("%s \n", token.string);
 		token.start = token.start + token.len;
-		ft_lstadd_back(&lexer_start, ft_lstnew(token.string));
+		new = ft_lstnew(token.string);
+		if (!lexer_start)
+		{
+			printf("new: %s\n", (char *)new->content);
+			lexer_start = new;
+		}
+		else
+			ft_lstadd_back(&lexer_start, new);
+		//free(token.string);
 	}
 	return (lexer_start);
 }
-/*
+
 int	main(void)
 {
-	char	line[100] = "1$'HOME' 2'$HOME' 3$HOME''a 4$!bla 5$?bla";
+	char	line[100] = "$HOME";
 	t_list	*start;
+	t_list	*buf;
 
 	start = lexer(line);
 	printf("%s\n", line);
-	while (start->next)
+	while (start)
 	{
-		start = start->next;
+		buf = start;
 		printf("%s\n", (char *)start->content);
+		start = start->next;
+		if (buf->content)
+			free(buf->content);
+		free(buf);
 	}
 	return (1);
 }
-*/
+
