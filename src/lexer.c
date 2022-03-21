@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/21 13:56:04 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/21 15:11:10 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 {
 	size_t	end;
 	char	*envvar;
-	char 	*str;
+	char	*str;
 
 	end = 0;
 	while (string[++end] != 0)
@@ -86,13 +86,14 @@ static char *quotes_and_envvars(char *string, size_t len)
 {
 	size_t	i;
 	size_t	j;
-	char	buf[MAX_TOKEN_LEN];
+	char	*buf;
 	bool	quote[2];
 
 	i = -1;
 	j = 0;
 	quote[0] = 0;
 	quote[1] = 0;
+	buf = (char *)ft_calloc(MAX_TOKEN_LEN, sizeof(char));
 	while (++i <= len)
 	{
 		if (handle_quote(string[i], quote))
@@ -110,10 +111,10 @@ static char *quotes_and_envvars(char *string, size_t len)
 	if (j != i)
 	{
 		free(string);
-		printf("%s\n", buf);
 		string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
 		ft_strlcpy(string, buf, ft_strlen(buf) + 1);
 	}
+	free(buf);
 	return (string);
 }
 
@@ -130,40 +131,32 @@ t_list	*lexer(char *line)
 	{
 		token.len = token_length((line + token.start));
 		token.string = ft_substr_strip_space(line, token.start, token.len);
-		//ft_printf("%s \n", token.string);
 		token.string = quotes_and_envvars(token.string, token.len);
-		//ft_printf("%s \n", token.string);
 		token.start = token.start + token.len;
 		new = ft_lstnew(token.string);
 		if (!lexer_start)
-		{
-			printf("new: %s\n", (char *)new->content);
 			lexer_start = new;
-		}
 		else
 			ft_lstadd_back(&lexer_start, new);
-		//free(token.string);
 	}
 	return (lexer_start);
 }
 
 int	main(void)
 {
-	char	line[100] = "$HOME";
+	char	line[100] = "$HOME | '$HOME' | $bla >out";
 	t_list	*start;
 	t_list	*buf;
 
 	start = lexer(line);
+	buf = start;
 	printf("%s\n", line);
 	while (start)
 	{
-		buf = start;
 		printf("%s\n", (char *)start->content);
 		start = start->next;
-		if (buf->content)
-			free(buf->content);
-		free(buf);
 	}
+	ft_lstclear(&buf);
 	return (1);
 }
 
