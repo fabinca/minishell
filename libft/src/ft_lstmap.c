@@ -6,13 +6,13 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/21 20:01:07 by cfabian           #+#    #+#             */
-/*   Updated: 2021/12/01 18:28:21 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/18 19:07:29 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../libft.h"
 
-t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
+t_list	*ft_lstmap(t_list *lst, void *(*f)(void *))
 {
 	t_list	*new;
 	t_list	*start;
@@ -26,7 +26,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 		new = ft_lstnew(f(lst->content));
 		if (!new)
 		{
-			ft_lstclear(&start, del);
+			ft_lstclear(&start);
 			return (NULL);
 		}
 		ft_lstadd_back(&start, new);
