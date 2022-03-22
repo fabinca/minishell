@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-/*   Updated: 2022/02/01 13:11:32 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/22 17:04:27 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *pattern, size_t len);
+char	*ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_atoi(const char *str);
 int		ft_atoi_d_only(const char *str);
