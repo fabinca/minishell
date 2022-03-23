@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 18:54:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/22 17:01:41 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/23 19:54:50 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,11 @@ int	ft_strcmp(const char *s1, const char *s2)
 
 char	*builtin_pwd(void)
 {
-	char s[100];
+	char	*s;
 	
+	s = malloc(sizeof(char*) * 100);
+	if (!s)
+		return (0);
 	return (getcwd(s, 100));
 }
 
@@ -130,19 +133,22 @@ char	*build_path(char *cmd)
 	char	*old_path;
 	char	*temp;
 	char	*new_path;
+	int		free_temp;
 
 	old_path = builtin_pwd();
-	printf("old path = %s, length %ld\n", old_path, ft_strlen(old_path));
 	if (ft_strlen(old_path) != 1)
+	{
+		free_temp = 1;
 		temp = ft_strjoin(old_path, "/");
+	}
 	else
 	{
-		temp = malloc(sizeof(char) * 2);
-		temp = "/";
+		free_temp = 0;
+		temp = old_path;
 	}
-	printf("temp = %s\n", temp);
 	new_path = ft_strjoin(temp, cmd);
-	free (temp);
+	if (free_temp == 1)
+		free (temp);
 	return (new_path);
 }
 
@@ -174,7 +180,6 @@ void	builtin_cd(char **cmd)
 	if (cmd[1][0] != '/')
 	{
 		path = build_path(cmd[1]);
-		printf("path = %s\n", path);
 		if (chdir(path))
 		{
 			printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
