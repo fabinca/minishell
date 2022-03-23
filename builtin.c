@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/19 18:54:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/23 19:54:50 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/23 19:57:44 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ void	builtin_cd(char **cmd)
 	if (cmd[1][0] != '/')
 	{
 		path = build_path(cmd[1]);
-		if (chdir(path))
+		if (chdir(path) && chdir(ft_strjoin(path, "/")))
 		{
 			printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
 			free (path);
@@ -189,9 +189,6 @@ void	builtin_cd(char **cmd)
 		free (path);
 		return ;
 	}
-
-	
-	
 }
 
 void	parse_builtin(char *line, char **envp, int *exit_status)
