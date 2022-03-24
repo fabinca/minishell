@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-#    Updated: 2022/01/23 13:03:38 by cfabian          ###   ########.fr        #
+#    Updated: 2022/03/24 14:12:49 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,6 +31,7 @@ $(SRC)/ft_strlcat.c \
 $(SRC)/ft_strchr.c \
 $(SRC)/ft_strrchr.c \
 $(SRC)/ft_strnstr.c \
+$(SRC)/ft_strcmp.c \
 $(SRC)/ft_strncmp.c \
 $(SRC)/ft_atoi.c \
 $(SRC)/ft_atoi_digits_only.c \
