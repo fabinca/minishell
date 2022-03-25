@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/25 13:33:48 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/25 12:52:56 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdlib.h>
-# include <sys/wait.h>
-# include <sys/types.h>
 # include "./libft.h"
 # include <stdbool.h>
 # include <signal.h>

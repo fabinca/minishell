@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 13:21:47 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:48:52 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,9 @@ void	display_prompt(void)
 {
 	char	*user;
 	char	*dir;
-	char	*desktop;
 	char	pwd[100];
 
-	user =  getenv("USER");
-	desktop = getenv("NAME");
+	user = getenv("USER");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
 	printf("%s%s:%s~%s$%s ", GRN, user, BLU, dir, NRM);
 }
@@ -52,7 +50,7 @@ void	sighandler(int num)
 		rl_replace_line("", 0);
 		printf("\n");
 		display_prompt();
-		printf("\033[1;36m\033[1mMinishell\033[0m$      ");
+		printf("\033[1;36m\033[1mMinishell\033[0m$ ");
 		rl_redisplay();
 	}
 }
