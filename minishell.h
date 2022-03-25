@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 16:46:02 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/25 12:09:41 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,9 @@
 
 # define MAX_ENVVAR_LEN 128
 # define MAX_TOKEN_LEN 256
+# define GRN  "\x1B[1;32m"
+# define BLU  "\x1B[1;34m"
+# define NRM  "\x1B[0m"
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
@@ -23,6 +26,7 @@
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
+# include <signal.h>
 
 typedef struct s_tok
 {
@@ -39,7 +43,16 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-void	evaluate(char *line);
 t_list	*lexer(char *line);
+
+//free.c
+void	free_cmd(char **cmd);
+void	builtin_exit(char **cmd);
+
+//builtins.c
+void	builtin_echo(char **token);
+void	builtin_env(char **cmd, char **envp);
+void	builtin_pwd(void);
+void	builtin_cd(char **cmd);
 
 #endif

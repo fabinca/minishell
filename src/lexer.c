@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/21 15:11:10 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/25 12:08:58 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ t_list	*lexer(char *line)
 	return (lexer_start);
 }
 
-int	main(void)
+/* int	main(void)
 {
 	char	line[100] = "$HOME | '$HOME' | $bla >out";
 	t_list	*start;
@@ -158,5 +158,5 @@ int	main(void)
 	}
 	ft_lstclear(&buf);
 	return (1);
-}
+} */
 

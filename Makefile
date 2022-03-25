@@ -3,18 +3,19 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/18 16:52:18 by cfabian          ###   ########.fr        #
+#    Updated: 2022/03/25 12:00:20 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	minishell
 SRC 		= 	src
 SRCS 		= 	$(SRC)/main.c \
-				$(SRC)/evaluate.c \
 				$(SRC)/lexer.c \
+				$(SRC)/free.c \
+				$(SRC)/builtins.c \
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

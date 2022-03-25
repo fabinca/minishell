@@ -3,34 +3,80 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/16 14:10:11 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 16:52:39 by cfabian          ###   ########.fr       */
+/*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
+/*   Updated: 2022/03/25 12:39:55 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// Display a prompt when waiting for a new command.
-// Have a working history.
+
+void	parse_builtin(char *line)
+{
+	char **cmd;
+
+	cmd = ft_split(line, ' ');
+	if (ft_strcmp(cmd[0], "echo") == 0)
+		builtin_echo(cmd);
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
+		builtin_pwd();
+	//else if (ft_strcmp(cmd[0], "env") == 0)
+	//	builtin_env(cmd, envp);
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		builtin_exit(cmd);
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		builtin_cd(cmd);
+	else
+		//pipex
+		printf("%s: command not found\n", cmd[0]);
+	free_cmd(cmd);
+}
+
+void	display_prompt(void)
+{
+	char	*user;
+	char	*dir;
+	char	*desktop;
+	char	pwd[100];
+
+	user =  getenv("USER");
+	desktop = getenv("NAME");
+	dir = ft_strrchr(getcwd(pwd, 100), '/');
+	printf("%s%s@%s:%s~%s$%s ", GRN, user, desktop, BLU, dir, NRM);
+}
+
+void	sighandler(int num)
+{
+	if (num == SIGINT)
+	{
+		rl_replace_line("", 0);
+		printf("\n");
+		display_prompt();
+		printf("\033[1;36m\033[1mMinishell\033[0m$      ");
+		rl_redisplay();
+	}
+}
+
 int	main(void)
 {
-	char	*prompt;
-	char	cwd[100];
-	char	*line;
+	char *line;
 
-	prompt = "\033[0;32mminishell:\033[0m$ ";
-	if (getcwd(cwd, sizeof(cwd)) == NULL)
-	{
-		perror("getcwd error");
-		return (0);
-	}	
+	add_history("");
+	signal(SIGINT, sighandler); //ctrl c
+	signal(SIGQUIT, SIG_IGN); // ctrl backslash
+	//signal(EOF, sighandler);
 	while (1)
 	{
-		line = readline(prompt);
+		display_prompt();
+		line = readline("\033[1;36m\033[1mMinishell\033[0m$ ");
+		if (!line)
+			break ;
 		add_history(line);
-		evaluate(line);
+		parse_builtin(line);
 		free(line);
 	}
+	//free memory
+	printf("\n");
 	return (0);
 }
