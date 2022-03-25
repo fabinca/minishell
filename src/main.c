@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 12:55:59 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/25 13:21:47 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ void	parse_builtin(char *line)
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		builtin_cd(cmd);
 	else
-		//pipex
 		printf("%s: command not found\n", cmd[0]);
 	free_cmd(cmd);
 }
@@ -43,7 +42,7 @@ void	display_prompt(void)
 	user =  getenv("USER");
 	desktop = getenv("NAME");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
-	printf("%s%s@%s:%s~%s$%s ", GRN, user, desktop, BLU, dir, NRM);
+	printf("%s%s:%s~%s$%s ", GRN, user, BLU, dir, NRM);
 }
 
 void	sighandler(int num)
