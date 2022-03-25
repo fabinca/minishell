@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 13:48:52 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/25 14:40:27 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,12 @@ void	sighandler(int num)
 
 int	main(void)
 {
-	char *line;
+	char	*line;
 
+	g_last_exit = 0;
 	add_history("");
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
-	//signal(EOF, sighandler);
 	while (1)
 	{
 		display_prompt();

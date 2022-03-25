@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/25 12:08:58 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/25 14:06:06 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,39 +50,15 @@ static int	handle_quote(char c, bool quote[2])
 	return (0);
 }
 
-static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
+void	update(char *string, char *buf)
 {
-	size_t	end;
-	char	*envvar;
-	char	*str;
-
-	end = 0;
-	while (string[++end] != 0)
-	{
-		if (string[1] == '?')
-			break ;
-		if (string[end] == 39 || string[end] == '"')
-		{
-			end--;
-			break ;
-		}
-	}
-	(*i) += end;
-	if (string[1] == '?')
-	{
-		//	envvar = last exit status
-		return ;
-	}
-	str = ft_substr(string, 1, end);
-	envvar = getenv(str);
-	free(str);
-	if (!envvar)
-		return ;
-	ft_strlcat(buf, envvar, MAX_TOKEN_LEN);
-	*j += ft_strlen(envvar);
+	free(string);
+	string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
+	ft_strlcpy(string, buf, ft_strlen(buf) + 1);
+	free(buf);
 }
 
-static char *quotes_and_envvars(char *string, size_t len)
+static char	*quotes_and_envvars(char *string, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -102,19 +78,10 @@ static char *quotes_and_envvars(char *string, size_t len)
 		string[i + 1] != ' ' && string[i + 1] != 0)
 			expand_envvar((string + i), buf, &i, &j);
 		else
-		{
-			buf[j] = string[i];
-			j++;
-		}
+			buf[j++] = string[i];
 	}
 	buf[j] = 0;
-	if (j != i)
-	{
-		free(string);
-		string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
-		ft_strlcpy(string, buf, ft_strlen(buf) + 1);
-	}
-	free(buf);
+	update(string, buf);
 	return (string);
 }
 
