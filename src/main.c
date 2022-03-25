@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 12:39:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/25 12:55:59 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,8 @@ int	main(void)
 		if (!line)
 			break ;
 		add_history(line);
-		parse_builtin(line);
+		if (line[0])
+			parse_builtin(line);
 		free(line);
 	}
 	//free memory
