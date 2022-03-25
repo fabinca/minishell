@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/21 15:11:10 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/25 11:11:02 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,22 +57,20 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	char	*str;
 
 	end = 0;
+	if (string[1] == '?')
+	{
+		//	envvar = last exit status //global variable?
+		return ;
+	}
 	while (string[++end] != 0)
 	{
-		if (string[1] == '?')
-			break ;
-		if (string[end] == 39 || string[end] == '"')
+		if (string[end] == 39 || string[end] == '"') //check
 		{
 			end--;
 			break ;
 		}
 	}
 	(*i) += end;
-	if (string[1] == '?')
-	{
-		//	envvar = last exit status
-		return ;
-	}
 	str = ft_substr(string, 1, end);
 	envvar = getenv(str);
 	free(str);
@@ -91,8 +89,8 @@ static char *quotes_and_envvars(char *string, size_t len)
 
 	i = -1;
 	j = 0;
-	quote[0] = 0;
-	quote[1] = 0;
+	quote[0] = 0; // ""
+	quote[1] = 0; // '' $aabald
 	buf = (char *)ft_calloc(MAX_TOKEN_LEN, sizeof(char));
 	while (++i <= len)
 	{
@@ -108,12 +106,9 @@ static char *quotes_and_envvars(char *string, size_t len)
 		}
 	}
 	buf[j] = 0;
-	if (j != i)
-	{
-		free(string);
-		string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
-		ft_strlcpy(string, buf, ft_strlen(buf) + 1);
-	}
+	free(string);
+	string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
+	ft_strlcpy(string, buf, ft_strlen(buf) + 1);
 	free(buf);
 	return (string);
 }
@@ -144,7 +139,7 @@ t_list	*lexer(char *line)
 
 int	main(void)
 {
-	char	line[100] = "$HOME | '$HOME' | $bla >out";
+	char	line[100] = "$HOME | '$HOME | $bla >out";
 	t_list	*start;
 	t_list	*buf;
 
