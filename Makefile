@@ -6,15 +6,16 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/25 20:02:11 by cfabian          ###   ########.fr        #
+#    Updated: 2022/03/28 16:42:02 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	minishell
 SRC 		= 	src
-SRCS 		= 	$(SRC)/lexer.c \
-				$(SRC)/parser.c \
-				$(SRC)/quotes_and_envvars.c
+SRCS 		= 	$(SRC)/parser.c \
+				$(SRC)/lexer.c \
+				$(SRC)/free.c \
+				$(SRC)/quotes_and_envvars.c \
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/28 11:36:52 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/28 16:44:16 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ t_list	*lexer(char *line)
 
 int	main(void)
 {
-	char	line[100] = "<a >b echo $?a | cat '$HOME b' | sort -n >d ";
+	char	line[200] = "echo 1234567890 | grep 1 | grep 2 | grep 3 | grep 4 | grep 5 | grep 6 | grep 7 | grep 8 | grep 9 | grep 0 | grep 1 | grep 2 ";
 	t_list	*start;
 	t_command *start_c;
 

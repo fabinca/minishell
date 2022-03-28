@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   file_descriptors.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:17:30 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:17:17 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/28 13:44:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,10 @@ void	double_delimiter(char *delimiter)
 	int		fd;
 
 	str = (char *)1;
-	fd = open("file path", O_CREAT | O_RDWR | O_APPEND, 0777);
+	fd = open("./TMP", O_CREAT | O_RDWR | O_APPEND, 0777);
 	if (fd < 0)
 	{
-		perror("open\n");
+		perror("open");
 		return ;
 	}
 	while (str)
@@ -37,11 +37,10 @@ void	double_delimiter(char *delimiter)
 			write(fd, str, ft_strlen(str)); //write into the temp file
 		free(str);
 	}
-	
 }
 
 int	main(void)
 {
-	double_delimiter("Mädchen");
+	double_delimiter("bla");
 	return (0);
 }
