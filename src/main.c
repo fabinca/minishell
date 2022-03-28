@@ -6,23 +6,24 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 14:40:27 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/03/28 13:35:27 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
 
-void	parse_builtin(char *line)
+void	parse_builtin(char *line, char **envp)
 {
-	char **cmd;
+	char	**cmd;
 
 	cmd = ft_split(line, ' ');
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		builtin_echo(cmd);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		builtin_pwd();
-	//else if (ft_strcmp(cmd[0], "env") == 0)
-	//	builtin_env(cmd, envp);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		builtin_env(cmd, envp);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		builtin_exit(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
@@ -55,11 +56,16 @@ void	sighandler(int num)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
 
 	g_last_exit = 0;
+	if (argc != 1 || argv[1])
+	{
+		printf("Run program with ./minishell (no arguments\n");
+		return (0);
+	}
 	add_history("");
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
@@ -71,7 +77,7 @@ int	main(void)
 			break ;
 		add_history(line);
 		if (line[0])
-			parse_builtin(line);
+			parse_builtin(line, envp);
 		free(line);
 	}
 	//free memory

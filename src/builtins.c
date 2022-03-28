@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 12:07:37 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/26 17:48:28 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,29 +47,37 @@ void	builtin_cd(char **cmd)
 	return ;
 }
 
-void	builtin_echo(char **token)
+void	builtin_echo(char **cmd)
 {
 	int	i;
 	int	j;
+	char	*envvar;
 
 	i = 1;
 	j = 0;
-	if (token[i] == NULL)
+	if (cmd[i] == NULL)
 	{
 		printf("\n");
 		return ;
 	}
-	if (ft_strcmp(token[i], "-n") == 0)
+	if (ft_strcmp(cmd[i], "-n") == 0)
 	{
 		j++;
-		if (token[i + 1] == NULL)
+		if (cmd[i + 1] == NULL)
 			return ;
 	}
-	while (token[i + j] != NULL)
+	while (cmd[i + j] != NULL)
 	{
 		if (i != 1)
 			printf(" ");
-		printf("%s", token[i + j]);
+		if (cmd[i + j][0] == '$')
+		{
+			envvar = getenv(&cmd[i + j][1]);
+			if (envvar)
+				printf("%s", envvar);
+		}
+		else
+			printf("%s", cmd[i + j]);
 		i++;
 	}
 	if (j == 0)
