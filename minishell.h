@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/25 12:52:56 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/28 10:45:34 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@
 # include <stdbool.h>
 # include <signal.h>
 
+typedef struct s_envvar
+{
+	char			*name;
+	char			*content;
+	struct s_envvar	*next;
+}	t_envvar;
+
 typedef struct s_tok
 {
 	size_t	start;
@@ -42,6 +49,11 @@ typedef struct s_command
 	char				**cmd;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct s_shell
+{
+	t_envvar	**vars;
+}	t_shell;
 
 t_list	*lexer(char *line);
 

@@ -6,13 +6,13 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/25 13:21:47 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/03/26 17:35:13 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	parse_builtin(char *line)
+void	parse_builtin(char *line, char **envp)
 {
 	char **cmd;
 
@@ -21,8 +21,8 @@ void	parse_builtin(char *line)
 		builtin_echo(cmd);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		builtin_pwd();
-	//else if (ft_strcmp(cmd[0], "env") == 0)
-	//	builtin_env(cmd, envp);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		builtin_env(cmd, envp);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		builtin_exit(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
@@ -36,11 +36,9 @@ void	display_prompt(void)
 {
 	char	*user;
 	char	*dir;
-	char	*desktop;
 	char	pwd[100];
 
 	user =  getenv("USER");
-	desktop = getenv("NAME");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
 	printf("%s%s:%s~%s$%s ", GRN, user, BLU, dir, NRM);
 }
@@ -57,10 +55,15 @@ void	sighandler(int num)
 	}
 }
 
-int	main(void)
+int	main(int argc, char **argv, char **envp)
 {
 	char *line;
 
+	if (argc != 1 || argv[1])
+	{
+		printf("Run program with ./minishell (no arguments\n");
+		return (0);
+	}
 	add_history("");
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
@@ -73,7 +76,7 @@ int	main(void)
 			break ;
 		add_history(line);
 		if (line[0])
-			parse_builtin(line);
+			parse_builtin(line, envp);
 		free(line);
 	}
 	//free memory
