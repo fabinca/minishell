@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/24 14:12:49 by hrothery         ###   ########.fr        #
+#    Updated: 2022/03/28 13:13:41 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -68,7 +68,9 @@ $(SRC)/ft_lstiter.c \
 $(SRC)/ft_lstmap.c \
 $(SRC)/get_next_line_bonus.c \
 $(SRC)/print_c.c \
-$(SRC)/ft_printf.c
+$(SRC)/ft_printf.c \
+$(SRC)/gnl_strjoin.c \
+$(SRC)/gnl_delimit.c \
 # $(wildcard $(SRC)/*.c)
 
 OBJ		= obj
