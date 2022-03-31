@@ -3,3 +3,4 @@ a.out
 bin/*
 obj/*
 *.o
+libft.a

@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear.c                                      :+:      :+:    :+:   */
+/*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2021/05/20 15:10:12 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/21 14:56:35 by cfabian          ###   ########.fr       */
+/*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
+/*   Updated: 2022/03/25 12:07:43 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../minishell.h"
 
-void	ft_lstclear(t_list **lst)
+void	free_cmd(char **cmd)
 {
-	t_list	*tmp;
+	int	i;
 
-	if (!*lst)
-		return ;
-	tmp = (*lst)->next;
-	while (tmp != NULL)
-	{
-		tmp = (*lst)->next;
-		ft_lstdelone(*lst);
-		*lst = tmp;
-	}
+	i = 0;
+	while (cmd[i])
+		free(cmd[i++]);
+	free (cmd);
+}
+
+void	builtin_exit(char **cmd)
+{
+	free_cmd(cmd);
+	rl_clear_history();
+	exit(0);
 }
