@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   gnl_delimit.h                                      :+:      :+:    :+:   */
+/*   ft_strchr_gnl.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/01/06 13:11:02 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 14:44:25 by hrothery         ###   ########.fr       */
+/*   Created: 2022/04/01 14:51:29 by hrothery          #+#    #+#             */
+/*   Updated: 2022/04/01 14:51:48 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GNL_DELIMIT_H
-# define GNL_DELIMIT_H
-# include <unistd.h>
-# include <stdlib.h>
-# include <stddef.h>
+#include "../libft.h"
 
-# ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 1
-# endif
+char	*ft_strchr_gnl(const char *s, int c)
+{
+	unsigned int	i;
 
-char	*gnl_delimit(int fd, char *delimiter);
-char	*ft_strjoin(char *s1, char *s2);
-char	*ft_strchr(const char *s, int c);
-size_t	ft_strlen(const char *s);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-
-#endif
+	i = 0;
+	if (!s)
+		return (0);
+	if (c == '\0')
+		return ((char *)(s + ft_strlen(s)));
+	while (s[i] != '\0')
+	{
+		if (s[i] == (char)c)
+			return ((char *)(s + i));
+		i++;
+	}
+	return (0);
+}

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/01 10:55:18 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:59:14 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@
 # include "./libft.h"
 # include <stdbool.h>
 # include <signal.h>
+# include <fcntl.h>
 
 typedef struct s_envvar
 {
@@ -75,5 +76,9 @@ void	builtin_export(t_envvar *lst, char **cmd);
 t_envvar	*init_envp_list(char **envp);
 t_envvar	*init_var(t_envvar *var, char *envp);
 int	search_env_list(t_envvar *lst, char *cmd);
+
+//heredoc.c
+void	exe_heredoc(char *delimiter);
+
 
 #endif

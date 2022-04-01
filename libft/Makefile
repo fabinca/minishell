@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/31 11:58:33 by hrothery         ###   ########.fr        #
+#    Updated: 2022/04/01 14:56:35 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,6 +30,7 @@ $(SRC)/ft_strlen.c \
 $(SRC)/ft_strlcpy.c \
 $(SRC)/ft_strlcat.c \
 $(SRC)/ft_strchr.c \
+$(SRC)/ft_strchr_gnl.c \
 $(SRC)/ft_strrchr.c \
 $(SRC)/ft_strnstr.c \
 $(SRC)/ft_strcmp.c \
@@ -50,6 +51,7 @@ $(SRC)/ft_realloc.c \
 $(SRC)/ft_strdup.c \
 $(SRC)/ft_substr.c \
 $(SRC)/ft_strjoin.c \
+$(SRC)/ft_strjoin_gnl.c \
 $(SRC)/ft_strtrim.c \
 $(SRC)/ft_split.c \
 $(SRC)/ft_itoa.c \
@@ -70,7 +72,6 @@ $(SRC)/ft_lstmap.c \
 $(SRC)/get_next_line_bonus.c \
 $(SRC)/print_c.c \
 $(SRC)/ft_printf.c \
-$(SRC)/gnl_strjoin.c \
 $(SRC)/gnl_delimit.c \
 # $(wildcard $(SRC)/*.c)
 

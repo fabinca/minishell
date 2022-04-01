@@ -1,33 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_descriptors.c                                 :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:17:30 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:17:17 by hrothery         ###   ########.fr       */
+/*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
+/*   Updated: 2022/04/01 14:47:43 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include "../libft.h"
-#define _GNU_SOURCE
+#include "../minishell.h"
 
-void	double_delimiter(char *delimiter)
+//This function opens a temp file in the same directory and copies all lines into the file 
+//until a line matches the delimiter.
+//The file needs to be closed again because most Linux systems do not support O_TEMP
+void	exe_heredoc(char *delimiter)
 {
 	char	*str;
 	int		fd;
 
 	str = (char *)1;
-	fd = open("file path", O_CREAT | O_RDWR | O_APPEND, 0777);
+	fd = open(".tmpheredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)
 	{
-		perror("open\n");
+		perror("open");
 		return ;
 	}
 	while (str)
@@ -37,11 +34,5 @@ void	double_delimiter(char *delimiter)
 			write(fd, str, ft_strlen(str)); //write into the temp file
 		free(str);
 	}
-	
-}
-
-int	main(void)
-{
-	double_delimiter("Mädchen");
-	return (0);
+	close(fd);
 }

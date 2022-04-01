@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/01 10:03:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 15:04:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	parse_builtin(char *line, t_envvar *env_list)
 	char	**cmd;
 
 	cmd = ft_split(line, ' ');
+	if (cmd[0] == NULL)
+		return ;
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		builtin_echo(cmd);
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
@@ -82,11 +84,18 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		if (line[0])
-			parse_builtin(line, env_list);
+		parse_builtin(line, env_list);
 		free(line);
 	}
 	//free memory
 	printf("\n");
 	return (0);
 }
+
+//test for heredoc
+/* int	main(void)
+{
+	exe_heredoc("three");
+	unlink(".tmpheredoc");
+	return (0);
+} */

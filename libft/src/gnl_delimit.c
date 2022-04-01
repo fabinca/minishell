@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:14:38 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:53:02 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static char	*increase_buffer(int fd, char *buf)
 	more_buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
 	if (!more_buf)
 		return (NULL);
-	while (!ft_strchr(buf, '\n') && return_value)
+	while (!ft_strchr_gnl(buf, '\n') && return_value)
 	{
 		return_value = read(fd, more_buf, BUFFER_SIZE);
 		if (return_value < 0)
@@ -30,7 +30,7 @@ static char	*increase_buffer(int fd, char *buf)
 			return (NULL);
 		}
 		more_buf[return_value] = '\0';
-		buf = gnl_strjoin(buf, more_buf);
+		buf = ft_strjoin_gnl(buf, more_buf);
 	}
 	free (more_buf);
 	return (buf);
@@ -106,6 +106,7 @@ char	*gnl_delimit(int fd, char *delimiter)
 	if (!ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 	{
 		free(buf);
+		free(line);
 		return (NULL);
 	}
 	return (line);

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/31 11:58:25 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 14:57:02 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *pattern, size_t len);
-char	*ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_atoi(const char *str);
@@ -89,6 +89,7 @@ int		ft_printf(const char *text, ...);
 
 //get_next_line_delimit
 char	*gnl_delimit(int fd, char *delimiter);
-char	*gnl_strjoin(char *s1, char *s2);
+char	*ft_strjoin_gnl(char *s1, char*s2);
+char	*ft_strchr_gnl(const char *s, int c);
 
 #endif
