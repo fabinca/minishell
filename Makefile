@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/25 12:00:20 by hrothery         ###   ########.fr        #
+#    Updated: 2022/04/01 10:53:36 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,8 @@ SRCS 		= 	$(SRC)/main.c \
 				$(SRC)/lexer.c \
 				$(SRC)/free.c \
 				$(SRC)/builtins.c \
+				$(SRC)/builtins2.c \
+				$(SRC)/env_list.c \
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

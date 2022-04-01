@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/28 10:45:34 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 10:55:18 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,17 @@ void	builtin_exit(char **cmd);
 
 //builtins.c
 void	builtin_echo(char **token);
-void	builtin_env(char **cmd, char **envp);
+void	builtin_env(char **cmd, t_envvar *list);
 void	builtin_pwd(void);
 void	builtin_cd(char **cmd);
+
+//builtins2.c
+void	builtin_unset(t_envvar *lst, char **cmd);
+void	builtin_export(t_envvar *lst, char **cmd);
+
+//env_list.c
+t_envvar	*init_envp_list(char **envp);
+t_envvar	*init_var(t_envvar *var, char *envp);
+int	search_env_list(t_envvar *lst, char *cmd);
 
 #endif

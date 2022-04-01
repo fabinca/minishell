@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/26 17:48:28 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 10:50:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,18 +19,20 @@ void	builtin_pwd(void)
 	printf("%s\n", getcwd(pwd, 100));
 }
 
-void	builtin_env(char **cmd, char **envp)
+void	builtin_env(char **cmd, t_envvar *list)
 {
-	int	i;
 
 	if (cmd[1])
 	{
 		printf("env: '%s': No such file or directory\n", cmd[1]);
 		return ;
 	}
-	i = 0;
-	while (envp[i])
-		printf("%s\n", envp[i++]);
+	while (list->next)
+	{
+		printf("%s=%s\n", list->name, list->content);
+		list = list->next;
+	}
+	printf("%s=%s\n", list->name, list->content);
 }
 
 void	builtin_cd(char **cmd)

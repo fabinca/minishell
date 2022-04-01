@@ -6,16 +6,16 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:01:22 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/01 10:03:55 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-void	parse_builtin(char *line, char **envp)
+void	parse_builtin(char *line, t_envvar *env_list)
 {
-	char **cmd;
+	char	**cmd;
 
 	cmd = ft_split(line, ' ');
 	if (ft_strcmp(cmd[0], "echo") == 0)
@@ -23,11 +23,15 @@ void	parse_builtin(char *line, char **envp)
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
 		builtin_pwd();
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		builtin_env(cmd, envp);
+		builtin_env(cmd, env_list);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		builtin_exit(cmd);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		builtin_cd(cmd);
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		builtin_unset(env_list, cmd);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		builtin_export(env_list, cmd);
 	else
 		printf("%s: command not found\n", cmd[0]);
 	free_cmd(cmd);
@@ -58,7 +62,8 @@ void	sighandler(int num)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char *line;
+	char 		*line;
+	t_envvar	*env_list;
 
 	if (argc != 1 || argv[1])
 	{
@@ -69,6 +74,7 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
 	//signal(EOF, sighandler);
+	env_list = init_envp_list(envp);
 	while (1)
 	{
 		display_prompt();
@@ -77,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		add_history(line);
 		if (line[0])
-			parse_builtin(line, envp);
+			parse_builtin(line, env_list);
 		free(line);
 	}
 	//free memory
