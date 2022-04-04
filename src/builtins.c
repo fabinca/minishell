@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/01 10:50:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/04 07:33:13 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,24 @@ void	builtin_cd(char **cmd)
 	return ;
 }
 
+int	is_newline(char *s)
+{
+	int	i;
+
+	if (s[0] != '-')
+		return (0);
+	i = 1;
+	while (s[i] == 'n')
+		i++;
+	if (s[i] == '\0')
+		return (1);
+	return (0);
+}
+
 void	builtin_echo(char **cmd)
 {
 	int	i;
 	int	j;
-	char	*envvar;
 
 	i = 1;
 	j = 0;
@@ -62,24 +75,17 @@ void	builtin_echo(char **cmd)
 		printf("\n");
 		return ;
 	}
-	if (ft_strcmp(cmd[i], "-n") == 0)
+	while (is_newline(cmd[i + j]))
 	{
 		j++;
-		if (cmd[i + 1] == NULL)
+		if (cmd[i + j] == NULL)
 			return ;
 	}
 	while (cmd[i + j] != NULL)
 	{
 		if (i != 1)
 			printf(" ");
-		if (cmd[i + j][0] == '$')
-		{
-			envvar = getenv(&cmd[i + j][1]);
-			if (envvar)
-				printf("%s", envvar);
-		}
-		else
-			printf("%s", cmd[i + j]);
+		printf("%s", cmd[i + j]);
 		i++;
 	}
 	if (j == 0)
