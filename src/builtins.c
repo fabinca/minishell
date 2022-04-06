@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 07:31:14 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/06 08:54:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,12 @@ void	builtin_pwd(void)
 {
 	char	pwd[100];
 
-	printf("%s\n", getcwd(pwd, 100));
+	if (!getcwd(pwd, 100))
+	{
+		perror("Unable to get current directory path");
+		return ;
+	}
+	printf("%s\n", pwd);
 }
 
 void	builtin_env(char **cmd, t_envvar *list)
