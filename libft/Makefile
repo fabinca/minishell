@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-#    Updated: 2022/04/01 14:56:35 by hrothery         ###   ########.fr        #
+#    Updated: 2022/04/06 07:37:23 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,7 +30,6 @@ $(SRC)/ft_strlen.c \
 $(SRC)/ft_strlcpy.c \
 $(SRC)/ft_strlcat.c \
 $(SRC)/ft_strchr.c \
-$(SRC)/ft_strchr_gnl.c \
 $(SRC)/ft_strrchr.c \
 $(SRC)/ft_strnstr.c \
 $(SRC)/ft_strcmp.c \

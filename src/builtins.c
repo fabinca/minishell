@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/04 07:33:13 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/06 07:31:14 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	builtin_pwd(void)
 
 void	builtin_env(char **cmd, t_envvar *list)
 {
-
 	if (cmd[1])
 	{
 		printf("env: '%s': No such file or directory\n", cmd[1]);
@@ -38,7 +37,10 @@ void	builtin_env(char **cmd, t_envvar *list)
 void	builtin_cd(char **cmd)
 {
 	if (!cmd[1])
+	{
+		chdir(getenv("HOME"));
 		return ;
+	}
 	if (cmd[2])
 	{
 		printf("bash: cd: too many arguments\n");

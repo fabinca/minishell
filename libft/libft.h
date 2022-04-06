@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/01 14:57:02 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/06 07:37:04 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,5 @@ int		ft_printf(const char *text, ...);
 //get_next_line_delimit
 char	*gnl_delimit(int fd, char *delimiter);
 char	*ft_strjoin_gnl(char *s1, char*s2);
-char	*ft_strchr_gnl(const char *s, int c);
 
 #endif

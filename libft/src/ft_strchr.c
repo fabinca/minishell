@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:01:27 by cfabian           #+#    #+#             */
-/*   Updated: 2021/05/18 10:09:38 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/06 08:29:30 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@
 /* the terminator. */
 char	*ft_strchr(const char *s, int c)
 {
+	if (!s)
+		return (0);
 	while (*s)
 	{
 		if (*s == c)

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/01 15:04:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/06 08:20:01 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	sighandler(int num)
 		rl_redisplay();
 	}
 }
-
+/* 
 int	main(int argc, char **argv, char **envp)
 {
 	char 		*line;
@@ -90,12 +90,12 @@ int	main(int argc, char **argv, char **envp)
 	//free memory
 	printf("\n");
 	return (0);
-}
+} */
 
 //test for heredoc
-/* int	main(void)
+int	main(void)
 {
 	exe_heredoc("three");
 	unlink(".tmpheredoc");
 	return (0);
-} */
+}
