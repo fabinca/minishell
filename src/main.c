@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 08:55:56 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/07 12:36:06 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	parse_builtin(char *line, t_envvar *env_list)
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		builtin_env(cmd, env_list);
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		builtin_exit(cmd);
+		builtin_exit(cmd, env_list);
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		builtin_cd(cmd);
 	else if (ft_strcmp(cmd[0], "unset") == 0)

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/07 11:16:12 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/07 12:38:31 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ t_list	*lexer(char *line);
 
 //free.c
 void	free_cmd(char **cmd);
-void	builtin_exit(char **cmd);
+void	builtin_exit(char **cmd, t_envvar *lst);
+void	free_var_list(t_envvar *lst);
 
 //builtins.c
 void	builtin_echo(char **token);

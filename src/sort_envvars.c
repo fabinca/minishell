@@ -6,11 +6,13 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/07 11:39:24 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/07 12:32:42 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+
 
 t_envvar	*add_var_to_list(t_envvar *lst, t_envvar *new)
 {
@@ -23,15 +25,14 @@ t_envvar	*add_var_to_list(t_envvar *lst, t_envvar *new)
 		new->next = lst;
 		return (start);
 	}
-	if (!lst->next)
-	{
-		lst->next = new;
-		return (lst);
-	}
 	start = lst;
-	//crashes in the following statement;
-	while (ft_strcmp(new->name, lst->next->name) > 0 && lst->next)
-		lst = lst->next;
+	while (lst->next)
+	{
+		if (ft_strcmp(new->name, lst->next->name) > 0)
+			lst = lst->next;
+		else
+			break ;
+	}
 	if (lst->next)
 	{
 		temp = lst->next;
@@ -80,11 +81,10 @@ t_envvar	*duplicate_list(t_envvar *lst)
 	}
 	while (lst->next)
 	{
-		lst= lst->next;
+		lst = lst->next;
 		new = new_var(NULL);
 		new = duplicate_variable(lst, new);
 		new_list = add_var_to_list(new_list, new);
-		//crashes on 2nd iteration of this loop
 	}
 	return (new_list);
 }
@@ -92,14 +92,18 @@ t_envvar	*duplicate_list(t_envvar *lst)
 void	print_export_no_args(t_envvar *lst)
 {
 	t_envvar	*export_lst;
-	
+	t_envvar	*start_export_lst;
+
 	export_lst = duplicate_list(lst);
+	start_export_lst = export_lst;
 	while (export_lst->next)
 	{
 		if (ft_strcmp(export_lst->name, "_"))
-			printf("declare -x %s=\"%s\"\n", export_lst->name, export_lst->content);
+			printf("declare -x %s=\"%s\"\n", export_lst->name, \
+			export_lst->content);
 		export_lst = export_lst->next;
 	}
 	if (ft_strcmp(export_lst->name, "_"))
 		printf("declare -x %s=\"%s\"\n", export_lst->name, export_lst->content);
+	free_var_list(start_export_lst);
 }
