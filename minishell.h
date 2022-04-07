@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/01 14:59:14 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/07 11:16:12 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,15 @@ void	builtin_export(t_envvar *lst, char **cmd);
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
 t_envvar	*init_var(t_envvar *var, char *envp);
-int	search_env_list(t_envvar *lst, char *cmd);
+int			search_env_list(t_envvar *lst, char *cmd);
+t_envvar	*new_var(t_envvar *lst);
+
 
 //heredoc.c
 void	exe_heredoc(char *delimiter);
+
+//sort_envvars.c
+void	print_export_no_args(t_envvar *lst);
 
 
 #endif

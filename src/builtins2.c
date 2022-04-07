@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/01 10:53:03 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/07 11:18:45 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,10 @@ void	builtin_export(t_envvar *lst, char **cmd)
 
 	i = 1;
 	if (!cmd[i])
+	{
+		print_export_no_args(lst);
 		return ;
+	}
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '=')
