@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/07 12:38:31 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/20 12:38:31 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_command
 {
 	int					fd_in;
 	int					fd_out;
+	int					ct;
 	char				**cmd;
 	struct s_command	*next;
 }	t_command;
@@ -56,7 +57,15 @@ typedef struct s_shell
 	t_envvar	**vars;
 }	t_shell;
 
+//lexer.c
 t_list	*lexer(char *line);
+int	is_redirection_symbol(char *token_string);
+
+//parser.c
+t_command	*parser(t_list *token);
+
+//quotes and envars
+char		*quotes_and_envvars(char *string, size_t len);
 
 //free.c
 void	free_cmd(char **cmd);
