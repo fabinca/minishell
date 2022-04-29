@@ -3,14 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/25 12:08:58 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/04/29 12:16:42 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int g_last_exit;
 
 static size_t	token_length(char *str)
 {
@@ -35,128 +37,92 @@ static size_t	token_length(char *str)
 	return (len);
 }
 
-static int	handle_quote(char c, bool quote[2])
+int	is_redirection_symbol(char *token_string)
 {
-	if (c == '"' && !quote[1])
-	{
-		quote[0] = !quote[0];
+	if (strcmp(">", token_string) == 0)
 		return (1);
-	}
-	if (c == 39 && !quote[0])
-	{
-		quote[1] = !quote[1];
+	if (strcmp("<", token_string) == 0)
 		return (1);
-	}
+	if (strcmp(">>", token_string) == 0)
+		return (1);
+	if (strcmp("<<", token_string) == 0)
+		return (1);
 	return (0);
 }
 
-static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
+char	*tok_err(t_list *tokens)
 {
-	size_t	end;
-	char	*envvar;
-	char	*str;
+	char	last_tok; // p for pipe, r for redirection, s for string 
+	char	new_tok;
 
-	end = 0;
-	while (string[++end] != 0)
+	if (strcmp("|", tokens->content) == 0)
+		return (tokens->content);
+	last_tok = 's';
+	if (is_redirection_symbol(tokens->content))
+		last_tok = 'r';
+	while (tokens->next)
 	{
-		if (string[1] == '?')
-			break ;
-		if (string[end] == 39 || string[end] == '"')
-		{
-			end--;
-			break ;
-		}
+		tokens = tokens->next;
+		new_tok = 's';
+		if (is_redirection_symbol(tokens->content))
+			new_tok = 'r';
+		else if (strcmp("|", tokens->content) == 0)
+			new_tok = 'p';
+		if (new_tok == 'p' && last_tok == 'p')
+			return (tokens->content);
+		if (last_tok == 'r' && new_tok != 's')
+			return (tokens->content);
+		last_tok = new_tok;
 	}
-	(*i) += end;
-	if (string[1] == '?')
-	{
-		//	envvar = last exit status
-		return ;
-	}
-	str = ft_substr(string, 1, end);
-	envvar = getenv(str);
-	free(str);
-	if (!envvar)
-		return ;
-	ft_strlcat(buf, envvar, MAX_TOKEN_LEN);
-	*j += ft_strlen(envvar);
-}
-
-static char *quotes_and_envvars(char *string, size_t len)
-{
-	size_t	i;
-	size_t	j;
-	char	*buf;
-	bool	quote[2];
-
-	i = -1;
-	j = 0;
-	quote[0] = 0;
-	quote[1] = 0;
-	buf = (char *)ft_calloc(MAX_TOKEN_LEN, sizeof(char));
-	while (++i <= len)
-	{
-		if (handle_quote(string[i], quote))
-			continue ;
-		if (!quote[1] && string[i] == '$' && \
-		string[i + 1] != ' ' && string[i + 1] != 0)
-			expand_envvar((string + i), buf, &i, &j);
-		else
-		{
-			buf[j] = string[i];
-			j++;
-		}
-	}
-	buf[j] = 0;
-	if (j != i)
-	{
-		free(string);
-		string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
-		ft_strlcpy(string, buf, ft_strlen(buf) + 1);
-	}
-	free(buf);
-	return (string);
+	if (last_tok != 's')
+		return (tokens->content);
+	return (NULL);
 }
 
 t_list	*lexer(char *line)
 {
-	t_list			*lexer_start;
+	t_list			*st;
 	const size_t	len = ft_strlen(line);
 	t_tok			token;
-	t_list			*new;
 
 	token.start = 0;
-	lexer_start = NULL;
+	st = NULL;
 	while (token.start < len)
 	{
 		token.len = token_length((line + token.start));
 		token.string = ft_substr_strip_space(line, token.start, token.len);
-		token.string = quotes_and_envvars(token.string, token.len);
 		token.start = token.start + token.len;
-		new = ft_lstnew(token.string);
-		if (!lexer_start)
-			lexer_start = new;
+		if (ft_strlen(token.string) == 0)
+			break ;
+		if (!st)
+			st = ft_lstnew(token.string);
 		else
-			ft_lstadd_back(&lexer_start, new);
+			ft_lstadd_back(&st, ft_lstnew(token.string));
 	}
-	return (lexer_start);
+	if (tok_err(st))
+	{
+		printf("minishell: syntax error near unexpected token '%s'\n", tok_err(st));
+		ft_lstclear(&st);
+		return (NULL);
+	}
+	return (st);
 }
 
-/* int	main(void)
+int	main(void)
 {
-	char	line[100] = "$HOME | '$HOME' | $bla >out";
+	char	line[200] = "echo 1234567890 | grep 1 | grep 2 | grep 3 | grep 4 | grep 5 | grep 6 | grep 7 | grep 8 | grep 9 | grep 0 | grep 1 | grep 2 ";
 	t_list	*start;
-	t_list	*buf;
+	t_command *start_c;
 
+	g_last_exit = 0;
 	start = lexer(line);
-	buf = start;
+	start_c = parser(start);
 	printf("%s\n", line);
-	while (start)
+	while (start_c)
 	{
-		printf("%s\n", (char *)start->content);
-		start = start->next;
+		printf("commands: %s %s, fd_in: %d, fd_out: %d \n", start_c->cmd[0], start_c->cmd[1], start_c->fd_in, start_c->fd_out);
+		start_c = start_c->next;
 	}
-	ft_lstclear(&buf);
 	return (1);
-} */
+}
 
