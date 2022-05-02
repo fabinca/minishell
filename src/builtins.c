@@ -6,30 +6,31 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 08:54:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:15:26 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	builtin_pwd(void)
+int	builtin_pwd(void)
 {
 	char	pwd[100];
 
 	if (!getcwd(pwd, 100))
 	{
 		perror("Unable to get current directory path");
-		return ;
+		return (0);
 	}
 	printf("%s\n", pwd);
+	return (0);
 }
 
-void	builtin_env(char **cmd, t_envvar *list)
+int	builtin_env(char **cmd, t_envvar *list)
 {
 	if (cmd[1])
 	{
 		printf("env: '%s': No such file or directory\n", cmd[1]);
-		return ;
+		return (0);
 	}
 	while (list->next)
 	{
@@ -37,23 +38,24 @@ void	builtin_env(char **cmd, t_envvar *list)
 		list = list->next;
 	}
 	printf("%s=%s\n", list->name, list->content);
+	return (0);
 }
 
-void	builtin_cd(char **cmd)
+int	builtin_cd(char **cmd)
 {
 	if (!cmd[1])
 	{
 		chdir(getenv("HOME"));
-		return ;
+		return (0);
 	}
 	if (cmd[2])
 	{
 		printf("bash: cd: too many arguments\n");
-		return ;
+		return (0);
 	}
 	if (chdir(cmd[1]))
 		printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
-	return ;
+	return (0);
 }
 
 int	is_newline(char *s)
@@ -70,7 +72,7 @@ int	is_newline(char *s)
 	return (0);
 }
 
-void	builtin_echo(char **cmd)
+int	builtin_echo(char **cmd)
 {
 	int	i;
 	int	j;
@@ -80,13 +82,13 @@ void	builtin_echo(char **cmd)
 	if (cmd[i] == NULL)
 	{
 		printf("\n");
-		return ;
+		return (0);
 	}
 	while (is_newline(cmd[i + j]))
 	{
 		j++;
 		if (cmd[i + j] == NULL)
-			return ;
+			return (0);
 	}
 	while (cmd[i + j] != NULL)
 	{
@@ -97,4 +99,5 @@ void	builtin_echo(char **cmd)
 	}
 	if (j == 0)
 		printf("\n");
+	return (0);
 }

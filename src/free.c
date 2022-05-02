@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/07 12:37:46 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:17:25 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,11 @@ void	free_cmd(char **cmd)
 	free (cmd);
 }
 
-void	builtin_exit(char **cmd, t_envvar *lst)
+int	builtin_exit(char **cmd, t_envvar *lst)
 {
 	free_cmd(cmd);
 	free_var_list(lst);
 	rl_clear_history();
 	exit(0);
+	return (0);
 }

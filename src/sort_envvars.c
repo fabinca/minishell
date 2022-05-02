@@ -6,13 +6,11 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/07 12:32:42 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:18:08 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
 
 t_envvar	*add_var_to_list(t_envvar *lst, t_envvar *new)
 {

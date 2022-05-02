@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 12:16:42 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/02 08:09:20 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_list	*lexer(char *line)
 	}
 	return (st);
 }
-
+/* 
 int	main(void)
 {
 	char	line[200] = "echo 1234567890 | grep 1 | grep 2 | grep 3 | grep 4 | grep 5 | grep 6 | grep 7 | grep 8 | grep 9 | grep 0 | grep 1 | grep 2 ";
@@ -126,3 +126,4 @@ int	main(void)
 	return (1);
 }
 
+ */

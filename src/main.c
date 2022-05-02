@@ -6,37 +6,31 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/07 12:36:06 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:19:44 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-void	parse_builtin(char *line, t_envvar *env_list)
+//returns 1 if no builtin is found, 0 on success
+int	parse_builtin(char **cmd, t_envvar *env_list)
 {
-	char	**cmd;
-
-	cmd = ft_split(line, ' ');
-	if (cmd[0] == NULL)
-		return ;
 	if (ft_strcmp(cmd[0], "echo") == 0)
-		builtin_echo(cmd);
+		return (builtin_echo(cmd));
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		builtin_pwd();
+		return (builtin_pwd());
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		builtin_env(cmd, env_list);
+		return (builtin_env(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		builtin_exit(cmd, env_list);
+		return (builtin_exit(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		builtin_cd(cmd);
+		return (builtin_cd(cmd));
 	else if (ft_strcmp(cmd[0], "unset") == 0)
-		builtin_unset(env_list, cmd);
+		return (builtin_unset(env_list, cmd));
 	else if (ft_strcmp(cmd[0], "export") == 0)
-		builtin_export(env_list, cmd);
-	else
-		printf("%s: command not found\n", cmd[0]);
-	free_cmd(cmd);
+		return (builtin_export(env_list, cmd));
+	return (1);
 }
 
 void	display_prompt(void)

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/07 11:18:45 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:16:48 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	add_envvar(t_envvar *lst, char *s)
 	new = init_var(new, s);
 }
 
-void	builtin_export(t_envvar *lst, char **cmd)
+int	builtin_export(t_envvar *lst, char **cmd)
 {
 	int			i;
 
@@ -33,7 +33,7 @@ void	builtin_export(t_envvar *lst, char **cmd)
 	if (!cmd[i])
 	{
 		print_export_no_args(lst);
-		return ;
+		return (0);
 	}
 	while (cmd[i])
 	{
@@ -49,6 +49,7 @@ void	builtin_export(t_envvar *lst, char **cmd)
 		}
 		i++;
 	}
+	return (0);
 }
 
 void	del_var(t_envvar *lst, int first)
@@ -75,14 +76,14 @@ void	del_var(t_envvar *lst, int first)
 		lst->next = NULL;
 }
 
-void	builtin_unset(t_envvar *start, char **cmd)
+int	builtin_unset(t_envvar *start, char **cmd)
 {
 	int	i;
 	t_envvar	*lst;
 
 	i = 1;
 	if (!cmd[i])
-		return ;
+		return (0);
 	while (cmd[i])
 	{
 		lst = start;
@@ -102,4 +103,5 @@ void	builtin_unset(t_envvar *start, char **cmd)
 		}
 		i++;
 	}
+	return (0);
 }
