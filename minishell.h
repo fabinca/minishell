@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/02 08:03:34 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/02 08:27:21 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,18 +71,18 @@ char		*quotes_and_envvars(char *string, size_t len);
 
 //free.c
 void	free_cmd(char **cmd);
-void	builtin_exit(char **cmd, t_envvar *lst);
+int		builtin_exit(char **cmd, t_envvar *lst);
 void	free_var_list(t_envvar *lst);
 
 //builtins.c
-void	builtin_echo(char **token);
-void	builtin_env(char **cmd, t_envvar *list);
-void	builtin_pwd(void);
-void	builtin_cd(char **cmd);
+int		builtin_echo(char **token);
+int		builtin_env(char **cmd, t_envvar *list);
+int		builtin_pwd(void);
+int		builtin_cd(char **cmd);
 
 //builtins2.c
-void	builtin_unset(t_envvar *lst, char **cmd);
-void	builtin_export(t_envvar *lst, char **cmd);
+int		builtin_unset(t_envvar *lst, char **cmd);
+int		builtin_export(t_envvar *lst, char **cmd);
 
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
