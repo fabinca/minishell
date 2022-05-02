@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-#    Updated: 2022/04/06 07:37:23 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/02 08:05:49 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,6 +53,7 @@ $(SRC)/ft_strjoin.c \
 $(SRC)/ft_strjoin_gnl.c \
 $(SRC)/ft_strtrim.c \
 $(SRC)/ft_split.c \
+$(SRC)/ft_split_slash.c \
 $(SRC)/ft_itoa.c \
 $(SRC)/ft_strmapi.c \
 $(SRC)/ft_putchar_fd.c \

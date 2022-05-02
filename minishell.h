@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/20 12:38:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/02 08:03:34 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@
 # include <stdbool.h>
 # include <signal.h>
 # include <fcntl.h>
+
+extern int	g_last_exit;
 
 typedef struct s_envvar
 {
