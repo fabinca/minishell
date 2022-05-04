@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 09:16:13 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 09:20:33 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
 	return (1);
 }
 
-void	lex_parse_execute(char *line)
+void	lex_parse_execute(char *line, t_envvar *envvar)
 {
 	t_list		*lexer_tokens;
 	t_command	*pipe_struct;
@@ -128,8 +128,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line);
-		//parse_builtin(line, env_list);
+		lex_parse_execute(line, env_list);
 		free(line);
 	}
 	//free memory
