@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 09:52:24 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:12:06 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int		ft_isprint(int c);
 int		ft_isspace(int c);
 int		ft_tolower(int c);
 int		ft_toupper(int c);
+int		is_only_whitespaces(char *line);
 void	*ft_calloc(size_t nmemb, size_t size);
 void	*ft_realloc(void *ptr1, size_t size);
 char	*ft_strdup(const char *s);

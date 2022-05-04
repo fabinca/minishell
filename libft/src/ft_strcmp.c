@@ -6,11 +6,11 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 17:06:15 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 06:49:17 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:04:36 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-int	ft_strcmp_int(const char *s1, const char *s2)
+int	ft_strcmp(const char *s1, const char *s2)
 {
 	while (*s1 && *s2)
 	{

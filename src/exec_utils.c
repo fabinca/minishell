@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/02 08:00:02 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 10:05:35 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

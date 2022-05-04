@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 09:54:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:10:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,13 +86,13 @@ t_envvar	*init_var(t_envvar *var, char *envp);
 int			search_env_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
-
 //heredoc.c
 void	exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);
 int			is_redirection_symbol(char *token_string);
+
 
 //parser.c
 t_command	*parser(t_list *token);
