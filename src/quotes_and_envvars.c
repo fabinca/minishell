@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 19:09:21 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 19:26:39 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,6 @@ static char	*update(char *string, char *buf)
 	free(string);
 	string = ft_calloc(ft_strlen(buf) + 1, sizeof(char));
 	ft_strlcpy(string, buf, ft_strlen(buf) + 1);
-	free(buf);
 	return (string);
 }
 
@@ -99,6 +98,8 @@ char	*quotes_and_envvars(char *string, size_t len)
 			buf[j++] = string[i];
 	}
 	buf[j] = 0;
-	string = update(string, buf);
+	if (ft_strcmp(buf, string))
+		string = update(string, buf);
+	free(buf);
 	return (string);
 }

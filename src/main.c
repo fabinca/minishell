@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 18:59:45 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 19:35:42 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,7 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 		free_cmd_struct(cmd_temp);
 	}
 	free_tokens(lexer_tokens);
+	free_my_paths(p_data.paths);
 	//free everything
 }
 

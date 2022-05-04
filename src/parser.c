@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 18:56:08 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 19:20:28 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,8 @@ t_command	*parser(t_list *token)
 			if (commands->ct >= 10)
 				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
 			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1);
-			commands_first = look_for_builtin(commands_first, commands);
+			if (commands->ct == 1)
+				commands_first = look_for_builtin(commands_first, commands);
 		}
 		token = token->next; //is it ok? 
 	}
