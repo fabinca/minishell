@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/02 08:17:25 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 11:46:38 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@ void	free_var_list(t_envvar *lst)
 	free(lst->content);
 	free(lst->name);
 	free(lst);
+}
+
+void	free_cmd_struct(t_command *temp)
+{
+	return ;
 }
 
 void	free_cmd(char **cmd)

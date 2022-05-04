@@ -3,27 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 10:05:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:50:27 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-t_list	*find_next_pipe(t_list *start)
-{
-	while (start && ft_strcmp(start->content, "|"))
-	{	
-		if (!start->next)
-			return (NULL);
-		start = start->next;
-	}
-	if (start->next)
-		start = start->next;
-	return (start);
-}
 
 void	free_my_paths(char **paths)
 {

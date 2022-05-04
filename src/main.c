@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 10:34:05 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:54:36 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,14 +72,6 @@ bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
 			perror("dup2 reading from fd_in");
 		close(pipe_struct->fd_in);
 	}
-	if (!pipe_struct)
-	{
-		close(p_data.oldpipe[0]);
-		close(p_data.oldpipe[1]);
-		return (0);
-	}
-	if (pipe(p_data.newpipe) < 0)
-		perror("pipe");
 	return (1);
 }
 
@@ -95,7 +87,7 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	p_data.ct = 0;
 	lexer_tokens = lexer(line);
 	pipe_struct = parser(lexer_tokens);
-	p_data.paths = 
+	p_data.paths = find_paths(envvar);
 	while (p_data.ct++ > -1)
 	{
 		if (!redirect_and_piping(pipe_struct, p_data))
