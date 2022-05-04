@@ -6,11 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2021/05/27 21:05:06 by cfabian           #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2022/05/04 06:48:05 by cfabian          ###   ########.fr        #
-=======
-#    Updated: 2022/05/02 08:05:49 by hrothery         ###   ########.fr        #
->>>>>>> main
+#    Updated: 2022/05/04 09:52:07 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -76,7 +72,7 @@ $(SRC)/ft_lstmap.c \
 $(SRC)/get_next_line_bonus.c \
 $(SRC)/print_c.c \
 $(SRC)/ft_printf.c \
-$(SRC)/gnl_delimit.c \
+$(SRC)/gnl_delimit.c
 # $(wildcard $(SRC)/*.c)
 
 OBJ		= obj

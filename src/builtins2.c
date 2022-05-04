@@ -3,19 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/02 08:16:48 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 09:56:22 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	add_envvar(t_envvar *lst, char *s)
+static void	add_envvar(t_envvar *lst, char *s)
 {
 	t_envvar	*new;
-	
+
 	while (lst->next)
 		lst = lst->next;
 	new = malloc(sizeof(t_envvar));
@@ -52,7 +52,7 @@ int	builtin_export(t_envvar *lst, char **cmd)
 	return (0);
 }
 
-void	del_var(t_envvar *lst, int first)
+static void	del_var(t_envvar *lst, int first)
 {
 	if (first == 1)
 	{

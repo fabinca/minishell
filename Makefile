@@ -6,38 +6,28 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-<<<<<<< HEAD
-#    Updated: 2022/05/04 06:38:53 by cfabian          ###   ########.fr        #
-=======
-#    Updated: 2022/05/02 08:01:27 by hrothery         ###   ########.fr        #
->>>>>>> main
+#    Updated: 2022/05/04 09:53:45 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME		= 	minishell
 SRC 		= 	src
-SRCS 		= 	$(SRC)/parser.c \
-				$(SRC)/lexer.c \
-				$(SRC)/free.c \
-				$(SRC)/quotes_and_envvars.c \
-				$(SRC)/builtins.c \
-<<<<<<< HEAD
-				$(SRC)/file_descriptors.c \
-				$(SRC)/main.c
-=======
+SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/builtins2.c \
 				$(SRC)/env_list.c \
+				$(SRC)/exec_utils.c\
+				$(SRC)/free.c \
 				$(SRC)/heredoc.c \
-				$(SRC)/sort_envvars.c \
+				$(SRC)/lexer.c \
+				$(SRC)/main.c \
 				$(SRC)/parser.c \
 				$(SRC)/quotes_and_envvars.c \
-				$(SRC)/exec_utils.c \
->>>>>>> main
+				$(SRC)/sort_envvars.c
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
-CFLAGS		= 	-Werror -Wall -Wextra
+CFLAGS		= 	#-Werror -Wall -Wextra
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h

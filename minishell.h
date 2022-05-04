@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 09:17:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 09:54:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ typedef struct s_pipedata
 	int		error;
 	pid_t	pid;
 	int		ct;
-	int		error;
 }	t_pipedata;
 
 typedef struct s_shell
@@ -70,21 +69,6 @@ typedef struct s_shell
 	t_envvar	**vars;
 }	t_shell;
 
-
-//lexer.c
-t_list		*lexer(char *line);
-int			is_redirection_symbol(char *token_string);
-
-//parser.c
-t_command	*parser(t_list *token);
-
-//quotes and envars
-char		*quotes_and_envvars(char *string, size_t len);
-
-//free.c
-void	free_cmd(char **cmd);
-int		builtin_exit(char **cmd, t_envvar *lst);
-void	free_var_list(t_envvar *lst);
 
 //builtins.c
 int		builtin_echo(char **token);
@@ -105,6 +89,21 @@ t_envvar	*new_var(t_envvar *lst);
 
 //heredoc.c
 void	exe_heredoc(char *delimiter);
+
+//lexer.c
+t_list		*lexer(char *line);
+int			is_redirection_symbol(char *token_string);
+
+//parser.c
+t_command	*parser(t_list *token);
+
+//quotes and envars
+char		*quotes_and_envvars(char *string, size_t len);
+
+//free.c
+void	free_cmd(char **cmd);
+int		builtin_exit(char **cmd, t_envvar *lst);
+void	free_var_list(t_envvar *lst);
 
 //sort_envvars.c
 void	print_export_no_args(t_envvar *lst);

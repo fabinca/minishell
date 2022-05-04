@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 09:20:33 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 09:44:46 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,8 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	//p_data.paths = 
 	while (p_data.ct++ > -1)
 	{
-		if (!redirect_and_piping(pipe_struct, p_data))
-			break ;
+		//if (!redirect_and_piping(pipe_struct, p_data))
+		//	break ;
 		//check for buildtins & exec them
 		//normal commands
 		pipe_struct = pipe_struct->next;

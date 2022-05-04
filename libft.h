@@ -6,11 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-<<<<<<< HEAD
-/*   Updated: 2022/05/04 06:48:54 by cfabian          ###   ########.fr       */
-=======
-/*   Updated: 2022/05/02 08:05:04 by hrothery         ###   ########.fr       */
->>>>>>> main
+/*   Updated: 2022/05/04 09:52:24 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +49,7 @@ char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *pattern, size_t len);
 int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
-<<<<<<< HEAD
 int		ft_strcmp_int(const char *s1, const char *s2);
-=======
-int		ft_strcmp(const char *s1, const char *s2);
->>>>>>> main
 int		ft_atoi(const char *str);
 int		ft_atoi_d_only(const char *str);
 int		ft_isalpha(int c);
@@ -98,10 +90,6 @@ int		ft_printf(const char *text, ...);
 
 //get_next_line_delimit
 char	*gnl_delimit(int fd, char *delimiter);
-<<<<<<< HEAD
-char	*gnl_strjoin(char *s1, char *s2);
-=======
 char	*ft_strjoin_gnl(char *s1, char*s2);
->>>>>>> main
 
 #endif
