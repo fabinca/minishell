@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 10:31:50 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/04 10:36:05 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NAME): $(LIB) $(OBJS)
-	@$(CC) -g -o $(NAME) $(OBJS) $(LIB) -lreadline
+	$(CC) $(CFLAGS) $(SRCS) $(LIBFT_DIR)$(LIBRARY) -g -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -o $(NAME)
 
 $(LIB):
 	@make -C ./libft/
