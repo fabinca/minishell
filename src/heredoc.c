@@ -1,30 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   file_descriptors.c                                 :+:      :+:    :+:   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/27 17:17:30 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 06:40:40 by cfabian          ###   ########.fr       */
+/*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
+/*   Updated: 2022/05/04 09:14:38 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include "../libft.h"
-#define _GNU_SOURCE
+#include "../minishell.h"
 
-void	double_delimiter(char *delimiter)
+void	exe_heredoc(char *delimiter)
 {
 	char	*str;
 	int		fd;
 
 	str = (char *)1;
-	fd = open("./TMP", O_CREAT | O_RDWR | O_APPEND, 0777);
+	fd = open(".tmpheredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (fd < 0)
 	{
 		perror("open");
@@ -34,7 +28,7 @@ void	double_delimiter(char *delimiter)
 	{
 		str = gnl_delimit(STDIN_FILENO, delimiter);
 		if (str)
-			write(fd, str, ft_strlen(str)); //write into the temp file
+			write(fd, str, ft_strlen(str));
 		free(str);
 	}
 }
@@ -44,5 +38,6 @@ int	main(void)
 {
 	double_delimiter("bla");
 	return (0);
+	close(fd);
 }
 */

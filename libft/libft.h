@@ -6,9 +6,14 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2022/05/04 06:48:54 by cfabian          ###   ########.fr       */
+=======
+/*   Updated: 2022/05/02 08:05:04 by hrothery         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -46,7 +51,7 @@ size_t	ft_strlcat(char *dest, const char *src, size_t size);
 char	*ft_strchr(const char *s, int c);
 char	*ft_strrchr(const char *s, int c);
 char	*ft_strnstr(const char *str, const char *pattern, size_t len);
-char	*ft_strcmp(const char *s1, const char *s2);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 int		ft_strcmp_int(const char *s1, const char *s2);
 int		ft_atoi(const char *str);
@@ -67,6 +72,7 @@ char	*ft_substr_strip_space(char const *s, unsigned int start, size_t len);
 char	*ft_strjoin(char const *s1, char const *s2);
 char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *s, char c);
+char	**ft_split_slash(char const *s, char c);
 char	*ft_itoa(int n);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_putchar_fd(char c, int fd);
@@ -88,6 +94,6 @@ int		ft_printf(const char *text, ...);
 
 //get_next_line_delimit
 char	*gnl_delimit(int fd, char *delimiter);
-char	*gnl_strjoin(char *s1, char *s2);
+char	*ft_strjoin_gnl(char *s1, char*s2);
 
 #endif

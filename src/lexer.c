@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 06:39:55 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 09:15:05 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,8 @@ t_list	*lexer(char *line)
 	}
 	return (st);
 }
-
-/* int	main(void)
+/* 
+int	main(void)
 {
 	char	line[200] = "echo 1234567890 | grep 1 | grep 2 | grep 3 | grep 4 | grep 5 | grep 6 | grep 7 | grep 8 | grep 9 | grep 0 | grep 1 | grep 2 ";
 	t_list	*start;
@@ -125,4 +125,5 @@ t_list	*lexer(char *line)
 	}
 	return (1);
 }
-*/
+
+ */

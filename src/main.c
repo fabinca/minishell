@@ -6,31 +6,31 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 08:58:54 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 09:16:13 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-void	parse_builtin(char *line, char **envp)
+//returns 1 if no builtin is found, 0 on success
+int	parse_builtin(char **cmd, t_envvar *env_list)
 {
-	char	**cmd;
-
-	cmd = ft_split(line, ' ');
 	if (ft_strcmp(cmd[0], "echo") == 0)
-		builtin_echo(cmd);
+		return (builtin_echo(cmd));
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		builtin_pwd();
+		return (builtin_pwd());
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		builtin_env(cmd, envp);
+		return (builtin_env(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		builtin_exit(cmd);
+		return (builtin_exit(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		builtin_cd(cmd);
-	else
-		printf("%s: command not found\n", cmd[0]);
-	free_cmd(cmd);
+		return (builtin_cd(cmd));
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		return (builtin_unset(env_list, cmd));
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		return (builtin_export(env_list, cmd));
+	return (1);
 }
 
 void	display_prompt(void)
@@ -107,7 +107,8 @@ void	lex_parse_execute(char *line)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*line;
+	char 		*line;
+	t_envvar	*env_list;
 
 	g_last_exit = 0;
 	if (argc != 1 || argv[1])
@@ -118,7 +119,8 @@ int	main(int argc, char **argv, char **envp)
 	add_history("");
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
-	//init envvars
+	//signal(EOF, sighandler);
+	env_list = init_envp_list(envp);
 	while (1)
 	{
 		display_prompt();
@@ -127,9 +129,18 @@ int	main(int argc, char **argv, char **envp)
 			break ;
 		add_history(line);
 		lex_parse_execute(line);
+		//parse_builtin(line, env_list);
 		free(line);
 	}
 	//free memory
 	printf("\n");
 	return (0);
 }
+
+//test for heredoc
+/* int	main(void)
+{
+	exe_heredoc("three");
+	unlink(".tmpheredoc");
+	return (0);
+} */

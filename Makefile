@@ -6,7 +6,11 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
+<<<<<<< HEAD
 #    Updated: 2022/05/04 06:38:53 by cfabian          ###   ########.fr        #
+=======
+#    Updated: 2022/05/02 08:01:27 by hrothery         ###   ########.fr        #
+>>>>>>> main
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,8 +21,18 @@ SRCS 		= 	$(SRC)/parser.c \
 				$(SRC)/free.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/builtins.c \
+<<<<<<< HEAD
 				$(SRC)/file_descriptors.c \
 				$(SRC)/main.c
+=======
+				$(SRC)/builtins2.c \
+				$(SRC)/env_list.c \
+				$(SRC)/heredoc.c \
+				$(SRC)/sort_envvars.c \
+				$(SRC)/parser.c \
+				$(SRC)/quotes_and_envvars.c \
+				$(SRC)/exec_utils.c \
+>>>>>>> main
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
