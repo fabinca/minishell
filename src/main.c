@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 19:35:42 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 21:42:36 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,19 +94,19 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	{
 		//if (!redirect_and_piping(cmd_struct, p_data))
 		//	break ;
-		if (p_data.ct == 0)
-		{
+		//if (p_data.ct == 0)
+		//{
 			
-		}
+		//}
 		//check for buildtins & exec them
 		//normal commands
 		cmd_temp = cmd_struct;
 		cmd_struct = cmd_struct->next;
 		free_cmd_struct(cmd_temp);
 	}
+	unlink(".tmpheredoc");
 	free_tokens(lexer_tokens);
 	free_my_paths(p_data.paths);
-	//free everything
 }
 
 int	main(int argc, char **argv, char **envp)
