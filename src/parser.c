@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 19:20:28 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 20:34:36 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,9 +52,7 @@ static int	redirection(t_command *cmd, t_list *token)
 	else if (ft_strcmp(token->content, "<<") == 0)
 	{
 		token = token->next;
-		// but how to implement this ? 
-		//<< should be given a delimiter, then read the input until a line containing the
-		//delimiter is seen. However, it doesn’t have to update the history!
+		exe_heredoc(token->content);
 	}
 	if (cmd->fd_in == -1)
 	{
