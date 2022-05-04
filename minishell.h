@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 12:25:49 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 18:47:26 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,7 @@ char		*joined_path(char **my_paths, char *token);
 
 //free.c
 void		free_cmd(char **cmd);
+void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
 int			builtin_exit(char **cmd, t_envvar *lst);
 void		free_var_list(t_envvar *lst);

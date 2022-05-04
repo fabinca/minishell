@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 15:18:22 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 18:59:45 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_command	*buf;
+	t_command	*cmd_temp;
 	t_pipedata	p_data;
 
 	if (is_only_whitespaces(line))
@@ -90,18 +90,21 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	if (!cmd_struct) //do we need this? 
 		return ;
 	p_data.paths = find_paths(envvar);
-	while (p_data.ct++ > -1)
+	while (cmd_struct)
 	{
-		if (!redirect_and_piping(cmd_struct, p_data))
-			break ;
+		//if (!redirect_and_piping(cmd_struct, p_data))
+		//	break ;
 		if (p_data.ct == 0)
 		{
 			
 		}
 		//check for buildtins & exec them
 		//normal commands
+		cmd_temp = cmd_struct;
 		cmd_struct = cmd_struct->next;
+		free_cmd_struct(cmd_temp);
 	}
+	free_tokens(lexer_tokens);
 	//free everything
 }
 
@@ -131,7 +134,7 @@ int	main(int argc, char **argv, char **envp)
 		lex_parse_execute(line, env_list);
 		free(line);
 	}
-	//free memory
+	free_var_list(env_list);
 	printf("\n");
 	return (0);
 }

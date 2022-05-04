@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 15:23:01 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 18:56:08 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,24 +34,29 @@ static int	redirection(t_command *cmd, t_list *token)
 		token = token->next;
 		cmd->fd_out = open(token->content, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	}
-	if (ft_strcmp(token->content, ">>") == 0)
+	else if (ft_strcmp(token->content, ">>") == 0)
 	{
 		token = token->next;
 		cmd->fd_out = open(token->content, O_CREAT | O_APPEND | O_RDWR, 0666);
+	}
+	if (cmd->fd_out == -1)
+	{
+		perror(token->content);
+		return (0);
 	}
 	if (ft_strcmp(token->content, "<") == 0)
 	{
 		token = token->next;
 		cmd->fd_in = open(token->content, O_RDONLY);
 	}
-	if (ft_strcmp(token->content, "<<") == 0)
+	else if (ft_strcmp(token->content, "<<") == 0)
 	{
 		token = token->next;
 		// but how to implement this ? 
 		//<< should be given a delimiter, then read the input until a line containing the
 		//delimiter is seen. However, it doesn’t have to update the history!
 	}
-	if (cmd->fd_in == -1 || cmd->fd_out == -1)
+	if (cmd->fd_in == -1)
 	{
 		perror(token->content);
 		return (0);
@@ -82,7 +87,7 @@ bool	is_builtin(char **cmd)
 
 t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 {
-	t_command *temp;
+	t_command	*temp;
 
 	if (!is_builtin(cmd->cmd))
 		return (cmd_first);
@@ -92,7 +97,7 @@ t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 		cmd_first = cmd_first->next;
 		free_cmd_struct(temp);
 		if (!cmd_first->next)
-			break;
+			break ;
 	}
 	return (cmd_first);
 }

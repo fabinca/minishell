@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 17:30:58 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 18:49:23 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,22 @@ void	free_var_list(t_envvar *lst)
 	free(lst->content);
 	free(lst->name);
 	free(lst);
+}
+
+void	free_tokens(t_list *tokens)
+{
+	t_list	*tmp;
+
+	if (!tokens)
+		return ;
+	while (tokens)
+	{
+		tmp = tokens->next;
+		//if (tokens->content)
+		//	free(tokens->content);
+		free(tokens);
+		tokens = tmp;
+	}
 }
 
 void	free_cmd_struct(t_command *cmd_struct)
