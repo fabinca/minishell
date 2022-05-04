@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/04/29 12:24:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 12:23:10 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,44 @@ static int	redirection(t_command *cmd, t_list *token)
 	return (1);
 }
 
+bool	is_builtin(char **cmd)
+{
+	if (!cmd)
+		return (0);
+	if (ft_strcmp(cmd[0], "echo") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		return (1);
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		return (1);
+	return (0);
+}
+
+t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
+{
+	t_command *temp;
+
+	if (!is_builtin(cmd->cmd))
+		return (cmd_first);
+	while (cmd_first != cmd)
+	{
+		temp = cmd_first;
+		cmd_first = cmd_first->next;
+		free_cmd_struct(temp);
+		if (!cmd_first->next)
+			break;
+	}
+	return (cmd_first);
+}
+
 t_command	*parser(t_list *token)
 {
 	t_command	*commands;
@@ -83,6 +121,7 @@ t_command	*parser(t_list *token)
 			if (commands->ct >= 10)
 				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
 			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1);
+			commands_first = look_for_builtin(commands_first, commands);
 		}
 		token = token->next; //is it ok? 
 	}

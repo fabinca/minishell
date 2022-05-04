@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 10:43:27 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/04 12:25:34 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NAME): $(LIB) $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) $(LIB) -g -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -o $(NAME)
+	$(CC) -lreadline -L $(HOME)/goinfre/.brew/opt/readline/lib/ $(CFLAGS) $(SRCS) $(LIB) -g  -o $(NAME)
 
 $(LIB):
 	@make -C ./libft/

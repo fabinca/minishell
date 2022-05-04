@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 10:27:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:46:58 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*tok_err(t_list *tokens)
 	char	last_tok; // p for pipe, r for redirection, s for string 
 	char	new_tok;
 
-	if (strcmp("|", tokens->content) == 0)
+	if (ft_strcmp("|", tokens->content) == 0)
 		return (tokens->content);
 	last_tok = 's';
 	if (is_redirection_symbol(tokens->content))
@@ -66,7 +66,7 @@ char	*tok_err(t_list *tokens)
 		new_tok = 's';
 		if (is_redirection_symbol(tokens->content))
 			new_tok = 'r';
-		else if (strcmp("|", tokens->content) == 0)
+		else if (ft_strcmp("|", tokens->content) == 0)
 			new_tok = 'p';
 		if (new_tok == 'p' && last_tok == 'p')
 			return (tokens->content);
