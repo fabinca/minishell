@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 11:46:38 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:30:58 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,10 @@ void	free_var_list(t_envvar *lst)
 	free(lst);
 }
 
-void	free_cmd_struct(t_command *temp)
+void	free_cmd_struct(t_command *cmd_struct)
 {
+	free(cmd_struct->cmd);
+	free(cmd_struct);
 	return ;
 }
 
