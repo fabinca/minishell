@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 10:50:08 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/01 10:53:11 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 17:55:38 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_envvar	*init_var(t_envvar *var, char *envp)
 	if (!var->name || !var->content)
 		return (0);
 	var->name[len] = '\0';
-	while (len-- >= 0)
+	while (--len >= 0)
 		var->name[len] = envp[len];
 	len = 0;
 	while (envp[i])
