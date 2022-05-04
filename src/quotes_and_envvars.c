@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 18:39:36 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 19:09:21 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ static int	handle_quote(char c, bool quote[2])
 static char	*update(char *string, char *buf)
 {
 	free(string);
-	string = ft_calloc(ft_strlen(buf) + 2, sizeof(char));
+	string = ft_calloc(ft_strlen(buf) + 1, sizeof(char));
 	ft_strlcpy(string, buf, ft_strlen(buf) + 1);
 	free(buf);
 	return (string);
