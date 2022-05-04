@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/22 17:06:15 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/22 17:06:41 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 10:04:36 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

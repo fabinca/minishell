@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 08:20:31 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 09:14:38 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,5 +31,13 @@ void	exe_heredoc(char *delimiter)
 			write(fd, str, ft_strlen(str));
 		free(str);
 	}
+}
+
+/*
+int	main(void)
+{
+	double_delimiter("bla");
+	return (0);
 	close(fd);
 }
+*/

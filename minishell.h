@@ -6,9 +6,10 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 09:59:36 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 10:22:53 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -29,8 +30,7 @@
 # include <signal.h>
 # include <fcntl.h>
 
-extern int	g_last_exit;
-
+extern int g_last_exit;
 typedef struct s_envvar
 {
 	char			*name;
@@ -54,25 +54,22 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
+typedef struct s_pipedata
+{
+	int		newpipe[2];
+	int		oldpipe[2];
+	char	**paths;
+	char	*c_p;
+	int		error;
+	pid_t	pid;
+	int		ct;
+}	t_pipedata;
+
 typedef struct s_shell
 {
 	t_envvar	**vars;
 }	t_shell;
 
-//lexer.c
-t_list	*lexer(char *line);
-int	is_redirection_symbol(char *token_string);
-
-//parser.c
-t_command	*parser(t_list *token);
-
-//quotes and envars
-char		*quotes_and_envvars(char *string, size_t len);
-
-//free.c
-void	free_cmd(char **cmd);
-int		builtin_exit(char **cmd, t_envvar *lst);
-void	free_var_list(t_envvar *lst);
 
 //builtins.c
 int		builtin_echo(char **token);
@@ -92,6 +89,22 @@ t_envvar	*new_var(t_envvar *lst);
 
 //heredoc.c
 void	exe_heredoc(char *delimiter);
+
+//lexer.c
+t_list		*lexer(char *line);
+int			is_redirection_symbol(char *token_string);
+
+
+//parser.c
+t_command	*parser(t_list *token);
+
+//quotes and envars
+char		*quotes_and_envvars(char *string, size_t len);
+
+//free.c
+void	free_cmd(char **cmd);
+int		builtin_exit(char **cmd, t_envvar *lst);
+void	free_var_list(t_envvar *lst);
 
 //sort_envvars.c
 void	print_export_no_args(t_envvar *lst);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/02 08:28:12 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 10:14:54 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,63 @@ void	sighandler(int num)
 	}
 }
 
+bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
+{
+	if (!pipe_struct)
+	{
+		close(p_data.oldpipe[0]);
+		close(p_data.oldpipe[1]);
+		return (0);
+	}
+	if (pipe(p_data.newpipe) < 0)
+		perror("pipe");
+	if (p_data.ct == 0)
+	{
+		if (dup2(pipe_struct->fd_in, p_data.oldpipe[0]) < 0)
+			perror("dup2 reading from fd_in");
+		close(pipe_struct->fd_in);
+	}
+	if (!pipe_struct)
+	{
+		close(p_data.oldpipe[0]);
+		close(p_data.oldpipe[1]);
+		return (0);
+	}
+	if (pipe(p_data.newpipe) < 0)
+		perror("pipe");
+	return (1);
+}
+
+void	lex_parse_execute(char *line, t_envvar *envvar)
+{
+	t_list		*lexer_tokens;
+	t_command	*pipe_struct;
+	t_command	*buf;
+	t_pipedata	p_data;
+
+	if (is_only_whitespaces(line))
+		return ;
+	p_data.ct = 0;
+	lexer_tokens = lexer(line);
+	pipe_struct = parser(lexer_tokens);
+	//p_data.paths = 
+	while (p_data.ct++ > -1)
+	{
+		if (!redirect_and_piping(pipe_struct, p_data))
+			break ;
+		//check for buildtins & exec them
+		//normal commands
+		pipe_struct = pipe_struct->next;
+	}
+	//free everything
+}
+
 int	main(int argc, char **argv, char **envp)
 {
 	char 		*line;
 	t_envvar	*env_list;
 
+	g_last_exit = 0;
 	if (argc != 1 || argv[1])
 	{
 		printf("Run program with ./minishell (no arguments\n");
@@ -78,7 +130,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		//parse_builtin(line, env_list);
+		lex_parse_execute(line, env_list);
 		free(line);
 	}
 	//free memory
