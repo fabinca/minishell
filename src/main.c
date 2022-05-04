@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 06:44:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 08:58:54 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,54 @@ void	sighandler(int num)
 	}
 }
 
-lex_parse_execute(line);
+bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
+{
+	if (!pipe_struct)
+	{
+		close(p_data.oldpipe[0]);
+		close(p_data.oldpipe[1]);
+		return (0);
+	}
+	if (pipe(p_data.newpipe) < 0)
+		perror("pipe");
+	if (p_data.ct == 0)
+	{
+		if (dup2(pipe_struct->fd_in, p_data.oldpipe[0]) < 0)
+			perror("dup2 reading from fd_in");
+		close(pipe_struct->fd_in);
+	}
+	if (!pipe_struct)
+	{
+		close(p_data.oldpipe[0]);
+		close(p_data.oldpipe[1]);
+		return (0);
+	}
+	if (pipe(p_data.newpipe) < 0)
+		perror("pipe");
+	return (1);
+}
+
+void	lex_parse_execute(char *line)
+{
+	t_list		*lexer_tokens;
+	t_command	*pipe_struct;
+	t_command	*buf;
+	t_pipedata	p_data;
+
+	p_data.ct = 0;
+	lexer_tokens = lexer(line);
+	pipe_struct = parser(lexer_tokens);
+	//p_data.paths = 
+	while (p_data.ct++ > -1)
+	{
+		if (!redirect_and_piping(pipe_struct, p_data))
+			break ;
+		//check for buildtins & exec them
+		//normal commands
+		pipe_struct = pipe_struct->next;
+	}
+	//free everything
+}
 
 int	main(int argc, char **argv, char **envp)
 {
@@ -71,6 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	add_history("");
 	signal(SIGINT, sighandler); //ctrl c
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
+	//init envvars
 	while (1)
 	{
 		display_prompt();

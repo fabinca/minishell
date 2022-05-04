@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/28 13:35:06 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 08:25:11 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,18 @@ typedef struct s_command
 	char				**cmd;
 	struct s_command	*next;
 }	t_command;
+
+typedef struct s_pipedata
+{
+	int		newpipe[2];
+	int		oldpipe[2];
+	char	**paths;
+	char	*c_p;
+	int		error;
+	pid_t	pid;
+	int		ct;
+	int		error;
+}	t_pipedata;
 
 typedef struct s_shell
 {
