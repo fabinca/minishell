@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/25 20:33:43 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:24:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,14 +78,13 @@ t_command	*parser(t_list *token)
 			redirection(commands, token);
 			token = token->next;
 		}
-			
 		else
 		{
 			if (commands->ct >= 10)
 				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
 			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1);
 		}
-		token = token->next;
+		token = token->next; //is it ok? 
 	}
 	return(commands_first);
 }

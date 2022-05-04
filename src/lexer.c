@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/28 16:44:16 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/04/29 12:16:42 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ t_list	*lexer(char *line)
 	}
 	if (tok_err(st))
 	{
-		printf("bash: syntax error near unexpected token '%s'\n", tok_err(st));
+		printf("minishell: syntax error near unexpected token '%s'\n", tok_err(st));
 		ft_lstclear(&st);
 		return (NULL);
 	}
