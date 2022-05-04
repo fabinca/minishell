@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/03/28 16:42:02 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/04 06:38:53 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,6 +16,9 @@ SRCS 		= 	$(SRC)/parser.c \
 				$(SRC)/lexer.c \
 				$(SRC)/free.c \
 				$(SRC)/quotes_and_envvars.c \
+				$(SRC)/builtins.c \
+				$(SRC)/file_descriptors.c \
+				$(SRC)/main.c
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

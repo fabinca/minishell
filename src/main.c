@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:35:27 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 06:44:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	sighandler(int num)
 	}
 }
 
+lex_parse_execute(line);
+
 int	main(int argc, char **argv, char **envp)
 {
 	char	*line;
@@ -76,8 +78,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		if (line[0])
-			parse_builtin(line, envp);
+		lex_parse_execute(line);
 		free(line);
 	}
 	//free memory

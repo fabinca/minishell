@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/27 17:17:30 by hrothery          #+#    #+#             */
-/*   Updated: 2022/03/28 13:44:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 06:40:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,10 @@ void	double_delimiter(char *delimiter)
 	}
 }
 
+/*
 int	main(void)
 {
 	double_delimiter("bla");
 	return (0);
 }
+*/
