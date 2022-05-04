@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 10:36:05 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/04 10:43:27 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
-CFLAGS		= 	#-Wall -Werror -Wextra -I $(HOME)/goinfre/.brew/opt/readline/include/
+CFLAGS		= 	-I $(HOME)/goinfre/.brew/opt/readline/include/ #-Wall -Werror -Wextra 
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h
@@ -41,7 +41,7 @@ $(OBJ):
 	mkdir $(OBJ)
 
 $(NAME): $(LIB) $(OBJS)
-	$(CC) $(CFLAGS) $(SRCS) $(LIBFT_DIR)$(LIBRARY) -g -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -o $(NAME)
+	$(CC) $(CFLAGS) $(SRCS) $(LIB) -g -L $(HOME)/goinfre/.brew/opt/readline/lib/ -lreadline -o $(NAME)
 
 $(LIB):
 	@make -C ./libft/
