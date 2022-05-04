@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 10:54:36 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:18:22 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ void	sighandler(int num)
 	}
 }
 
-bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
+bool	redirect_and_piping(t_command *cmd_struct, t_pipedata p_data)
 {
-	if (!pipe_struct)
+	if (!cmd_struct)
 	{
 		close(p_data.oldpipe[0]);
 		close(p_data.oldpipe[1]);
@@ -66,11 +66,11 @@ bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
 	}
 	if (pipe(p_data.newpipe) < 0)
 		perror("pipe");
-	if (p_data.ct == 0)
+	if (p_data.ct == 0 && cmd_struct->next)
 	{
-		if (dup2(pipe_struct->fd_in, p_data.oldpipe[0]) < 0)
+		if (dup2(cmd_struct->fd_in, p_data.oldpipe[0]) < 0)
 			perror("dup2 reading from fd_in");
-		close(pipe_struct->fd_in);
+		close(cmd_struct->fd_in);
 	}
 	return (1);
 }
@@ -78,7 +78,7 @@ bool	redirect_and_piping(t_command *pipe_struct, t_pipedata p_data)
 void	lex_parse_execute(char *line, t_envvar *envvar)
 {
 	t_list		*lexer_tokens;
-	t_command	*pipe_struct;
+	t_command	*cmd_struct;
 	t_command	*buf;
 	t_pipedata	p_data;
 
@@ -86,15 +86,21 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 		return ;
 	p_data.ct = 0;
 	lexer_tokens = lexer(line);
-	pipe_struct = parser(lexer_tokens);
+	cmd_struct = parser(lexer_tokens);
+	if (!cmd_struct) //do we need this? 
+		return ;
 	p_data.paths = find_paths(envvar);
 	while (p_data.ct++ > -1)
 	{
-		if (!redirect_and_piping(pipe_struct, p_data))
+		if (!redirect_and_piping(cmd_struct, p_data))
 			break ;
+		if (p_data.ct == 0)
+		{
+			
+		}
 		//check for buildtins & exec them
 		//normal commands
-		pipe_struct = pipe_struct->next;
+		cmd_struct = cmd_struct->next;
 	}
 	//free everything
 }

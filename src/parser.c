@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 12:23:10 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 15:23:01 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,5 +125,6 @@ t_command	*parser(t_list *token)
 		}
 		token = token->next; //is it ok? 
 	}
+	//printf("%s\n", commands_first->cmd[0]);
 	return(commands_first);
 }
