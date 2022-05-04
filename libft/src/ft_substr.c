@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/14 12:24:53 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/18 13:38:53 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 19:30:28 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	*ft_substr_strip_space(char const *s, unsigned int start, size_t len)
 
 	s_len = ft_strlen(s);
 	if (start >= s_len)
-		return ((char *)ft_calloc(1, sizeof(char)));
+		return (NULL);
 	if (s_len - start < len)
 		len = s_len - start;
 	ptr = (char *)ft_calloc(len + 1, sizeof(char));
