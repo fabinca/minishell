@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 10:20:16 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/04 10:31:50 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -27,7 +27,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
-CFLAGS		= 	-Wall -Werror -Wextra -I $(HOME)/goinfre/.brew/opt/readline/include/
+CFLAGS		= 	#-Wall -Werror -Wextra -I $(HOME)/goinfre/.brew/opt/readline/include/
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 10:11:01 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/04 10:27:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,13 @@ static size_t	token_length(char *str)
 
 int	is_redirection_symbol(char *token_string)
 {
-	if (strcmp(">", token_string) == 0)
+	if (ft_strcmp(">", token_string) == 0)
 		return (1);
-	if (strcmp("<", token_string) == 0)
+	if (ft_strcmp("<", token_string) == 0)
 		return (1);
-	if (strcmp(">>", token_string) == 0)
+	if (ft_strcmp(">>", token_string) == 0)
 		return (1);
-	if (strcmp("<<", token_string) == 0)
+	if (ft_strcmp("<<", token_string) == 0)
 		return (1);
 	return (0);
 }
