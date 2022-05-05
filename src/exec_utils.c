@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 15:10:11 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/04 22:00:52 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	free_my_paths(char **paths)
 char	**find_paths(t_envvar *env_list)
 {
 	char	**my_paths;
-	
+
 	while (env_list)
 	{
 		if (!ft_strcmp(env_list->name, "PATH"))
