@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/02 08:18:08 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/06 09:37:29 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ t_envvar	*duplicate_list(t_envvar *lst)
 	return (new_list);
 }
 
-void	print_export_no_args(t_envvar *lst)
+void	print_export_no_args(t_envvar *lst, int fd)
 {
 	t_envvar	*export_lst;
 	t_envvar	*start_export_lst;
@@ -97,11 +97,22 @@ void	print_export_no_args(t_envvar *lst)
 	while (export_lst->next)
 	{
 		if (ft_strcmp(export_lst->name, "_"))
-			printf("declare -x %s=\"%s\"\n", export_lst->name, \
-			export_lst->content);
+		{
+			ft_putstr_fd("declare -x ", fd);
+			ft_putstr_fd(export_lst->name, fd);
+			ft_putstr_fd("=\"", fd);
+			ft_putstr_fd(export_lst->content, fd);
+			ft_putstr_fd("\"\n", fd);
+		}
 		export_lst = export_lst->next;
 	}
 	if (ft_strcmp(export_lst->name, "_"))
-		printf("declare -x %s=\"%s\"\n", export_lst->name, export_lst->content);
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(export_lst->name, fd);
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(export_lst->content, fd);
+		ft_putstr_fd("\"\n", fd);
+	}
 	free_var_list(start_export_lst);
 }

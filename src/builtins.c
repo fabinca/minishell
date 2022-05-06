@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/06 09:23:29 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/06 09:37:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	builtin_pwd(int fd)
 {
 	char	pwd[100];
-	printf("fd is %d\n", fd);
 	if (!getcwd(pwd, 100))
 	{
 		perror("Unable to get current directory path");
