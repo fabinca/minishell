@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 10:05:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/06 09:24:05 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,14 +25,14 @@ static void	add_envvar(t_envvar *lst, char *s)
 	new = init_var(new, s);
 }
 
-int	builtin_export(t_envvar *lst, char **cmd)
+int	builtin_export(t_envvar *lst, char **cmd, int fd)
 {
 	int			i;
 
 	i = 1;
 	if (!cmd[i])
 	{
-		print_export_no_args(lst);
+		print_export_no_args(lst, fd);
 		return (0);
 	}
 	while (cmd[i])

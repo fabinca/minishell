@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 17:38:34 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/06 09:22:30 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,9 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/main.c \
 				$(SRC)/parser.c \
 				$(SRC)/quotes_and_envvars.c \
-				$(SRC)/sort_envvars.c
+				$(SRC)/sort_envvars.c \
+				$(SRC)/redirections.c \
+				$(SRC)/execute.c
 								
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
@@ -41,8 +43,19 @@ $(OBJ)/%.o: $(SRC)/%.c $(OBJ)
 $(OBJ):
 	mkdir $(OBJ)
 
+ifeq ($(shell uname), Linux)
+
 $(NAME): $(LIB) $(OBJS)
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS)
+
+endif
+
+ifeq ($(shell uname), Darwin)
+
+$(NAME): $(LIB) $(OBJS)
+	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
+
+endif
 
 $(LIB):
 	@make -C ./libft/

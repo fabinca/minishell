@@ -3,30 +3,36 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 09:55:28 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/06 09:23:29 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	builtin_pwd(void)
+int	builtin_pwd(int fd)
 {
 	char	pwd[100];
-
+	printf("fd is %d\n", fd);
 	if (!getcwd(pwd, 100))
 	{
 		perror("Unable to get current directory path");
 		return (0);
 	}
-	printf("%s\n", pwd);
+	ft_putstr_fd(pwd, fd);
+	ft_putstr_fd("\n", fd);
 	return (0);
 }
 
-int	builtin_env(char **cmd, t_envvar *list)
+int	builtin_env(t_command *cmd_struct, t_envvar *list)
 {
+	char	**cmd;
+	int		fd;
+
+	cmd = cmd_struct->cmd;
+	fd = cmd_struct->fd_out;
 	if (cmd[1])
 	{
 		printf("env: '%s': No such file or directory\n", cmd[1]);
@@ -34,10 +40,16 @@ int	builtin_env(char **cmd, t_envvar *list)
 	}
 	while (list->next)
 	{
-		printf("%s=%s\n", list->name, list->content);
+		ft_putstr_fd(list->name, fd);
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd(list->content, fd);
+		ft_putstr_fd("\n", fd);
 		list = list->next;
 	}
-	printf("%s=%s\n", list->name, list->content);
+	ft_putstr_fd(list->name, fd);
+	ft_putstr_fd("=", fd);
+	ft_putstr_fd(list->content, fd);
+	ft_putstr_fd("\n", fd);
 	return (0);
 }
 
@@ -72,32 +84,32 @@ static int	is_newline(char *s)
 	return (0);
 }
 
-int	builtin_echo(char **cmd)
+int	builtin_echo(t_command *cmd_struct)
 {
 	int	i;
 	int	j;
 
 	i = 1;
 	j = 0;
-	if (cmd[i] == NULL)
+	if (cmd_struct->cmd[i] == NULL)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", cmd_struct->fd_out);
 		return (0);
 	}
-	while (is_newline(cmd[i + j]))
+	while (is_newline(cmd_struct->cmd[i + j]))
 	{
 		j++;
-		if (cmd[i + j] == NULL)
+		if (cmd_struct->cmd[i + j] == NULL)
 			return (0);
 	}
-	while (cmd[i + j] != NULL)
+	while (cmd_struct->cmd[i + j] != NULL)
 	{
 		if (i != 1)
-			printf(" ");
-		printf("%s", cmd[i + j]);
+			ft_putstr_fd(" ", cmd_struct->fd_out);
+		ft_putstr_fd(cmd_struct->cmd[i + j], cmd_struct->fd_out);
 		i++;
 	}
 	if (j == 0)
-		printf("\n");
+		ft_putstr_fd("\n", cmd_struct->fd_out);
 	return (0);
 }
