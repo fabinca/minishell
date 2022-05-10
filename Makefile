@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 17:38:34 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/10 08:56:14 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/lexer.c \
 				$(SRC)/main.c \
 				$(SRC)/parser.c \
+				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c
 								

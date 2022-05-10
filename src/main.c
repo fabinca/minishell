@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 21:42:36 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 09:54:42 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,11 @@ bool	redirect_and_piping(t_command *cmd_struct, t_pipedata p_data)
 	return (1);
 }
 
-void	lex_parse_execute(char *line, t_envvar *envvar)
+void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_command	*cmd_temp;
+	t_command	*cmd_start;
 	t_pipedata	p_data;
 
 	if (is_only_whitespaces(line))
@@ -89,24 +89,19 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	cmd_struct = parser(lexer_tokens);
 	if (!cmd_struct) //do we need this? 
 		return ;
-	p_data.paths = find_paths(envvar);
-	while (cmd_struct)
-	{
-		//if (!redirect_and_piping(cmd_struct, p_data))
-		//	break ;
-		//if (p_data.ct == 0)
-		//{
-			
-		//}
-		//check for buildtins & exec them
-		//normal commands
-		cmd_temp = cmd_struct;
-		cmd_struct = cmd_struct->next;
-		free_cmd_struct(cmd_temp);
-	}
+	p_data.paths = find_paths(env_list);
+	cmd_start = cmd_struct;
+	pipe (p_data.oldpipe);
+	pipex(p_data, envp, cmd_struct);
 	unlink(".tmpheredoc");
-	free_tokens(lexer_tokens);
-	free_my_paths(p_data.paths);
+	//while (cmd_start)
+	//{
+	//	cmd_struct = cmd_start->next;
+	//	free_cmd_struct(cmd_start);
+	//	cmd_start = cmd_struct;
+	//}
+	//free_tokens(lexer_tokens);
+	//free_my_paths(p_data.paths);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -132,7 +127,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line, env_list);
+		lex_parse_execute(line, env_list, envp);
 		free(line);
 	}
 	free_var_list(env_list);

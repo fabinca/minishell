@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 18:47:26 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 09:51:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <limits.h>
 # include <readline/readline.h>
 # include <readline/history.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -80,6 +81,8 @@ int			builtin_cd(char **cmd);
 //builtins2.c
 int			builtin_unset(t_envvar *lst, char **cmd);
 int			builtin_export(t_envvar *lst, char **cmd);
+int			parse_builtin(char **cmd, t_envvar *env_list);
+bool		is_builtin(char **cmd);
 
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
@@ -88,6 +91,7 @@ int			search_env_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
 //exec_utils
+int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
@@ -108,6 +112,9 @@ int			is_redirection_symbol(char *token_string);
 
 //parser.c
 t_command	*parser(t_list *token);
+
+//piping.c
+int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len);

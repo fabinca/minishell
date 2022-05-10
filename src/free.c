@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 19:33:50 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/06 12:09:37 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	free_tokens(t_list *tokens)
 	while (tokens)
 	{
 		tmp = tokens->next;
-		if (tokens->content)
+		if (tokens->content != NULL)
 			free(tokens->content);
 		free(tokens);
 		tokens = tmp;
