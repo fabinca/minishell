@@ -6,9 +6,10 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/10 10:02:52 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/10 10:21:13 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME		= 	minishell
 SRC 		= 	src
@@ -21,11 +22,11 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/lexer.c \
 				$(SRC)/main.c \
 				$(SRC)/parser.c \
+				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c \
-				$(SRC)/redirections.c \
-				$(SRC)/execute.c
-								
+				$(SRC)/redirections.c 
+												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc

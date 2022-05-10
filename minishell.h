@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/06 09:18:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 10:15:56 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@
 # include <limits.h>
 # include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <sys/wait.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -80,6 +81,8 @@ int			builtin_cd(char **cmd);
 //builtins2.c
 int			builtin_unset(t_envvar *lst, char **cmd);
 int			builtin_export(t_envvar *lst, char **cmd, int fd);
+int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+bool		is_builtin(char **cmd);
 
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
@@ -91,6 +94,7 @@ t_envvar	*new_var(t_envvar *lst);
 int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 
 //exec_utils
+int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
@@ -115,6 +119,9 @@ int	parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 //parser.c
 t_command	*parser(t_list *token);
 bool		is_builtin(char **cmd);
+
+//piping.c
+int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len);

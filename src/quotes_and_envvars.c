@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 20:13:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/06 12:13:05 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,16 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	}
 	while (string[++end] != 0)
 	{
-		if (string[end] != 39 && string[end] == '"')
-			continue ;
-		end--;
-		break ;
+		if (string[end] == '"' || string[end] == 39)
+		{
+			end--;
+			break ;
+		}
 	}
 	*i += end;
 	str = ft_substr(string, 1, end);
 	envvar = getenv(str);
+	//printf("%s %s %ld\n", str, envvar, end);
 	free(str);
 	if (!envvar)
 		return ;
@@ -74,7 +76,7 @@ static char	*update(char *string, char *buf)
 		free(string);
 		string = (char *)ft_calloc(ft_strlen(buf) + 1, sizeof(char));
 	}
-	ft_strlcpy(string, buf, ft_strlen(buf));
+	ft_strlcpy(string, buf, ft_strlen(buf) + 1);
 	return (string);
 }
 
