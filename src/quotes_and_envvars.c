@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/06 12:13:05 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 10:06:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,3 +108,7 @@ char	*quotes_and_envvars(char *string, size_t len)
 	free(buf);
 	return (string);
 }
+
+
+
+
