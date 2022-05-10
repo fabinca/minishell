@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 10:56:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 11:18:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
 		perror("dup2 replacing stdin");
 	close(pdata.oldpipe[0]);
-	if (!cmd_struct->next)
+	if (cmd_struct->fd_in != 0)
+	{
+		dup2(cmd_struct->fd_in, STDIN_FILENO);
+		close(cmd_struct->fd_in);
+	}
+	if (!cmd_struct->next || cmd_struct->fd_out != 1)
 	{
 		if (dup2(cmd_struct->fd_out, pdata.newpipe[1]) < 0)
 			perror("dup2 printing to fd_out");
