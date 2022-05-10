@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 10:50:03 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:55:24 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,13 @@ int	builtin_pwd(int fd)
 	}
 	ft_putstr_fd(pwd, fd);
 	ft_putstr_fd("\n", fd);
+	//printf("%s\n", pwd);
 	g_last_exit = 0;
 	return (0);
 }
 
-int	builtin_env(t_command *cmd_struct, t_envvar *list)
+int	builtin_env(char **cmd, int fd, t_envvar *list)
 {
-	char	**cmd;
-	int		fd;
-
-	cmd = cmd_struct->cmd;
-	fd = cmd_struct->fd_out;
 	if (cmd[1])
 	{
 		g_last_exit = 127;
@@ -99,7 +95,7 @@ static int	is_newline(char *s)
 	return (0);
 }
 
-int	builtin_echo(t_command *cmd_struct)
+int	builtin_echo(char **cmd, int fd_out)
 {
 	int	i;
 	int	j;
@@ -107,26 +103,26 @@ int	builtin_echo(t_command *cmd_struct)
 	i = 1;
 	j = 0;
 	g_last_exit = 0;
-	if (cmd_struct->cmd[i] == NULL)
+	if (cmd[i] == NULL)
 	{
-		ft_putstr_fd("\n", cmd_struct->fd_out);
+		ft_putstr_fd("\n", fd_out);
 		return (0);
 	}
-	while (is_newline(cmd_struct->cmd[i + j]))
+	while (is_newline(cmd[i + j]))
 	{
 		j++;
-		if (cmd_struct->cmd[i + j] == NULL)
+		if (cmd[i + j] == NULL)
 			return (0);
 	}
-	while (cmd_struct->cmd[i + j] != NULL)
+	while (cmd[i + j] != NULL)
 	{
 		if (i != 1)
-			ft_putstr_fd(" ", cmd_struct->fd_out);
-		ft_putstr_fd(cmd_struct->cmd[i + j], cmd_struct->fd_out);
+			ft_putstr_fd(" ", fd_out);
+		ft_putstr_fd(cmd[i + j], fd_out);
 		i++;
 	}
 	if (j == 0)
-		ft_putstr_fd("\n", cmd_struct->fd_out);
+		ft_putstr_fd("\n", fd_out);
 	return (0);
 }
 
@@ -134,14 +130,19 @@ int	builtin_echo(t_command *cmd_struct)
 int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
 {
 	char **cmd;
+	int	fd_out;
 
 	cmd = cmd_struct->cmd;
+	if (cmd_struct->next)
+		fd_out = 1;
+	else
+		fd_out = cmd_struct->fd_out;
 	if (ft_strcmp(cmd[0], "echo") == 0)
-		return (builtin_echo(cmd_struct));
+		return (builtin_echo(cmd, fd_out));
 	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		return (builtin_pwd(cmd_struct->fd_out));
+		return (builtin_pwd(fd_out));
 	else if (ft_strcmp(cmd[0], "env") == 0)
-		return (builtin_env(cmd_struct, env_list));
+		return (builtin_env(cmd, fd_out, env_list));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		return (builtin_exit(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
@@ -149,6 +150,6 @@ int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 		return (builtin_unset(env_list, cmd));
 	else if (ft_strcmp(cmd[0], "export") == 0)
-		return (builtin_export(env_list, cmd, cmd_struct->fd_out));
+		return (builtin_export(env_list, cmd, fd_out));
 	return (1);
 }

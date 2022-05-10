@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 11:42:15 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 12:40:51 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,11 +46,16 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	close(pdata.newpipe[1]);
 	close(pdata.newpipe[0]);
 	close(pdata.oldpipe[1]);
-	path = joined_path(pdata.paths, cmd_struct->cmd[0]);
-	if (path)
-		execve(path, cmd_struct->cmd, envp);
-	//free_t_data(dt);
-	exit(EXIT_FAILURE);
+	if (is_builtin(cmd_struct->cmd))
+		parse_builtin(cmd_struct, pdata.envlist);
+	else
+	{
+		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
+		if (path)
+			execve(path, cmd_struct->cmd, envp);
+	}
+		//free_t_data(dt);
+	exit(EXIT_FAILURE); //solve this problem of exit code
 }
 
 int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct)

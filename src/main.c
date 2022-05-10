@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 11:33:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:55:40 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,25 +35,7 @@ void	sighandler(int num)
 	}
 }
 
-bool	redirect_and_piping(t_command *cmd_struct, t_pipedata p_data)
-{
-	if (!cmd_struct)
-	{
-		close(p_data.oldpipe[0]);
-		close(p_data.oldpipe[1]);
-		return (0);
-	}
-	if (pipe(p_data.newpipe) < 0)
-		perror("pipe");
-	if (p_data.ct == 0 && cmd_struct->next)
-	{
-		if (dup2(cmd_struct->fd_in, p_data.oldpipe[0]) < 0)
-			perror("dup2 reading from fd_in");
-		close(cmd_struct->fd_in);
-	}
-	return (1);
-}
-
+/* 
 void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing builtins
 {
 	t_list		*lexer_tokens;
@@ -70,8 +52,8 @@ void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing 
 		return ;
 	exec_cmd(cmd_struct, envvar, envp);
 	free_tokens(lexer_tokens);
-}
-/* 
+} */
+
 void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 {
 	t_list		*lexer_tokens;
@@ -82,14 +64,20 @@ void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 	if (is_only_whitespaces(line))
 		return ;
 	p_data.ct = 0;
+	p_data.envlist = env_list;
 	lexer_tokens = lexer(line);
 	cmd_struct = parser(lexer_tokens);
 	if (!cmd_struct) //do we need this? 
 		return ;
-	p_data.paths = find_paths(env_list);
-	cmd_start = cmd_struct;
-	pipe (p_data.oldpipe);
-	pipex(p_data, envp, cmd_struct);
+	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
+		parse_builtin(cmd_struct, env_list);
+	else
+	{
+		p_data.paths = find_paths(env_list);
+		cmd_start = cmd_struct;
+		pipe (p_data.oldpipe);
+		pipex(p_data, envp, cmd_struct);
+	}
 	unlink(".tmpheredoc");
 	//while (cmd_start)
 	//{
@@ -100,7 +88,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 	//free_tokens(lexer_tokens);
 	//free_my_paths(p_data.paths);
 }
- */
+
 int	main(int argc, char **argv, char **envp)
 {
 	char 		*line;

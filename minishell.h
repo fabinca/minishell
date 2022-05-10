@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 10:50:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 12:54:56 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,7 @@ typedef struct s_pipedata
 	int		error;
 	pid_t	pid;
 	int		ct;
+	t_envvar	*envlist;
 }	t_pipedata;
 
 typedef struct s_shell
@@ -72,8 +73,8 @@ typedef struct s_shell
 }	t_shell;
 
 //builtins.c
-int			builtin_echo(t_command *cmd_struct);
-int			builtin_env(t_command *cmd_struct, t_envvar *list);
+int			builtin_echo(char **cmd, int fd);
+int			builtin_env(char **cmd_struct, int fd, t_envvar *list);
 int			builtin_pwd(int fd);
 int			builtin_cd(char **cmd);
 
