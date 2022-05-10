@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 10:15:56 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 10:50:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <limits.h>
 # include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
 # include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
-# include <sys/wait.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>

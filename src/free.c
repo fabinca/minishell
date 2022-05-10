@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/06 12:09:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 10:50:20 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 
 #include "../minishell.h"
 
@@ -64,9 +65,29 @@ void	free_cmd(char **cmd)
 
 int	builtin_exit(char **cmd, t_envvar *lst)
 {
+	if (!cmd[1])
+	{
+		ft_putstr_fd("exit\n", 1);
+		g_last_exit = 0;
+	}
+	else
+	{
+		if (!ft_atoi_d_only(cmd[1]))
+		{
+			g_last_exit = 255;
+			ft_putstr_fd("minishell: exit: ", 1);
+			ft_putstr_fd(cmd[1], 1);
+			ft_putstr_fd(": numberic argument required\n", 1);
+		}
+		else
+		{
+			ft_putstr_fd("exit\n", 1);
+			g_last_exit = ft_atoi_d_only(cmd[1]);
+		}
+	}
 	free_cmd(cmd);
 	free_var_list(lst);
 	rl_clear_history();
-	exit(0);
+	exit(g_last_exit);
 	return (0);
 }
