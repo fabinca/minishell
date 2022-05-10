@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:56:42 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 22:58:24 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 			execve(path, cmd_struct->cmd, envp);
 		else
 		{
-			ft_putstr_fd("minishell: ", 2);
+			//ft_putstr_fd("minishell: ", 2);
 			ft_putstr_fd(cmd_struct->cmd[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			//free_t_data(dt);

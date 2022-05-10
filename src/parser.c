@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:25:14 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 23:22:02 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,6 +105,8 @@ t_command	*parser(t_list *token, t_envvar *env_list)
 	t_command	*commands;
 	t_command	*commands_first;
 
+	if (!token)
+		return (NULL);
 	commands_first = create_cmd_struct();
 	commands = commands_first;
 	while (token)
