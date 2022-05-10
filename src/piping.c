@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:50:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:56:42 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 			ft_putstr_fd(cmd_struct->cmd[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
 			//free_t_data(dt);
-			exit(127);
+			exit(127); //Does not exit as 127! 
 		}
 	}
 		//free_t_data(dt);
