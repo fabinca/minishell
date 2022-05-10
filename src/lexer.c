@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 10:46:58 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 13:37:56 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ t_list	*lexer(char *line)
 	if (tok_err(st))
 	{
 		printf("minishell: syntax error near unexpected token '%s'\n", tok_err(st));
+		g_last_exit = 258;
 		ft_lstclear(&st);
 		return (NULL);
 	}

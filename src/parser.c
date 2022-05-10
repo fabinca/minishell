@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/06 11:00:02 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 14:25:14 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 	return (cmd_first);
 }
 
-t_command	*parser(t_list *token)
+t_command	*parser(t_list *token, t_envvar *env_list)
 {
 	t_command	*commands;
 	t_command	*commands_first;
@@ -123,7 +123,7 @@ t_command	*parser(t_list *token)
 		{
 			if (commands->ct >= 10)
 				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
-			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1);
+			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1, env_list);
 			if (commands->ct == 1)
 				commands_first = look_for_builtin(commands_first, commands);
 		}

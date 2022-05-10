@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 12:54:56 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:25:28 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@
 # include <sys/wait.h>
 
 extern int g_last_exit;
+
 typedef struct s_envvar
 {
 	char			*name;
@@ -76,7 +77,9 @@ typedef struct s_shell
 int			builtin_echo(char **cmd, int fd);
 int			builtin_env(char **cmd_struct, int fd, t_envvar *list);
 int			builtin_pwd(int fd);
-int			builtin_cd(char **cmd);
+int			builtin_cd(char **cmd, t_envvar *env_list);
+char 		*ft_get_envvar(t_envvar *env_list, char *s);
+
 
 //builtins2.c
 int			builtin_unset(t_envvar *lst, char **cmd);
@@ -117,14 +120,14 @@ int			is_redirection_symbol(char *token_string);
 int	parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 
 //parser.c
-t_command	*parser(t_list *token);
+t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
 int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct);
 
 //quotes and envars
-char		*quotes_and_envvars(char *string, size_t len);
+char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
 
 //redirections.c
 bool		redirect(int old_file, int new_file);

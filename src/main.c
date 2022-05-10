@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 12:55:40 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:25:50 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 	p_data.ct = 0;
 	p_data.envlist = env_list;
 	lexer_tokens = lexer(line);
-	cmd_struct = parser(lexer_tokens);
+	cmd_struct = parser(lexer_tokens, env_list);
 	if (!cmd_struct) //do we need this? 
 		return ;
 	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))

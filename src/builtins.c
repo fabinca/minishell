@@ -6,12 +6,23 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 12:55:24 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 14:20:24 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
+
+char *ft_get_envvar(t_envvar *env_list, char *s)
+{
+	while (env_list)
+	{
+		if (!ft_strcmp(env_list->name, s))
+			return (env_list->content);
+		env_list = env_list->next;
+	}
+	return (0);
+}
 
 int	builtin_pwd(int fd)
 {
@@ -53,11 +64,11 @@ int	builtin_env(char **cmd, int fd, t_envvar *list)
 	return (0);
 }
 
-int	builtin_cd(char **cmd)
+int	builtin_cd(char **cmd, t_envvar *env_list)
 {
 	if (!cmd[1])
 	{
-		chdir(getenv("HOME"));
+		chdir(ft_get_envvar(env_list, "HOME"));
 		g_last_exit = 0;
 		return (0);
 	}
@@ -146,7 +157,7 @@ int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
 	else if (ft_strcmp(cmd[0], "exit") == 0)
 		return (builtin_exit(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
-		return (builtin_cd(cmd));
+		return (builtin_cd(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "unset") == 0)
 		return (builtin_unset(env_list, cmd));
 	else if (ft_strcmp(cmd[0], "export") == 0)
