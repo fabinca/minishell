@@ -21,8 +21,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
