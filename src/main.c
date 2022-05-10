@@ -6,15 +6,11 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 10:24:03 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/10 11:33:55 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../minishell.h"
-
-
 
 void	display_prompt(void)
 {
