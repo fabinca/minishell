@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 11:18:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 11:42:15 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,8 @@ static void	parent_process(t_pipedata pdata) //, pid_t pid
 	close(pdata.oldpipe[1]);
 	waitpid(pdata.pid, &g_last_exit, 0);
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
-	close(pdata.oldpipe[1]);
+	close(pdata.newpipe[0]);
+	dup2(pdata.newpipe[1], pdata.oldpipe[1]);
 	close(pdata.newpipe[1]);
 }
 
