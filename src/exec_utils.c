@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:21:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:37:29 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,8 +94,7 @@ char	*joined_path(char **my_paths, char *token)
 	i = 0;
 	while (my_paths[i])
 	{
-		joined_path = malloc((ft_strlen(my_paths[i]) + ft_strlen(token) + 1)
-				* sizeof(char));
+		joined_path = (char *)ft_calloc((ft_strlen(my_paths[i]) + ft_strlen(token) + 1), sizeof(char));
 		if (!joined_path)
 			return (0);
 		joined_path = ft_strjoin(my_paths[i], token);
