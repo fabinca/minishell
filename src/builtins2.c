@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 13:37:26 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:45:20 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +75,8 @@ int	builtin_export(t_envvar *lst, char **cmd, int fd)
 		}
 		else
 		{
-			if (ft_strchr(cmd[i], '='))
-			{
-				if (!search_env_list(lst, cmd[i]))
-					add_envvar(lst, cmd[i]);
-			}
+			if (!search_env_list(lst, cmd[i]))
+				add_envvar(lst, cmd[i]);
 			g_last_exit = 0;
 		}
 		i++;
