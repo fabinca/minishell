@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:45:19 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:32:16 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	sighandler(int num)
 		rl_replace_line("", 0);
 		printf("\n");
 		display_prompt();
-		printf("\033[1;36m\033[1mMinishell\033[0m$ ");
+		printf("\033[1;36m\033[1mMinishell\033[0m$    ");
 		rl_redisplay();
 	}
 }

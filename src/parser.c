@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 23:28:23 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:33:46 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ static int	redirection(t_command *cmd, t_list *token)
 			close(cmd->fd_in);
 		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
 		unlink(".tmpheredoc");
+		if (g_last_exit == 1)
+			return (0);
 	}
 	if (cmd->fd_in == -1)
 	{
@@ -128,8 +130,12 @@ t_command	*parser(t_list *token, t_envvar *env_list)
 		}
 		else if (is_redirection_symbol(token->content))
 		{
-			if (redirection(commands, token))
-				token = token->next;
+			if (!redirection(commands, token))
+			{
+				free_complete_struct(commands_first);
+				return (NULL);
+			}
+			token = token->next;
 		}
 		else
 		{

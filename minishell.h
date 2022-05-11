@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 23:49:20 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:54:07 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,13 +58,13 @@ typedef struct s_command
 
 typedef struct s_pipedata
 {
-	int		newpipe[2];
-	int		oldpipe[2];
-	char	**paths;
-	char	*c_p;
-	int		error;
-	pid_t	pid;
-	int		ct;
+	int			newpipe[2];
+	int			oldpipe[2];
+	char		**paths;
+	char		*c_p;
+	int			error;
+	pid_t		pid;
+	int			ct;
 	t_envvar	*envlist;
 }	t_pipedata;
 
@@ -78,7 +78,7 @@ int			builtin_echo(char **cmd, int fd);
 int			builtin_env(char **cmd_struct, int fd, t_envvar *list);
 int			builtin_pwd(int fd);
 int			builtin_cd(char **cmd, t_envvar *env_list);
-char 		*ft_get_envvar(t_envvar *env_list, char *s);
+char		*ft_get_envvar(t_envvar *env_list, char *s);
 
 
 //builtins2.c
@@ -110,20 +110,25 @@ void		free_cmd_struct(t_command *temp);
 int			builtin_exit(char **cmd, t_envvar *lst);
 void		free_var_list(t_envvar *lst);
 
+//get_next_line_delimit
+char	*gnl_delimit(int fd, char *delimiter);
+char	*ft_strjoin_gnl(char *s1, char*s2);
+
 //heredoc.c
-int			exe_heredoc(char *delimiter);
+void		exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);
 int			is_redirection_symbol(char *token_string);
 
 //list_to_string.c
-char		 **ft_listtostr(t_envvar *env_list);
+char		**ft_listtostr(t_envvar *env_list);
 void		ft_double_free(char **s);
 
 
 //main.c
 int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+void		sighandler(int num);
 
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);

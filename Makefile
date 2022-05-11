@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/11 13:25:04 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/12 00:53:05 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c \
-				$(SRC)/list_to_string.c
+				$(SRC)/list_to_string.c \
+				$(SRC)/gnl_delimit.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
@@ -37,6 +38,12 @@ LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h
 
 all: $(NAME)
+
+fix:
+	./fix.sh
+
+$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
+	@$(CC) $(CFLAGS) -c $< -o $@ -g
 
 $(OBJ)/%.o: $(SRC)/%.c $(OBJ)
 	@$(CC) $(CFLAGS) -c $< -o $@ -g
@@ -54,7 +61,6 @@ endif
 ifeq ($(shell uname), Darwin)
 
 $(NAME): $(LIB) $(OBJS)
-	./fix.sh
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
 
 endif
