@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 21:13:09 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:20:29 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,13 +59,13 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_s
 		own_env = ft_listtostr(env_list);
 		if (path)
 			execve(path, cmd_struct->cmd, own_env);
+		free(path);
 		execve(cmd_struct->cmd[0], cmd_struct->cmd, own_env);
 		perror("execve");
 		ft_double_free(own_env);
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_struct->cmd[0], 2);
 		ft_putstr_fd(": command not found\n", 2);
-		//free_t_data(dt);
 		exit(127);
 	}
 		//free_t_data(dt);
