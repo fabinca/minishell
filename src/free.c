@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 10:50:20 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 10:22:49 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	builtin_exit(char **cmd, t_envvar *lst)
 			g_last_exit = 255;
 			ft_putstr_fd("minishell: exit: ", 1);
 			ft_putstr_fd(cmd[1], 1);
-			ft_putstr_fd(": numberic argument required\n", 1);
+			ft_putstr_fd(": numeric argument required\n", 1);
 		}
 		else
 		{

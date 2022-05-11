@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 14:25:50 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 09:37:10 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing 
 	free_tokens(lexer_tokens);
 } */
 
-void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
+void	lex_parse_execute(char *line, t_envvar *env_list)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
@@ -76,7 +76,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
 		p_data.paths = find_paths(env_list);
 		cmd_start = cmd_struct;
 		pipe (p_data.oldpipe);
-		pipex(p_data, envp, cmd_struct);
+		pipex(p_data, env_list, cmd_struct);
 	}
 	unlink(".tmpheredoc");
 	//while (cmd_start)
@@ -112,7 +112,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line, env_list, envp);
+		lex_parse_execute(line, env_list);
 		free(line);
 	}
 	free_var_list(env_list);

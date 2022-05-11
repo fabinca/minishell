@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 13:59:20 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 10:47:35 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,12 +87,22 @@ char	*joined_path(char **my_paths, char *token)
 	int		i;
 
 	i = 0;
+	if (access(token, X_OK) == 0)
+		return (token);
+	/* joined_path = (char *)malloc(sizeof(char) * 100);
+	if (!joined_path)
+		return (0);
+	getcwd(joined_path, 100);
+	ft_strlcat(joined_path, token + 1, 100);
+	if (access)
+	joined_path = ft_strjoin(getcwd(pwd)) */
 	while (my_paths[i])
 	{
 		joined_path = malloc((ft_strlen(my_paths[i]) + ft_strlen(token) + 1)
 				* sizeof(char));
 		if (!joined_path)
 			return (0);
+		
 		joined_path = ft_strjoin(my_paths[i], token);
 		if (access(joined_path, F_OK) == 0)
 			return (joined_path);

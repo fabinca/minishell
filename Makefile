@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/10 10:21:13 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/11 09:33:12 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,8 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c \
-				$(SRC)/redirections.c 
+				$(SRC)/redirections.c \
+				$(SRC)/list_to_string.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

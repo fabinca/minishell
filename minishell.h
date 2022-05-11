@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:25:28 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 09:36:19 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,15 +116,20 @@ void		exe_heredoc(char *delimiter);
 t_list		*lexer(char *line);
 int			is_redirection_symbol(char *token_string);
 
+//list_to_string.c
+char		 **ft_listtostr(t_envvar *env_list);
+void		ft_double_free(char **s);
+
+
 //main.c
-int	parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
-int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct);
+int			pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);

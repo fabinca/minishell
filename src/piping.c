@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:56:42 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 10:47:08 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,17 @@ static void	parent_process(t_pipedata pdata) //, pid_t pid
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
 	waitpid(pdata.pid, &g_last_exit, 0);
+	g_last_exit = g_last_exit / 255;
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
 	close(pdata.newpipe[0]);
 	dup2(pdata.newpipe[1], pdata.oldpipe[1]);
 	close(pdata.newpipe[1]);
 }
 
-static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
+static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
 {
 	char	*path;
+	char	**own_env;
 
 	if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
 		perror("dup2 replacing stdin");
@@ -51,22 +53,22 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	else
 	{
 		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
+		own_env = ft_listtostr(env_list);
 		if (path)
-			execve(path, cmd_struct->cmd, envp);
-		else
-		{
-			ft_putstr_fd("minishell: ", 2);
-			ft_putstr_fd(cmd_struct->cmd[0], 2);
-			ft_putstr_fd(": command not found\n", 2);
-			//free_t_data(dt);
-			exit(127); //Does not exit as 127! 
-		}
+			execve(path, cmd_struct->cmd, own_env);
+		execve(cmd_struct->cmd[0], cmd_struct->cmd, own_env);
+		ft_double_free(own_env);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_struct->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		//free_t_data(dt);
+		exit(127);
 	}
 		//free_t_data(dt);
 	exit(0);
 }
 
-int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct)
+int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
 {
 	if (!cmd_struct)
 	{
@@ -80,11 +82,11 @@ int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	if (pdata.pid < 0)
 		perror("Fork");
 	else if (pdata.pid == 0)
-		child_process(pdata, envp, cmd_struct);
+		child_process(pdata, env_list, cmd_struct);
 	else
 	{
 		parent_process(pdata); // pid
-		pipex(pdata, envp, cmd_struct->next);
+		pipex(pdata, env_list, cmd_struct->next);
 	}
 	return (0);
 }

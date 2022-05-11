@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 14:20:24 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 09:05:35 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ int	builtin_echo(char **cmd, int fd_out)
 	}
 	while (cmd[i + j] != NULL)
 	{
-		if (i != 1)
+		if (i != 1 && cmd[i - 1][0])
 			ft_putstr_fd(" ", fd_out);
 		ft_putstr_fd(cmd[i + j], fd_out);
 		i++;
