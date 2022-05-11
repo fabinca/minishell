@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 14:55:23 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 15:04:21 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static void	sighandler_heredoc(int num)
 {
 	if (num == SIGINT)
 	{
-		printf("handling_heredoc\n");
+		//free
 		exit(1);
 	}
 }
@@ -54,8 +54,10 @@ void	exe_heredoc(char *delimiter)
 	}
 	else
 	{
+		signal(SIGINT, SIG_IGN);
 		waitpid(pid, &g_last_exit, 0);
 		g_last_exit = g_last_exit / 255;
+		signal(SIGINT, sighandler);
 	}
 }
 
