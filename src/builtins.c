@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 09:05:35 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 22:54:01 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
 
-char *ft_get_envvar(t_envvar *env_list, char *s)
+char	*ft_get_envvar(t_envvar *env_list, char *s)
 {
 	while (env_list)
 	{
@@ -21,21 +21,22 @@ char *ft_get_envvar(t_envvar *env_list, char *s)
 			return (env_list->content);
 		env_list = env_list->next;
 	}
+	//glast_exit?
 	return (0);
 }
 
 int	builtin_pwd(int fd)
 {
 	char	pwd[100];
+
 	if (!getcwd(pwd, 100))
 	{
-		perror("Unable to get current directory path");
+		perror("pwd");
 		g_last_exit = 127;
 		return (0);
 	}
 	ft_putstr_fd(pwd, fd);
 	ft_putstr_fd("\n", fd);
-	//printf("%s\n", pwd);
 	g_last_exit = 0;
 	return (0);
 }
@@ -45,7 +46,10 @@ int	builtin_env(char **cmd, int fd, t_envvar *list)
 	if (cmd[1])
 	{
 		g_last_exit = 127;
-		printf("env: '%s': No such file or directory\n", cmd[1]);
+		ft_putstr_fd("env: '", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putendl_fd("': No such file or directory", 2);
+		//printf("env: '%s': No such file or directory\n", cmd[1]); // perror? 
 		return (0);
 	}
 	while (list->next)
@@ -74,17 +78,18 @@ int	builtin_cd(char **cmd, t_envvar *env_list)
 	}
 	if (cmd[2])
 	{
-		ft_putstr_fd("minishell: cd: string not in pwd: ", 1);
-		ft_putstr_fd(cmd[1], 1);
-		ft_putstr_fd("\n", 2);
+		ft_putendl_fd("minishell: cd: too many arguments", 2);
+		//ft_putstr_fd("minishell: cd: string not in pwd: ", 2);
+		//ft_putstr_fd(cmd[1], 2);
+		//ft_putstr_fd("\n", 2);
 		g_last_exit = 1;
 		return (0);
 	}
 	if (chdir(cmd[1]))
 	{
-		ft_putstr_fd("minishell: cd: no such file or directory: ", 1);
-		ft_putstr_fd(cmd[1], 1);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("minishell: cd: no such file or directory: ", 2);
+		ft_putstr_fd(cmd[1], 2);
+		ft_putstr_fd("\n", 2);
 		g_last_exit = 1;
 	}
 	else
@@ -140,8 +145,8 @@ int	builtin_echo(char **cmd, int fd_out)
 //returns 1 if no builtin is found, 0 on success
 int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
 {
-	char **cmd;
-	int	fd_out;
+	char	**cmd;
+	int		fd_out;
 
 	cmd = cmd_struct->cmd;
 	if (cmd_struct->next)

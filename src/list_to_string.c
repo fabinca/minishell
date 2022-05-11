@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_to_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 09:06:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 09:32:56 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 23:10:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,12 @@ void	ft_double_free(char **s)
 	int	i;
 
 	i = 0;
+	if (!s)
+		return ;
 	while (s[i])
-		free(s[i++]);
+	{
+		free(s[i]);
+		i++;
+	}
 	free(s);
 }

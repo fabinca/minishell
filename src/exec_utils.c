@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 13:15:54 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 23:14:21 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,8 +60,13 @@ void	free_my_paths(char **paths)
 	int	i;
 
 	i = 0;
+	if (!paths)
+		return ;
 	while (paths[i])
-		free(paths[i++]);
+	{
+		free(paths[i]);
+		i++;
+	}
 	free(paths);
 }
 

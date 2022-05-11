@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 13:41:55 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 21:13:09 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct, bool firs
 		child_process(pdata, env_list, cmd_struct, first);
 	else
 	{
-		parent_process(pdata); // pid
+		parent_process(pdata);
 		pipex(pdata, env_list, cmd_struct->next, 0);
 	}
 	return (0);
