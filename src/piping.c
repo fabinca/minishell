@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 12:04:22 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:41:55 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,14 +24,17 @@ static void	parent_process(t_pipedata pdata) //, pid_t pid
 	close(pdata.newpipe[1]);
 }
 
-static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
+static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct, bool first)
 {
 	char	*path;
 	char	**own_env;
 
-	if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
-		perror("dup2 replacing stdin");
-	close(pdata.oldpipe[0]);
+	if (!first)
+	{
+		if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
+			perror("dup2 replacing stdin");
+		close(pdata.oldpipe[0]);
+	}
 	if (cmd_struct->fd_in != 0)
 	{
 		dup2(cmd_struct->fd_in, STDIN_FILENO);
@@ -69,7 +72,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_s
 	exit(0);
 }
 
-int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
+int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct, bool first)
 {
 	if (!cmd_struct)
 	{
@@ -83,11 +86,11 @@ int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
 	if (pdata.pid < 0)
 		perror("Fork");
 	else if (pdata.pid == 0)
-		child_process(pdata, env_list, cmd_struct);
+		child_process(pdata, env_list, cmd_struct, first);
 	else
 	{
 		parent_process(pdata); // pid
-		pipex(pdata, env_list, cmd_struct->next);
+		pipex(pdata, env_list, cmd_struct->next, 0);
 	}
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 11:33:05 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:41:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -129,7 +129,7 @@ t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
-int			pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct);
+int			pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct, bool first);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);

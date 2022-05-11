@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 13:26:13 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 13:41:17 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 		p_data.paths = find_paths(env_list);
 		cmd_start = cmd_struct;
 		pipe (p_data.oldpipe);
-		pipex(p_data, env_list, cmd_struct);
+		pipex(p_data, env_list, cmd_struct, 1);
 	}
 	//unlink(".tmpheredoc");
 	while (cmd_start)
