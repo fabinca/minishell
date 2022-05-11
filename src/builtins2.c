@@ -6,11 +6,41 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 10:16:26 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:37:26 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+bool	is_alpha_numeric_underscore(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (!ft_isalpha(s[0]))
+		return (0);
+	while (s[i] && (s[i] == '_' || ft_isdigit(s[i]) || ft_isalpha(s[i])))
+		i++;
+	if (s[i] == '=' || !s[i])
+		return (1);
+	return (0);
+}
+
+bool	has_equal_sign(char *s)
+{
+	int	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '=')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 
 static void	add_envvar(t_envvar *lst, char *s)
 {
@@ -38,7 +68,7 @@ int	builtin_export(t_envvar *lst, char **cmd, int fd)
 	}
 	while (cmd[i])
 	{
-		if (!ft_isalpha(cmd[i][0]))
+		if (!is_alpha_numeric_underscore(cmd[i]))
 		{
 			g_last_exit = 1;
 			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
@@ -94,6 +124,8 @@ int	builtin_unset(t_envvar *start, char **cmd)
 	}
 	while (cmd[i])
 	{
+		if (!is_alpha_numeric_underscore(cmd[i]) || has_equal_sign(cmd[i]))
+			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
 		lst = start;
 		if (ft_strcmp(lst->name, cmd[i]) == 0)
 			del_var(lst, 1);

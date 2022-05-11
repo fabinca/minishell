@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/11 11:03:44 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/11 13:37:51 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,7 @@ OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
 RL_MAC		= 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/
-CFLAGS		=#-Wall -Werror -Wextra 
+CFLAGS		=   -Wall -Werror -Wextra 
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h
