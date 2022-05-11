@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 10:59:33 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:29:21 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ void	free_tokens(t_list *tokens)
 
 void	free_cmd_struct(t_command *cmd_struct)
 {
+	if (cmd_struct->fd_in > 0)
+		close(cmd_struct->fd_in);
+	if (cmd_struct->fd_out > 1)
+		close(cmd_struct->fd_out);
 	free(cmd_struct->cmd);
 	free(cmd_struct);
 	return ;

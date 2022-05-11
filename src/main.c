@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 12:27:16 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:26:13 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 		pipex(p_data, env_list, cmd_struct);
 	}
 	//unlink(".tmpheredoc");
-	//while (cmd_start)
-	//{
-	//	cmd_struct = cmd_start->next;
-	//	free_cmd_struct(cmd_start);
-	//	cmd_start = cmd_struct;
-	//}
+	while (cmd_start)
+	{
+		cmd_struct = cmd_start->next;
+		free_cmd_struct(cmd_start);
+		cmd_start = cmd_struct;
+	}
 	//free_tokens(lexer_tokens);
 	//free_my_paths(p_data.paths);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 11:54:00 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:23:51 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ static int	redirection(t_command *cmd, t_list *token)
 {
 	if (ft_strcmp(token->content, ">") == 0)
 	{
+		if (cmd->fd_out > 1)
+			close(cmd->fd_out);
 		token = token->next;
 		cmd->fd_out = open(token->content, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	}
 	else if (ft_strcmp(token->content, ">>") == 0)
 	{
 		token = token->next;
+		if (cmd->fd_out > 1)
+			close(cmd->fd_out);
 		cmd->fd_out = open(token->content, O_CREAT | O_APPEND | O_RDWR, 0666);
 	}
 	if (cmd->fd_out == -1)
@@ -46,6 +50,8 @@ static int	redirection(t_command *cmd, t_list *token)
 	}
 	if (ft_strcmp(token->content, "<") == 0)
 	{
+		if (cmd->fd_in > 0)
+			close(cmd->fd_in);
 		token = token->next;
 		cmd->fd_in = open(token->content, O_RDONLY);
 	}
@@ -53,15 +59,17 @@ static int	redirection(t_command *cmd, t_list *token)
 	{
 		token = token->next;
 		exe_heredoc(token->content);
+		if (cmd->fd_in > 0)
+			close(cmd->fd_in);
 		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
 		unlink(".tmpheredoc");
-		printf("fd: %d /n\n", cmd->fd_in);
 	}
 	if (cmd->fd_in == -1)
 	{
 		perror(token->content);
 		return (0);
 	}
+	printf("fdin: %d  fdout: %d \n", cmd->fd_in, cmd->fd_out);
 	return (1);
 }
 

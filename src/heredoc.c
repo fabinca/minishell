@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 12:08:13 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 13:19:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	exe_heredoc(char *delimiter)
 			free(str);
 		}
 	}
+	close(fd);
 	return (fd);
 }
 

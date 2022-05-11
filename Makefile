@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/11 11:03:44 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/11 13:25:04 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,14 +25,13 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c \
-				$(SRC)/redirections.c \
 				$(SRC)/list_to_string.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
 RL_MAC		= 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/
-CFLAGS		=#-Wall -Werror -Wextra 
+CFLAGS		= -Wall -Werror -Wextra 
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h
