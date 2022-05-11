@@ -6,11 +6,9 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:05:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:49:31 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-
 
 #include "../minishell.h"
 
@@ -58,11 +56,25 @@ void	free_cmd_struct(t_command *cmd_struct)
 	return ;
 }
 
+void	free_complete_struct(t_command *cmd_struct)
+{
+	t_command	*temp;
+
+	while (cmd_struct)
+	{
+		temp = cmd_struct;
+		free_cmd_struct(cmd_struct);
+		cmd_struct = temp->next;
+	}
+}
+
 void	free_cmd(char **cmd)
 {
 	int	i;
 
 	i = 0;
+	if (!cmd)
+		return ;
 	while (cmd[i])
 		free(cmd[i++]);
 	free (cmd);

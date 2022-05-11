@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:14:21 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:21:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	free_my_paths(char **paths)
 char	**find_paths(t_envvar *env_list)
 {
 	char	**my_paths;
-	
+
 	while (env_list)
 	{
 		if (!ft_strcmp(env_list->name, "PATH"))
@@ -98,7 +98,6 @@ char	*joined_path(char **my_paths, char *token)
 				* sizeof(char));
 		if (!joined_path)
 			return (0);
-		
 		joined_path = ft_strjoin(my_paths[i], token);
 		if (access(joined_path, X_OK) == 0)
 			return (joined_path);

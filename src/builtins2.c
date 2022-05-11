@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 22:37:32 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:20:01 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ int	builtin_export(t_envvar *lst, char **cmd, int fd)
 		if (!ft_isalpha(cmd[i][0]))
 		{
 			g_last_exit = 1;
-			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
+			ft_putstr_fd("minishell: export: '", 2);
+			ft_putstr_fd(cmd[i], 2);
+			ft_putendl_fd("': not a valid identifier", 2);
+			//printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
 		}
 		else
 		{

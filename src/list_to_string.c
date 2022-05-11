@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 09:06:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:10:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:25:24 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@ static int	count_list(t_envvar *env_list)
 	return (count);
 }
 
-static char *copy_one_list_entry(t_envvar *envvar)
+static char	*copy_one_list_entry(t_envvar *envvar)
 {
-	char *out_str;
-	int	i;
-	int	j;
+	char	*out_str;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = 0;
@@ -49,10 +49,10 @@ static char *copy_one_list_entry(t_envvar *envvar)
 	return (out_str);
 }
 
-char **ft_listtostr(t_envvar *env_list)
+char	**ft_listtostr(t_envvar *env_list)
 {
-	char **own_env;
-	int	i;
+	char	**own_env;
+	int		i;
 
 	i = 0;
 	own_env = (char **)malloc(sizeof(char *) * (count_list(env_list) + 1));

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 13:41:41 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:49:20 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,6 +104,7 @@ char		*joined_path(char **my_paths, char *token);
 
 //free.c
 void		free_cmd(char **cmd);
+void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
 int			builtin_exit(char **cmd, t_envvar *lst);

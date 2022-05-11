@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:15:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:45:19 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_command	*cmd_start;
 	t_pipedata	p_data;
 
 	if (is_only_whitespaces(line))
@@ -80,18 +79,13 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 		pipex(p_data, env_list, cmd_struct, 1);
 		free_my_paths(p_data.paths);
 	}
-	while (cmd_start)
-	{
-		cmd_struct = cmd_start->next;
-		free_cmd_struct(cmd_start);
-		cmd_start = cmd_struct;
-	}
+	free_complete_struct(cmd_struct);
 	free_tokens(lexer_tokens);
 }
 
 int	main(int argc, char **argv, char **envp)
 {
-	char 		*line;
+	char		*line;
 	t_envvar	*env_list;
 
 	g_last_exit = 0;
@@ -101,9 +95,8 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	add_history("");
-	signal(SIGINT, sighandler); //ctrl c
-	signal(SIGQUIT, SIG_IGN); // ctrl backslash
-	//signal(EOF, sighandler);
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, SIG_IGN);
 	env_list = init_envp_list(envp);
 	while (1)
 	{
@@ -119,11 +112,3 @@ int	main(int argc, char **argv, char **envp)
 	printf("\n");
 	return (0);
 }
-
-//test for heredoc
-/* int	main(void)
-{
-	exe_heredoc("three");
-	unlink(".tmpheredoc");
-	return (0);
-} */

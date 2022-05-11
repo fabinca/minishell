@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 23:20:18 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 23:24:17 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ int	is_redirection_symbol(char *token_string)
 
 char	*tok_err(t_list *tokens)
 {
-	char	last_tok; // p for pipe, r for redirection, s for string 
+	char	last_tok;
 	char	new_tok;
 
 	if (ft_strcmp("|", tokens->content) == 0 )
@@ -108,6 +108,7 @@ t_list	*lexer(char *line)
 	}
 	return (st);
 }
+
 /* 
 int	main(void)
 {
