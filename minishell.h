@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 13:41:41 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 14:32:51 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -110,7 +110,7 @@ int			builtin_exit(char **cmd, t_envvar *lst);
 void		free_var_list(t_envvar *lst);
 
 //heredoc.c
-int			exe_heredoc(char *delimiter);
+void		exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);
@@ -123,6 +123,7 @@ void		ft_double_free(char **s);
 
 //main.c
 int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+void		sighandler(int num);
 
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);
