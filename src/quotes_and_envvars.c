@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   quotes_and_envvars.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 14:27:01 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 00:04:02 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j, t_envva
 	}
 	while (string[++end] != 0)
 	{
-		if (string[end] == '"' || string[end] == 39)
+		if (string[end] == '"' || string[end] == 39 || string[end] == ' ')
 		{
 			end--;
 			break ;
