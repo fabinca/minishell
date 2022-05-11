@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 11:01:00 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:04:22 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_s
 		if (path)
 			execve(path, cmd_struct->cmd, own_env);
 		execve(cmd_struct->cmd[0], cmd_struct->cmd, own_env);
+		perror("execve");
 		ft_double_free(own_env);
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_struct->cmd[0], 2);

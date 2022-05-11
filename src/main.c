@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 11:38:09 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 12:27:16 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	display_prompt(void)
 
 	user = getenv("USER");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
-	printf("%s%s:%s~%s$%s ", GRN, user, BLU, dir, NRM);
+	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
 }
 
 void	sighandler(int num)
