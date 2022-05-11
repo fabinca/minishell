@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 11:01:17 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:33:05 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -110,7 +110,7 @@ int			builtin_exit(char **cmd, t_envvar *lst);
 void		free_var_list(t_envvar *lst);
 
 //heredoc.c
-void		exe_heredoc(char *delimiter);
+int			exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);

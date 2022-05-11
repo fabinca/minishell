@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 07:35:46 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:27:25 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,9 @@ char	*move_pointer(char *buf)
 char	*gnl_delimit(int fd, char *delimiter)
 {
 	char		*line;
-	static char	*buf;
+	char		*buf;
 
+	buf = NULL;
 	if (fd < 0)
 		return (0);
 	if (BUFFER_SIZE <= 0)
@@ -105,8 +106,10 @@ char	*gnl_delimit(int fd, char *delimiter)
 	buf = move_pointer(buf);
 	if (!ft_strncmp(line, delimiter, ft_strlen(line) - 1))
 	{
-		free(buf);
-		free(line);
+		if (buf)
+			free(buf);
+		if (line)
+			free(line);
 		return (NULL);
 	}
 	return (line);

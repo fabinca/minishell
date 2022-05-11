@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 10:59:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/11 11:38:09 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 	if (!lexer_tokens)
 		return ;
 	cmd_struct = parser(lexer_tokens, env_list);
-	if (!cmd_struct) //do we need this? 
+	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0]) //do we need this? 
 		return ;
 	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
 		parse_builtin(cmd_struct, env_list);
@@ -80,7 +80,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 		pipe (p_data.oldpipe);
 		pipex(p_data, env_list, cmd_struct);
 	}
-	unlink(".tmpheredoc");
+	//unlink(".tmpheredoc");
 	//while (cmd_start)
 	//{
 	//	cmd_struct = cmd_start->next;

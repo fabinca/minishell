@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/11 09:33:12 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/11 11:03:44 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -67,6 +67,7 @@ $(LIB):
 
 clean:
 	$(RM) $(OBJ)/*
+	$(RM) $(NAME)
 
 fclean: clean
 	$(RM) $(NAME) $(LIB)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 23:22:02 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 11:54:00 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,9 @@ static int	redirection(t_command *cmd, t_list *token)
 	{
 		token = token->next;
 		exe_heredoc(token->content);
+		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
+		unlink(".tmpheredoc");
+		printf("fd: %d /n\n", cmd->fd_in);
 	}
 	if (cmd->fd_in == -1)
 	{
@@ -64,7 +67,7 @@ static int	redirection(t_command *cmd, t_list *token)
 
 bool	is_builtin(char **cmd)
 {
-	if (!cmd)
+	if (!cmd || !cmd[0])
 		return (0);
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		return (1);
@@ -118,8 +121,8 @@ t_command	*parser(t_list *token, t_envvar *env_list)
 		}
 		else if (is_redirection_symbol(token->content))
 		{
-			redirection(commands, token);
-			token = token->next;
+			if (redirection(commands, token))
+				token = token->next;
 		}
 		else
 		{

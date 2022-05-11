@@ -3,34 +3,37 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 09:14:38 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/11 11:42:11 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exe_heredoc(char *delimiter)
+int	exe_heredoc(char *delimiter)
 {
 	char	*str;
 	int		fd;
 
 	str = (char *)1;
-	fd = open(".tmpheredoc", O_CREAT | O_RDWR | O_APPEND, 0644);
+	fd = open(".tmpheredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
 	if (fd < 0)
 	{
 		perror("open");
-		return ;
+		return (-1);
 	}
 	while (str)
 	{
 		str = gnl_delimit(STDIN_FILENO, delimiter);
 		if (str)
+		{
 			write(fd, str, ft_strlen(str));
-		free(str);
+			free(str);
+		}
 	}
+	return (fd);
 }
 
 /*
