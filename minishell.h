@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 13:44:53 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:51:15 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
 int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_lst);
 void		free_var_list(t_envvar *lst);
+void		free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct);
+
 
 //get_next_line_delimit
 char		*gnl_delimit(int fd, char *delimiter);

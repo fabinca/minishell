@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/12 13:04:51 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/12 14:50:34 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@
 NAME		= 	minishell
 SRC 		= 	src
 SRCS 		= 	$(SRC)/builtins.c \
-				$(SRC)/builtins2.c \
+				$(SRC)/export.c \
 				$(SRC)/builtin_utils.c \
 				$(SRC)/env_list.c \
 				$(SRC)/exec_utils.c\
@@ -28,7 +28,9 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/signals.c \
-				$(SRC)/sort_envvars.c
+				$(SRC)/sort_envvars.c \
+				$(SRC)/builtin_parser.c \
+				$(SRC)/unset.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

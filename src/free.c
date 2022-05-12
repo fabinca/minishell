@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 13:46:27 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 14:37:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,36 +86,5 @@ void	free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_stru
 	free_var_list(env_list);
 	free_var_list(exp_list);
 	rl_clear_history();
-}
-
-
-int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
-{
-	char **cmd;
-
-	cmd = cmd_struct->cmd;
-	if (!cmd[1])
-	{
-		ft_putstr_fd("exit\n", 1);
-		g_last_exit = 0;
-	}
-	else
-	{
-		if (!ft_atoi_d_only(cmd[1]))
-		{
-			g_last_exit = 255;
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
-		}
-		else
-		{
-			ft_putstr_fd("exit\n", 1);
-			g_last_exit = ft_atoi_d_only(cmd[1]);
-		}
-	}
-	free_everything(env_lst, exp_list, cmd_struct);
-	exit(g_last_exit);
-	return (0);
 }
 
