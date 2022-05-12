@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 19:08:04 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 19:32:35 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int	main(int argc, char **argv, char **envp)
 		free(line);
 	}
 	free_everything(env_list, export_list, NULL);
+	printf("\n");
 	return (0);
 }

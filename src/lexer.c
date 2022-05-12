@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:05:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 19:18:36 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,9 +66,7 @@ char	*tok_err(t_list *tokens)
 
 void	print_token_error(t_list *st)
 {
-	ft_putstr_fd("minishell: syntax error near unexpected token '", 2);
-	ft_putstr_fd(tok_err(st), 2);
-	ft_putendl_fd("'", 2);
+	print_error("syntax error near unexpected token '", tok_err(st), "'", NULL);
 	g_last_exit = 258; //2?
 }
 
