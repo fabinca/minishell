@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/12 12:04:29 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/12 13:04:51 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,19 +15,20 @@ NAME		= 	minishell
 SRC 		= 	src
 SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/builtins2.c \
+				$(SRC)/builtin_utils.c \
 				$(SRC)/env_list.c \
 				$(SRC)/exec_utils.c\
 				$(SRC)/free.c \
+				$(SRC)/gnl_delimit.c \
 				$(SRC)/heredoc.c \
 				$(SRC)/lexer.c \
+				$(SRC)/list_to_string.c \
 				$(SRC)/main.c \
 				$(SRC)/parser.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
-				$(SRC)/sort_envvars.c \
-				$(SRC)/list_to_string.c \
-				$(SRC)/gnl_delimit.c \
-				$(SRC)/builtin_utils.c
+				$(SRC)/signals.c \
+				$(SRC)/sort_envvars.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

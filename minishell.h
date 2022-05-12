@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 12:04:39 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:05:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -137,21 +137,21 @@ void		ft_double_free(char **s);
 
 //main.c
 //int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
-void		sighandler(int num);
-
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
 int			pipex(t_pipedata pdata, t_envvar *env_list, \
-t_envvar *exp_list, t_command *cmd_struct);
+t_envvar	*exp_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
 
-//redirections.c
-bool		redirect(int old_file, int new_file);
+//signals.c
+void		sighandler(int num);
+void		sighandler_child(int num);
+void		display_prompt(void);
 
 //sort_envvars.c
 void		print_export_no_args(t_envvar *lst, int fd);

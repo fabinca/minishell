@@ -6,35 +6,11 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 11:43:29 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:58:20 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-void	display_prompt(void)
-{
-	char	*user;
-	char	*dir;
-	char	pwd[100];
-
-	user = getenv("USER");
-	dir = ft_strrchr(getcwd(pwd, 100), '/');
-	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
-}
-
-void	sighandler(int num)
-{
-	if (num == SIGINT)
-	{
-		g_last_exit = 130;
-		rl_replace_line("", 0);
-		printf("\n");
-		display_prompt();
-		printf("\033[1;36m\033[1mMinishell\033[0m$      ");
-		rl_redisplay();
-	}
-}
 
 /* 
 void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing builtins
