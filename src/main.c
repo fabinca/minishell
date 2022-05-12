@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 15:47:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 15:59:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,21 +26,29 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 	if (!lexer_tokens)
 		return ;
 	cmd_struct = parser(lexer_tokens, env_list);
-	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0]) //do we need this? 
+	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0])
 		return ;
 	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
 		parse_builtin(cmd_struct, env_list, export_list);
 	else
 	{
 		p_data.paths = find_paths(env_list);
-		//pipex(p_data, env_list, cmd_struct, 1);
-		//cmd_start = cmd_struct;
 		pipe (p_data.oldpipe);
 		pipex(p_data, env_list, export_list, cmd_struct);
 		free_my_paths(p_data.paths);
 	}
 	free_complete_struct(cmd_struct);
 	free_tokens(lexer_tokens);
+}
+
+static bool	check_args(int argc)
+{
+	if (argc != 1)
+	{
+		printf("Run program with ./minishell (no arguments\n");
+		return (1);
+	}
+	return (0);
 }
 
 int	main(int argc, char **argv, char **envp)
@@ -50,11 +58,8 @@ int	main(int argc, char **argv, char **envp)
 	t_envvar	*export_list;
 
 	g_last_exit = 0;
-	if (argc != 1 || argv[1])
-	{
-		printf("Run program with ./minishell (no arguments\n");
+	if (check_args(argc))
 		return (0);
-	}
 	add_history("");
 	signal(SIGINT, sighandler);
 	signal(SIGQUIT, SIG_IGN);
@@ -70,8 +75,6 @@ int	main(int argc, char **argv, char **envp)
 		lex_parse_execute(line, env_list, export_list);
 		free(line);
 	}
-	free_var_list(env_list);
-	free_var_list(export_list);
-	printf("\n");
+	free_everything(env_list, export_list, NULL);
 	return (0);
 }
