@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 11:13:30 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:36:48 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 			execve(path, cmd_struct->cmd, own_env);
 		free(path);
 		execve(cmd_struct->cmd[0], cmd_struct->cmd, own_env);
-		perror("execve");
+		//perror("execve");
 		ft_double_free(own_env);
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd_struct->cmd[0], 2);
