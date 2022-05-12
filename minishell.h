@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 12:59:54 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:05:41 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,13 +75,19 @@ typedef struct s_pipedata
 //	t_envvar	**vars;
 //}	t_shell;
 
+//builtin_utils.c
+char		*ft_get_envvar(t_envvar *env_list, char *s);
+int			is_alpha_numeric_underscore(char *s);
+void		del_var(t_envvar *lst, int first);
+void		add_export_envvar(t_envvar *lst, char *s);
+void		add_envvar(t_envvar *lst, char *s);
+
 //builtins.c
 int			builtin_echo(char **cmd, int fd);
 int			builtin_env(char **cmd_struct, int fd, t_envvar *list);
 int			builtin_pwd(int fd);
 int			builtin_cd(char **cmd, t_envvar *env_list);
 char		*ft_get_envvar(t_envvar *env_list, char *s);
-
 
 //builtins2.c
 int			builtin_unset(t_envvar *lst, t_envvar *exp_list, char **cmd);

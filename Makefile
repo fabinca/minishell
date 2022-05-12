@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/12 12:56:30 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/12 13:04:51 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ NAME		= 	minishell
 SRC 		= 	src
 SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/builtins2.c \
+				$(SRC)/builtin_utils.c \
 				$(SRC)/env_list.c \
 				$(SRC)/exec_utils.c\
 				$(SRC)/free.c \
@@ -28,7 +29,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/signals.c \
 				$(SRC)/sort_envvars.c
-
+												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc

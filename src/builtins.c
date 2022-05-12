@@ -3,27 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 11:02:45 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:57:52 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../minishell.h"
-
-char	*ft_get_envvar(t_envvar *env_list, char *s)
-{
-	while (env_list)
-	{
-		if (!ft_strcmp(env_list->name, s))
-			return (env_list->content);
-		env_list = env_list->next;
-	}
-	//glast_exit?
-	return (0);
-}
 
 int	builtin_pwd(int fd)
 {
