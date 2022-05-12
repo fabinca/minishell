@@ -6,11 +6,13 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 15:59:41 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 16:34:48 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+int	g_last_exit;
 
 void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 {
@@ -41,11 +43,11 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 	free_tokens(lexer_tokens);
 }
 
-static bool	check_args(int argc)
+static bool	check_args(int argc, char **argv)
 {
-	if (argc != 1)
+	if (argc != 1 || argv[1])
 	{
-		printf("Run program with ./minishell (no arguments\n");
+		printf("Run program with ./minishell (no arguments)\n");
 		return (1);
 	}
 	return (0);
@@ -58,7 +60,7 @@ int	main(int argc, char **argv, char **envp)
 	t_envvar	*export_list;
 
 	g_last_exit = 0;
-	if (check_args(argc))
+	if (check_args(argc, argv))
 		return (0);
 	add_history("");
 	signal(SIGINT, sighandler);

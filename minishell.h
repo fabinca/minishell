@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 15:47:04 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 16:34:39 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,11 +106,12 @@ char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
 
 //free.c
+void		free_everything(t_envvar *env, t_envvar *exp, t_command *cmd_s);
 void		free_cmd(char **cmd);
 void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
-int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_lst);
+int			builtin_exit(t_command *cmd_struct, t_envvar *env, t_envvar *exp);
 void		free_var_list(t_envvar *lst);
 
 //get_next_line_delimit
