@@ -6,17 +6,20 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 11:50:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:12:37 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	parent_process(t_pipedata pdata) //, pid_t pid
+static void	parent_process(t_pipedata pdata, t_command *cmd_struct) //, pid_t pid
 {
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
-	waitpid(pdata.pid, &g_last_exit, WNOHANG);
+	if (cmd_struct->next)
+		waitpid(pdata.pid, &g_last_exit, WNOHANG);
+	else
+		waitpid(pdata.pid, &g_last_exit, 0);
 	g_last_exit = g_last_exit / 255;
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
 	close(pdata.newpipe[0]);
@@ -55,7 +58,8 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 		parse_builtin(cmd_struct, env_list, exp_list);
 	else
 	{
-		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
+		if (pdata.paths)
+			path = joined_path(pdata.paths, cmd_struct->cmd[0]);
 		own_env = ft_listtostr(env_list);
 		if (path)
 			execve(path, cmd_struct->cmd, own_env);
@@ -89,7 +93,7 @@ int	pipex(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *c
 		child_process(pdata, env_list, exp_list, cmd_struct);
 	else
 	{
-		parent_process(pdata); // pid
+		parent_process(pdata, cmd_struct); // pid
 		pdata.first_cmd = 0;
 		pipex(pdata, env_list, exp_list, cmd_struct->next);
 	}
