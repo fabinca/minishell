@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 19:08:34 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 19:20:23 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 20:14:46 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,16 @@
 
 void	print_error(char *str1, char *str2, char *str3, char *str4)
 {
-	ft_putstr_fd("minishell: ", 2);
-	if (str1)
-		ft_putstr_fd(str1, 2);
+	char	*err_message;
+
+	err_message = (char *)ft_calloc(100, sizeof(char));
+	ft_strlcat(err_message, str1, 99);
 	if (str2)
-		ft_putstr_fd(str2, 2);
+		ft_strlcat(err_message, str2, 99);
 	if (str3)
-		ft_putstr_fd(str3, 2);
+		ft_strlcat(err_message, str3, 99);
 	if (str4)
-		ft_putstr_fd(str4, 2);
-	ft_putchar_fd('\n', 2);
+		ft_strlcat(err_message, str4, 99);
+	write(2, err_message, ft_strlen(err_message));
+	free(err_message);
 }

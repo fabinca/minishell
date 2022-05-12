@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 19:12:39 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 20:34:37 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,11 @@ static void	parent_process(t_pdata pdata, t_command *cmd_s)
 	signal(SIGINT, SIG_IGN);
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
-	if (cmd_s->next && cmd_s->cmd && ft_strcmp(cmd_s->cmd[0], "cat"))
+	if (cmd_s->next && cmd_s->cmd && \
+	(ft_strcmp(cmd_s->cmd[0], "cat") || cmd_s->cmd[1]))
 		waitpid(pdata.pid, &g_last_exit, WNOHANG);
 	else
 		waitpid(pdata.pid, &g_last_exit, 0);
-	signal(SIGINT, sighandler);
 	g_last_exit = g_last_exit / 255;
 	dup2_and_close(pdata.newpipe[0], pdata.oldpipe[0]);
 	dup2_and_close(pdata.newpipe[1], pdata.oldpipe[1]);
@@ -40,7 +40,6 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 	char	**own_env;
 
 	path = NULL;
-	signal(SIGINT, sighandler_child);
 	if (!pd.first_cmd)
 		dup2_and_close(pd.oldpipe[0], STDIN_FILENO);
 	if (cmd_s->fd_in != 0)
@@ -50,45 +49,43 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 	dup2_and_close(pd.newpipe[1], STDOUT_FILENO);
 	close(pd.newpipe[0]);
 	close(pd.oldpipe[1]);
-	if (is_builtin(cmd_s->cmd))
-		parse_builtin(cmd_s, env_l, exp_l);
-	else
-	{
-		if (pd.paths)
-			path = joined_path(pd.paths, cmd_s->cmd[0]);
-		own_env = ft_listtostr(env_l);
-		if (path)
-			execve(path, cmd_s->cmd, own_env);
-		free(path);
-		execve(cmd_s->cmd[0], cmd_s->cmd, own_env);
-		ft_double_free(own_env);
-		print_error("minishell: ", cmd_s->cmd[0], ": command not found\n", NULL);
-		exit(127);
-	}
-		//free_t_data(dt);
-	exit(0);
+	own_env = ft_listtostr(env_l);
+	execve(cmd_s->cmd[0], cmd_s->cmd, own_env);
+	if (pd.paths)
+		path = joined_path(pd.paths, cmd_s->cmd[0]);
+	if (path)
+		execve(path, cmd_s->cmd, own_env);
+	free(path);
+	ft_double_free(own_env);
+	print_error(cmd_s->cmd[0], ": command not found\n", NULL, NULL);
+	free_everything(env_l, exp_l, cmd_s);
+	exit(127);
 }
 
-int	pipex(t_pdata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
+int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 {
-	if (!cmd_struct)
+	if (!cmd_s)
 	{
-		close(pdata.oldpipe[0]);
-		close(pdata.oldpipe[1]);
+		close(pd.oldpipe[0]);
+		close(pd.oldpipe[1]);
 		return (0);
 	}
-	if (pipe(pdata.newpipe) < 0)
+	if (pipe(pd.newpipe) < 0)
 		perror("pipe");
-	pdata.pid = fork();
-	if (pdata.pid < 0)
+	pd.pid = fork();
+	if (pd.pid < 0)
 		perror("Fork");
-	else if (pdata.pid == 0)
-		child_p(pdata, env_list, exp_list, cmd_struct);
+	else if (pd.pid != 0)
+	{
+		parent_process(pd, cmd_s);
+		pd.first_cmd = 0;
+		pipex(pd, env_lst, exp_lst, cmd_s->next);
+	}
 	else
 	{
-		parent_process(pdata, cmd_struct); // pid
-		pdata.first_cmd = 0;
-		pipex(pdata, env_list, exp_list, cmd_struct->next);
+		child_p(pd, env_lst, exp_lst, cmd_s);
+		signal(SIGINT, sighandler_child);
 	}
+	signal(SIGINT, sighandler);
 	return (0);
 }
