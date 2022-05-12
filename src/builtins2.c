@@ -6,13 +6,31 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:20:01 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:03:44 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	add_envvar(t_envvar *lst, char *s)
+int	is_alpha_numeric_underscore(char *s)
+{
+	int	i;
+
+	i = 0;
+	if (!s)
+		return (0);
+	if (!ft_isalpha(s[0]))
+		return (0);
+	while (s[i] && (s[i] == '_' || ft_isdigit(s[i]) || ft_isalpha(s[i])))
+		i++;
+	if (s[i] == '=')
+		return (1);
+	if (!s[i])
+		return (2); //will only be added to the export list not the env list
+	return (0);
+}
+
+static void	add_export_envvar(t_envvar *lst, char *s)
 {
 	t_envvar	*new;
 
@@ -22,23 +40,39 @@ static void	add_envvar(t_envvar *lst, char *s)
 	if (!new)
 		return ;
 	lst->next = new;
-	new = init_var(new, s);
+	new = init_export_var(new, s);
 }
 
-int	builtin_export(t_envvar *lst, char **cmd, int fd)
+static void	add_envvar(t_envvar *lst, char *s)
+{
+	t_envvar	*new;
+	t_envvar	*temp;
+
+	while (lst->next && ft_strcmp(lst->next->name, "_"))
+		lst = lst->next;
+	temp = lst->next;
+	new = malloc(sizeof(t_envvar));
+	if (!new)
+		return ;
+	lst->next = new;
+	new = init_var(new, s);
+	new->next = temp;
+}
+
+int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
 {
 	int			i;
 
 	i = 1;
 	if (!cmd[i])
 	{
-		print_export_no_args(lst, fd);
+		print_export_no_args(exp_list, fd);
 		g_last_exit = 0;
 		return (0);
 	}
 	while (cmd[i])
 	{
-		if (!ft_isalpha(cmd[i][0]))
+		if (!is_alpha_numeric_underscore(cmd[i]))
 		{
 			g_last_exit = 1;
 			ft_putstr_fd("minishell: export: '", 2);
@@ -48,11 +82,10 @@ int	builtin_export(t_envvar *lst, char **cmd, int fd)
 		}
 		else
 		{
-			if (ft_strchr(cmd[i], '='))
-			{
-				if (!search_env_list(lst, cmd[i]))
-					add_envvar(lst, cmd[i]);
-			}
+			if (is_alpha_numeric_underscore(cmd[i]) != 2 && !search_env_list(env_list, cmd[i]))
+				add_envvar(env_list, cmd[i]);
+			if (!search_exp_list(exp_list, cmd[i]))
+				add_export_envvar(exp_list, cmd[i]);
 			g_last_exit = 0;
 		}
 		i++;
@@ -67,7 +100,8 @@ static void	del_var(t_envvar *lst, int first)
 		if (!lst)
 			return ;
 		free(lst->name);
-		free(lst->content);
+		if (lst->content)
+			free(lst->content);
 		if (lst->next)
 			lst = lst->next;
 		else
@@ -77,17 +111,19 @@ static void	del_var(t_envvar *lst, int first)
 	if (!lst->next)
 		return ;
 	free(lst->next->name);
-	free(lst->next->content);
+	if (lst->next->content)
+		free(lst->next->content);
 	if (lst->next->next)
 		lst->next = lst->next->next;
 	else
 		lst->next = NULL;
 }
 
-int	builtin_unset(t_envvar *start, char **cmd)
+int	builtin_unset(t_envvar *env_list, t_envvar *exp_list, char **cmd)
 {
 	int	i;
 	t_envvar	*lst;
+	t_envvar	*export;
 
 	i = 1;
 	if (!cmd[i])
@@ -97,8 +133,15 @@ int	builtin_unset(t_envvar *start, char **cmd)
 	}
 	while (cmd[i])
 	{
-		lst = start;
-		if (ft_strcmp(lst->name, cmd[i]) == 0)
+		if (!is_alpha_numeric_underscore(cmd[i]) || ft_strchr(cmd[i], '='))
+		{
+			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
+			i++;
+			break ;
+		}
+		lst = env_list;
+		export = exp_list;
+		if (!ft_strcmp(lst->name, cmd[i]))
 			del_var(lst, 1);
 		else
 		{
@@ -110,6 +153,20 @@ int	builtin_unset(t_envvar *start, char **cmd)
 					break ;
 				}
 				lst = lst->next;
+			}
+		}
+		if (!ft_strcmp(export->name, cmd[i]))
+			del_var(export, 1);
+		else
+		{
+			while (export->next)
+			{
+				if (ft_strcmp(export->next->name, cmd[i]) == 0)
+				{
+					del_var(export, 0);
+					break ;
+				}
+				export = export->next;
 			}
 		}
 		i++;

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:49:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:04:14 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	free_cmd(char **cmd)
 	free (cmd);
 }
 
-int	builtin_exit(char **cmd, t_envvar *lst)
+int	builtin_exit(char **cmd, t_envvar *env_lst, t_envvar *exp_list)
 {
 	if (!cmd[1])
 	{
@@ -103,7 +103,8 @@ int	builtin_exit(char **cmd, t_envvar *lst)
 		}
 	}
 	free_cmd(cmd);
-	free_var_list(lst);
+	free_var_list(env_lst);
+	free_var_list(exp_list);
 	rl_clear_history();
 	exit(g_last_exit);
 	return (0);

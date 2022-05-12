@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 00:54:07 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:13:13 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,16 +62,18 @@ typedef struct s_pipedata
 	int			oldpipe[2];
 	char		**paths;
 	char		*c_p;
-	int			error;
+	//int			error;
+	bool		first_cmd;
 	pid_t		pid;
-	int			ct;
+	//int			ct;
 	t_envvar	*envlist;
+	//t_envvar	*explist;
 }	t_pipedata;
 
-typedef struct s_shell
-{
-	t_envvar	**vars;
-}	t_shell;
+//typedef struct s_shell
+//{
+//	t_envvar	**vars;
+//}	t_shell;
 
 //builtins.c
 int			builtin_echo(char **cmd, int fd);
@@ -82,15 +84,17 @@ char		*ft_get_envvar(t_envvar *env_list, char *s);
 
 
 //builtins2.c
-int			builtin_unset(t_envvar *lst, char **cmd);
-int			builtin_export(t_envvar *lst, char **cmd, int fd);
-int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+int			builtin_unset(t_envvar *lst, t_envvar *exp_list, char **cmd);
+int			builtin_export(t_envvar *lst, t_envvar *export_list, char **cmd, int fd);
+int			parse_builtin(t_command *cmd_struct, t_envvar *env_list, t_envvar *export_list);
 bool		is_builtin(char **cmd);
 
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
 t_envvar	*init_var(t_envvar *var, char *envp);
+t_envvar	*init_export_var(t_envvar *var, char *envp);
 int			search_env_list(t_envvar *lst, char *cmd);
+int			search_exp_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
 //execute.c
@@ -107,12 +111,12 @@ void		free_cmd(char **cmd);
 void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
-int			builtin_exit(char **cmd, t_envvar *lst);
+int			builtin_exit(char **cmd, t_envvar *env_lst, t_envvar *exp_lst);
 void		free_var_list(t_envvar *lst);
 
 //get_next_line_delimit
-char	*gnl_delimit(int fd, char *delimiter);
-char	*ft_strjoin_gnl(char *s1, char*s2);
+char		*gnl_delimit(int fd, char *delimiter);
+char		*ft_strjoin_gnl(char *s1, char*s2);
 
 //heredoc.c
 void		exe_heredoc(char *delimiter);
@@ -125,9 +129,8 @@ int			is_redirection_symbol(char *token_string);
 char		**ft_listtostr(t_envvar *env_list);
 void		ft_double_free(char **s);
 
-
 //main.c
-int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+//int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 void		sighandler(int num);
 
 //parser.c
@@ -135,7 +138,8 @@ t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
-int			pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct, bool first);
+int			pipex(t_pipedata pdata, t_envvar *env_list, \
+t_envvar *exp_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
@@ -145,5 +149,7 @@ bool		redirect(int old_file, int new_file);
 
 //sort_envvars.c
 void		print_export_no_args(t_envvar *lst, int fd);
+t_envvar	*duplicate_list(t_envvar *lst);
+
 
 #endif
