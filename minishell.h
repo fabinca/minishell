@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:04:51 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 18:29:54 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,16 @@ typedef struct s_envvar
 	char			*content;
 	struct s_envvar	*next;
 }	t_envvar;
+
+typedef struct s_quotes_and_envvars
+{
+	size_t		i;
+	size_t		j;
+	char		*buf;
+	size_t		end;
+	bool		quote[2];
+	t_envvar	*env_list;
+}	t_quotes_and_envvars;
 
 typedef struct s_tok
 {
