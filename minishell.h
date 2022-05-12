@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 13:05:41 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:26:55 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@
 # define GRN  "\x1B[1;32m"
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
+# define BUFFER_SIZE 40
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
