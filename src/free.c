@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 11:04:14 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:13:57 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,14 +91,15 @@ int	builtin_exit(char **cmd, t_envvar *env_lst, t_envvar *exp_list)
 	{
 		if (!ft_atoi_d_only(cmd[1]))
 		{
-			g_last_exit = 255;
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd[1], 2);
-			ft_putstr_fd(": numeric argument required\n", 2);
+			g_last_exit = 2;
+			//g_last_exit = 255;
+			//ft_putstr_fd("minishell: exit: ", 2);
+			//ft_putstr_fd(cmd[1], 2);
+			//ft_putstr_fd(": numeric argument required\n", 2);
 		}
 		else
 		{
-			ft_putstr_fd("exit\n", 1);
+			//ft_putstr_fd("exit\n", 1);
 			g_last_exit = ft_atoi_d_only(cmd[1]);
 		}
 	}

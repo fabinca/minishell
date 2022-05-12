@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 00:52:11 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:32:09 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,33 +61,33 @@ static char	*get_line(char *buf)
 	return (out_line);
 }
 
-char	*move_pointer(char *buf)
-{
-	int		i;
-	int		j;
-	char	*new_line;
-	int		len;
+//char	*move_pointer(char *buf)
+//{
+//	int		i;
+//	int		j;
+//	char	*new_line;
+//	int		len;
 
-	i = 0;
-	j = 0;
-	while (buf[i] != '\n' && buf[i])
-		i++;
-	if (!buf[i])
-	{
-		free (buf);
-		return (0);
-	}
-	len = ft_strlen(buf) - i;
-	new_line = (char *)malloc(sizeof(char) * (len + 1));
-	if (!new_line)
-		return (0);
-	i++;
-	while (buf[i])
-		new_line[j++] = buf[i++];
-	new_line[j] = '\0';
-	free (buf);
-	return (new_line);
-}
+//	i = 0;
+//	j = 0;
+//	while (buf[i] != '\n' && buf[i])
+//		i++;
+//	if (!buf[i])
+//	{
+//		free (buf);
+//		return (0);
+//	}
+//	len = ft_strlen(buf) - i;
+//	new_line = (char *)malloc(sizeof(char) * (len + 1));
+//	if (!new_line)
+//		return (0);
+//	i++;
+//	while (buf[i])
+//		new_line[j++] = buf[i++];
+//	new_line[j] = '\0';
+//	free (buf);
+//	return (new_line);
+//}
 
 char	*gnl_delimit(int fd, char *delimiter)
 {
@@ -97,14 +97,12 @@ char	*gnl_delimit(int fd, char *delimiter)
 	buf = NULL;
 	if (fd < 0)
 		return (0);
-	if (BUFFER_SIZE <= 0)
-		return (0);
 	write(1, ">", 1);
 	buf = increase_buffer(fd, buf);
 	if (!buf)
 		return (0);
 	line = get_line(buf);
-	buf = move_pointer(buf);
+	//buf = move_pointer(buf);
 	if (!ft_strcmp(line, "\n"))
 		return (line);
 	if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && ft_strlen(line) - 1 == ft_strlen(delimiter))
@@ -115,6 +113,5 @@ char	*gnl_delimit(int fd, char *delimiter)
 			free(line);
 		return (NULL);
 	}
-	
 	return (line);
 }
