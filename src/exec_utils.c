@@ -3,15 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 10:20:22 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 00:41:59 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+/* 
 int	exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp)
 {
 	char	**paths;
@@ -28,6 +28,7 @@ int	exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp)
 		{
 			ft_putstr_fd(cmd_struct->cmd[0], 2);
 			ft_putstr_fd(": command not found\n", 2);
+			g_last_exit = 127;
 			return (1);
 		}
 		if ((pid = fork()) < 0)
@@ -52,22 +53,27 @@ int	exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp)
 	}
 	return (0);
 	//exit(EXIT_SUCCESS);
-}
+} */
 
 void	free_my_paths(char **paths)
 {
 	int	i;
 
 	i = 0;
+	if (!paths)
+		return ;
 	while (paths[i])
-		free(paths[i++]);
+	{
+		free(paths[i]);
+		i++;
+	}
 	free(paths);
 }
 
 char	**find_paths(t_envvar *env_list)
 {
 	char	**my_paths;
-	
+
 	while (env_list)
 	{
 		if (!ft_strcmp(env_list->name, "PATH"))
@@ -88,12 +94,13 @@ char	*joined_path(char **my_paths, char *token)
 	i = 0;
 	while (my_paths[i])
 	{
-		joined_path = malloc((ft_strlen(my_paths[i]) + ft_strlen(token) + 1)
-				* sizeof(char));
+		//joined_path = (char *)ft_calloc((ft_strlen(my_paths[i]) + ft_strlen(token) + 1), sizeof(char));
+		//if (!joined_path)
+		//	return (0);
+		joined_path = ft_strjoin(my_paths[i], token);
 		if (!joined_path)
 			return (0);
-		joined_path = ft_strjoin(my_paths[i], token);
-		if (access(joined_path, F_OK) == 0)
+		if (access(joined_path, X_OK) == 0)
 			return (joined_path);
 		else
 		{

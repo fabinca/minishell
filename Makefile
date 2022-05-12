@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/10 10:21:13 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/12 11:18:46 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,18 +25,25 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/sort_envvars.c \
-				$(SRC)/redirections.c 
+				$(SRC)/list_to_string.c \
+				$(SRC)/gnl_delimit.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
 RL_MAC		= 	-I $(HOME)/goinfre/.brew/opt/readline/include/ -L $(HOME)/goinfre/.brew/opt/readline/lib/
-CFLAGS		=#-Wall -Werror -Wextra 
+CFLAGS		=   -Wall -Werror -Wextra 
 RM			= 	rm -f
 LIB 		=	libft.a
 INCLUDES	=	minishell.h libft.h
 
 all: $(NAME)
+
+fix:
+	./fix.sh
+
+$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
+	@$(CC) $(CFLAGS) -c $< -o $@ -g
 
 $(OBJ)/%.o: $(SRC)/%.c $(OBJ)
 	@$(CC) $(CFLAGS) -c $< -o $@ -g
@@ -54,7 +61,6 @@ endif
 ifeq ($(shell uname), Darwin)
 
 $(NAME): $(LIB) $(OBJS)
-	./fix.sh
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
 
 endif
@@ -66,6 +72,7 @@ $(LIB):
 
 clean:
 	$(RM) $(OBJ)/*
+	$(RM) $(NAME)
 
 fclean: clean
 	$(RM) $(NAME) $(LIB)

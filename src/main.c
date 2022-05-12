@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/10 11:33:55 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 11:17:54 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	display_prompt(void)
 
 	user = getenv("USER");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
-	printf("%s%s:%s~%s$%s ", GRN, user, BLU, dir, NRM);
+	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
 }
 
 void	sighandler(int num)
@@ -30,30 +30,12 @@ void	sighandler(int num)
 		rl_replace_line("", 0);
 		printf("\n");
 		display_prompt();
-		printf("\033[1;36m\033[1mMinishell\033[0m$ ");
+		printf("\033[1;36m\033[1mMinishell\033[0m$      ");
 		rl_redisplay();
 	}
 }
 
-bool	redirect_and_piping(t_command *cmd_struct, t_pipedata p_data)
-{
-	if (!cmd_struct)
-	{
-		close(p_data.oldpipe[0]);
-		close(p_data.oldpipe[1]);
-		return (0);
-	}
-	if (pipe(p_data.newpipe) < 0)
-		perror("pipe");
-	if (p_data.ct == 0 && cmd_struct->next)
-	{
-		if (dup2(cmd_struct->fd_in, p_data.oldpipe[0]) < 0)
-			perror("dup2 reading from fd_in");
-		close(cmd_struct->fd_in);
-	}
-	return (1);
-}
-
+/* 
 void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing builtins
 {
 	t_list		*lexer_tokens;
@@ -70,41 +52,44 @@ void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing 
 		return ;
 	exec_cmd(cmd_struct, envvar, envp);
 	free_tokens(lexer_tokens);
-}
-/* 
-void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
+} */
+
+void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_command	*cmd_start;
 	t_pipedata	p_data;
 
 	if (is_only_whitespaces(line))
 		return ;
-	p_data.ct = 0;
+	p_data.first_cmd = 1;
+	p_data.envlist = env_list;
 	lexer_tokens = lexer(line);
-	cmd_struct = parser(lexer_tokens);
-	if (!cmd_struct) //do we need this? 
+	if (!lexer_tokens)
 		return ;
-	p_data.paths = find_paths(env_list);
-	cmd_start = cmd_struct;
-	pipe (p_data.oldpipe);
-	pipex(p_data, envp, cmd_struct);
-	unlink(".tmpheredoc");
-	//while (cmd_start)
-	//{
-	//	cmd_struct = cmd_start->next;
-	//	free_cmd_struct(cmd_start);
-	//	cmd_start = cmd_struct;
-	//}
-	//free_tokens(lexer_tokens);
-	//free_my_paths(p_data.paths);
+	cmd_struct = parser(lexer_tokens, env_list);
+	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0]) //do we need this? 
+		return ;
+	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
+		parse_builtin(cmd_struct, env_list, export_list);
+	else
+	{
+		p_data.paths = find_paths(env_list);
+		//pipex(p_data, env_list, cmd_struct, 1);
+		//cmd_start = cmd_struct;
+		pipe (p_data.oldpipe);
+		pipex(p_data, env_list, export_list, cmd_struct);
+		free_my_paths(p_data.paths);
+	}
+	free_complete_struct(cmd_struct);
+	free_tokens(lexer_tokens);
 }
- */
+
 int	main(int argc, char **argv, char **envp)
 {
-	char 		*line;
+	char		*line;
 	t_envvar	*env_list;
+	t_envvar	*export_list;
 
 	g_last_exit = 0;
 	if (argc != 1 || argv[1])
@@ -113,10 +98,10 @@ int	main(int argc, char **argv, char **envp)
 		return (0);
 	}
 	add_history("");
-	signal(SIGINT, sighandler); //ctrl c
-	signal(SIGQUIT, SIG_IGN); // ctrl backslash
-	//signal(EOF, sighandler);
+	signal(SIGINT, sighandler);
+	signal(SIGQUIT, SIG_IGN);
 	env_list = init_envp_list(envp);
+	export_list = duplicate_list(env_list);
 	while (1)
 	{
 		display_prompt();
@@ -124,18 +109,11 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line, env_list, envp);
+		lex_parse_execute(line, env_list, export_list);
 		free(line);
 	}
 	free_var_list(env_list);
+	free_var_list(export_list);
 	printf("\n");
 	return (0);
 }
-
-//test for heredoc
-/* int	main(void)
-{
-	exe_heredoc("three");
-	unlink(".tmpheredoc");
-	return (0);
-} */
