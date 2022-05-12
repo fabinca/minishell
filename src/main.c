@@ -3,35 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 21:42:36 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 11:33:55 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../minishell.h"
-
-//returns 1 if no builtin is found, 0 on success
-int	parse_builtin(char **cmd, t_envvar *env_list)
-{
-	if (ft_strcmp(cmd[0], "echo") == 0)
-		return (builtin_echo(cmd));
-	else if (ft_strcmp(cmd[0], "pwd") == 0)
-		return (builtin_pwd());
-	else if (ft_strcmp(cmd[0], "env") == 0)
-		return (builtin_env(cmd, env_list));
-	else if (ft_strcmp(cmd[0], "exit") == 0)
-		return (builtin_exit(cmd, env_list));
-	else if (ft_strcmp(cmd[0], "cd") == 0)
-		return (builtin_cd(cmd));
-	else if (ft_strcmp(cmd[0], "unset") == 0)
-		return (builtin_unset(env_list, cmd));
-	else if (ft_strcmp(cmd[0], "export") == 0)
-		return (builtin_export(env_list, cmd));
-	return (1);
-}
 
 void	display_prompt(void)
 {
@@ -75,7 +54,7 @@ bool	redirect_and_piping(t_command *cmd_struct, t_pipedata p_data)
 	return (1);
 }
 
-void	lex_parse_execute(char *line, t_envvar *envvar)
+void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing builtins
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
@@ -89,26 +68,39 @@ void	lex_parse_execute(char *line, t_envvar *envvar)
 	cmd_struct = parser(lexer_tokens);
 	if (!cmd_struct) //do we need this? 
 		return ;
-	p_data.paths = find_paths(envvar);
-	while (cmd_struct)
-	{
-		//if (!redirect_and_piping(cmd_struct, p_data))
-		//	break ;
-		//if (p_data.ct == 0)
-		//{
-			
-		//}
-		//check for buildtins & exec them
-		//normal commands
-		cmd_temp = cmd_struct;
-		cmd_struct = cmd_struct->next;
-		free_cmd_struct(cmd_temp);
-	}
-	unlink(".tmpheredoc");
+	exec_cmd(cmd_struct, envvar, envp);
 	free_tokens(lexer_tokens);
-	free_my_paths(p_data.paths);
 }
+/* 
+void	lex_parse_execute(char *line, t_envvar *env_list, char **envp)
+{
+	t_list		*lexer_tokens;
+	t_command	*cmd_struct;
+	t_command	*cmd_start;
+	t_pipedata	p_data;
 
+	if (is_only_whitespaces(line))
+		return ;
+	p_data.ct = 0;
+	lexer_tokens = lexer(line);
+	cmd_struct = parser(lexer_tokens);
+	if (!cmd_struct) //do we need this? 
+		return ;
+	p_data.paths = find_paths(env_list);
+	cmd_start = cmd_struct;
+	pipe (p_data.oldpipe);
+	pipex(p_data, envp, cmd_struct);
+	unlink(".tmpheredoc");
+	//while (cmd_start)
+	//{
+	//	cmd_struct = cmd_start->next;
+	//	free_cmd_struct(cmd_start);
+	//	cmd_start = cmd_struct;
+	//}
+	//free_tokens(lexer_tokens);
+	//free_my_paths(p_data.paths);
+}
+ */
 int	main(int argc, char **argv, char **envp)
 {
 	char 		*line;
@@ -132,7 +124,7 @@ int	main(int argc, char **argv, char **envp)
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line, env_list);
+		lex_parse_execute(line, env_list, envp);
 		free(line);
 	}
 	free_var_list(env_list);

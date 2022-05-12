@@ -3,13 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 18:47:26 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 10:50:54 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
@@ -22,13 +21,15 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
 # include <signal.h>
 # include <fcntl.h>
+# include <sys/types.h>
+# include <sys/wait.h>
 
 extern int g_last_exit;
 typedef struct s_envvar
@@ -70,16 +71,17 @@ typedef struct s_shell
 	t_envvar	**vars;
 }	t_shell;
 
-
 //builtins.c
-int			builtin_echo(char **token);
-int			builtin_env(char **cmd, t_envvar *list);
-int			builtin_pwd(void);
+int			builtin_echo(t_command *cmd_struct);
+int			builtin_env(t_command *cmd_struct, t_envvar *list);
+int			builtin_pwd(int fd);
 int			builtin_cd(char **cmd);
 
 //builtins2.c
 int			builtin_unset(t_envvar *lst, char **cmd);
-int			builtin_export(t_envvar *lst, char **cmd);
+int			builtin_export(t_envvar *lst, char **cmd, int fd);
+int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+bool		is_builtin(char **cmd);
 
 //env_list.c
 t_envvar	*init_envp_list(char **envp);
@@ -87,7 +89,11 @@ t_envvar	*init_var(t_envvar *var, char *envp);
 int			search_env_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
+//execute.c
+int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
+
 //exec_utils
+int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
@@ -106,13 +112,23 @@ void		exe_heredoc(char *delimiter);
 t_list		*lexer(char *line);
 int			is_redirection_symbol(char *token_string);
 
+//main.c
+int	parse_builtin(t_command *cmd_struct, t_envvar *env_list);
+
 //parser.c
 t_command	*parser(t_list *token);
+bool		is_builtin(char **cmd);
+
+//piping.c
+int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len);
 
+//redirections.c
+bool		redirect(int old_file, int new_file);
+
 //sort_envvars.c
-void		print_export_no_args(t_envvar *lst);
+void		print_export_no_args(t_envvar *lst, int fd);
 
 #endif

@@ -3,41 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 09:55:28 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 10:50:03 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #include "../minishell.h"
 
-int	builtin_pwd(void)
+int	builtin_pwd(int fd)
 {
 	char	pwd[100];
-
 	if (!getcwd(pwd, 100))
 	{
 		perror("Unable to get current directory path");
+		g_last_exit = 127;
 		return (0);
 	}
-	printf("%s\n", pwd);
+	ft_putstr_fd(pwd, fd);
+	ft_putstr_fd("\n", fd);
+	g_last_exit = 0;
 	return (0);
 }
 
-int	builtin_env(char **cmd, t_envvar *list)
+int	builtin_env(t_command *cmd_struct, t_envvar *list)
 {
+	char	**cmd;
+	int		fd;
+
+	cmd = cmd_struct->cmd;
+	fd = cmd_struct->fd_out;
 	if (cmd[1])
 	{
+		g_last_exit = 127;
 		printf("env: '%s': No such file or directory\n", cmd[1]);
 		return (0);
 	}
 	while (list->next)
 	{
-		printf("%s=%s\n", list->name, list->content);
+		ft_putstr_fd(list->name, fd);
+		ft_putstr_fd("=", fd);
+		ft_putstr_fd(list->content, fd);
+		ft_putstr_fd("\n", fd);
 		list = list->next;
 	}
-	printf("%s=%s\n", list->name, list->content);
+	ft_putstr_fd(list->name, fd);
+	ft_putstr_fd("=", fd);
+	ft_putstr_fd(list->content, fd);
+	ft_putstr_fd("\n", fd);
+	g_last_exit = 0;
 	return (0);
 }
 
@@ -46,15 +62,26 @@ int	builtin_cd(char **cmd)
 	if (!cmd[1])
 	{
 		chdir(getenv("HOME"));
+		g_last_exit = 0;
 		return (0);
 	}
 	if (cmd[2])
 	{
-		printf("bash: cd: too many arguments\n");
+		ft_putstr_fd("minishell: cd: string not in pwd: ", 1);
+		ft_putstr_fd(cmd[1], 1);
+		ft_putstr_fd("\n", 2);
+		g_last_exit = 1;
 		return (0);
 	}
 	if (chdir(cmd[1]))
-		printf("minishell: cd: %s: No such file or directory\n", cmd[1]);
+	{
+		ft_putstr_fd("minishell: cd: no such file or directory: ", 1);
+		ft_putstr_fd(cmd[1], 1);
+		ft_putstr_fd("\n", 1);
+		g_last_exit = 1;
+	}
+	else
+		g_last_exit = 0;
 	return (0);
 }
 
@@ -72,32 +99,56 @@ static int	is_newline(char *s)
 	return (0);
 }
 
-int	builtin_echo(char **cmd)
+int	builtin_echo(t_command *cmd_struct)
 {
 	int	i;
 	int	j;
 
 	i = 1;
 	j = 0;
-	if (cmd[i] == NULL)
+	g_last_exit = 0;
+	if (cmd_struct->cmd[i] == NULL)
 	{
-		printf("\n");
+		ft_putstr_fd("\n", cmd_struct->fd_out);
 		return (0);
 	}
-	while (is_newline(cmd[i + j]))
+	while (is_newline(cmd_struct->cmd[i + j]))
 	{
 		j++;
-		if (cmd[i + j] == NULL)
+		if (cmd_struct->cmd[i + j] == NULL)
 			return (0);
 	}
-	while (cmd[i + j] != NULL)
+	while (cmd_struct->cmd[i + j] != NULL)
 	{
 		if (i != 1)
-			printf(" ");
-		printf("%s", cmd[i + j]);
+			ft_putstr_fd(" ", cmd_struct->fd_out);
+		ft_putstr_fd(cmd_struct->cmd[i + j], cmd_struct->fd_out);
 		i++;
 	}
 	if (j == 0)
-		printf("\n");
+		ft_putstr_fd("\n", cmd_struct->fd_out);
 	return (0);
+}
+
+//returns 1 if no builtin is found, 0 on success
+int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
+{
+	char **cmd;
+
+	cmd = cmd_struct->cmd;
+	if (ft_strcmp(cmd[0], "echo") == 0)
+		return (builtin_echo(cmd_struct));
+	else if (ft_strcmp(cmd[0], "pwd") == 0)
+		return (builtin_pwd(cmd_struct->fd_out));
+	else if (ft_strcmp(cmd[0], "env") == 0)
+		return (builtin_env(cmd_struct, env_list));
+	else if (ft_strcmp(cmd[0], "exit") == 0)
+		return (builtin_exit(cmd, env_list));
+	else if (ft_strcmp(cmd[0], "cd") == 0)
+		return (builtin_cd(cmd));
+	else if (ft_strcmp(cmd[0], "unset") == 0)
+		return (builtin_unset(env_list, cmd));
+	else if (ft_strcmp(cmd[0], "export") == 0)
+		return (builtin_export(env_list, cmd, cmd_struct->fd_out));
+	return (1);
 }

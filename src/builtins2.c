@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 10:05:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/10 10:36:33 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,20 +25,24 @@ static void	add_envvar(t_envvar *lst, char *s)
 	new = init_var(new, s);
 }
 
-int	builtin_export(t_envvar *lst, char **cmd)
+int	builtin_export(t_envvar *lst, char **cmd, int fd)
 {
 	int			i;
 
 	i = 1;
 	if (!cmd[i])
 	{
-		print_export_no_args(lst);
+		print_export_no_args(lst, fd);
+		g_last_exit = 0;
 		return (0);
 	}
 	while (cmd[i])
 	{
 		if (cmd[i][0] == '=')
+		{
+			g_last_exit = 1;
 			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
+		}
 		else
 		{
 			if (ft_strchr(cmd[i], '='))
@@ -46,6 +50,7 @@ int	builtin_export(t_envvar *lst, char **cmd)
 				if (!search_env_list(lst, cmd[i]))
 					add_envvar(lst, cmd[i]);
 			}
+			g_last_exit = 0;
 		}
 		i++;
 	}
@@ -83,7 +88,10 @@ int	builtin_unset(t_envvar *start, char **cmd)
 
 	i = 1;
 	if (!cmd[i])
+	{
+		g_last_exit = 0;
 		return (0);
+	}
 	while (cmd[i])
 	{
 		lst = start;
@@ -103,5 +111,6 @@ int	builtin_unset(t_envvar *start, char **cmd)
 		}
 		i++;
 	}
+	g_last_exit = 0;
 	return (0);
 }

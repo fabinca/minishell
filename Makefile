@@ -3,12 +3,13 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/04 17:38:34 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/10 10:21:13 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
+
 
 NAME		= 	minishell
 SRC 		= 	src
@@ -21,9 +22,11 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/lexer.c \
 				$(SRC)/main.c \
 				$(SRC)/parser.c \
+				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
-				$(SRC)/sort_envvars.c
-								
+				$(SRC)/sort_envvars.c \
+				$(SRC)/redirections.c 
+												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))
 CC			= 	gcc
@@ -41,8 +44,20 @@ $(OBJ)/%.o: $(SRC)/%.c $(OBJ)
 $(OBJ):
 	mkdir $(OBJ)
 
+ifeq ($(shell uname), Linux)
+
 $(NAME): $(LIB) $(OBJS)
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS)
+
+endif
+
+ifeq ($(shell uname), Darwin)
+
+$(NAME): $(LIB) $(OBJS)
+	./fix.sh
+	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
+
+endif
 
 $(LIB):
 	@make -C ./libft/
