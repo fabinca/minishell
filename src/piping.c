@@ -6,17 +6,22 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 11:36:48 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:34:43 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	parent_process(t_pipedata pdata) //, pid_t pid
+static void	parent_process(t_pipedata pdata, t_command *cmd_struct) //, pid_t pid
 {
+	signal(SIGINT, SIG_IGN);
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
-	waitpid(pdata.pid, &g_last_exit, 0);
+	if (cmd_struct->next && cmd_struct->cmd && ft_strcmp(cmd_struct->cmd[0], "cat"))
+		waitpid(pdata.pid, &g_last_exit, WNOHANG);
+	else
+		waitpid(pdata.pid, &g_last_exit, 0);
+	signal(SIGINT, sighandler);
 	g_last_exit = g_last_exit / 255;
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
 	close(pdata.newpipe[0]);
@@ -29,6 +34,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 	char	*path;
 	char	**own_env;
 
+	signal(SIGINT, sighandler_child);
 	if (!pdata.first_cmd)
 	{
 		if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
@@ -55,7 +61,8 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 		parse_builtin(cmd_struct, env_list, exp_list);
 	else
 	{
-		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
+		if (pdata.paths)
+			path = joined_path(pdata.paths, cmd_struct->cmd[0]);
 		own_env = ft_listtostr(env_list);
 		if (path)
 			execve(path, cmd_struct->cmd, own_env);
@@ -89,7 +96,7 @@ int	pipex(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *c
 		child_process(pdata, env_list, exp_list, cmd_struct);
 	else
 	{
-		parent_process(pdata); // pid
+		parent_process(pdata, cmd_struct); // pid
 		pdata.first_cmd = 0;
 		pipex(pdata, env_list, exp_list, cmd_struct->next);
 	}

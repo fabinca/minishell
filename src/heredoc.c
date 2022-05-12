@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 15:04:21 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 12:36:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
 
-static void	sighandler_heredoc(int num)
+void	sighandler_child(int num)
 {
 	if (num == SIGINT)
 	{
@@ -34,7 +34,7 @@ void	exe_heredoc(char *delimiter)
 		perror("fork");
 	if (pid == 0)
 	{
-		signal(SIGINT, sighandler_heredoc);
+		signal(SIGINT, sighandler_child);
 		fd = open(".tmpheredoc", O_CREAT | O_RDWR | O_TRUNC, 0666);
 		if (fd < 0)
 		{
