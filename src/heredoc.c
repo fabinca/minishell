@@ -6,21 +6,11 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 12:36:40 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:53:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-
-void	sighandler_child(int num)
-{
-	if (num == SIGINT)
-	{
-		//free
-		exit(1);
-	}
-}
 
 void	exe_heredoc(char *delimiter)
 {
