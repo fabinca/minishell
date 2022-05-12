@@ -3,61 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   builtins2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 11:03:44 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:59:30 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	is_alpha_numeric_underscore(char *s)
-{
-	int	i;
-
-	i = 0;
-	if (!s)
-		return (0);
-	if (!ft_isalpha(s[0]))
-		return (0);
-	while (s[i] && (s[i] == '_' || ft_isdigit(s[i]) || ft_isalpha(s[i])))
-		i++;
-	if (s[i] == '=')
-		return (1);
-	if (!s[i])
-		return (2); //will only be added to the export list not the env list
-	return (0);
-}
-
-static void	add_export_envvar(t_envvar *lst, char *s)
-{
-	t_envvar	*new;
-
-	while (lst->next)
-		lst = lst->next;
-	new = malloc(sizeof(t_envvar));
-	if (!new)
-		return ;
-	lst->next = new;
-	new = init_export_var(new, s);
-}
-
-static void	add_envvar(t_envvar *lst, char *s)
-{
-	t_envvar	*new;
-	t_envvar	*temp;
-
-	while (lst->next && ft_strcmp(lst->next->name, "_"))
-		lst = lst->next;
-	temp = lst->next;
-	new = malloc(sizeof(t_envvar));
-	if (!new)
-		return ;
-	lst->next = new;
-	new = init_var(new, s);
-	new->next = temp;
-}
 
 int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
 {
@@ -78,11 +31,11 @@ int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
 			ft_putstr_fd("minishell: export: '", 2);
 			ft_putstr_fd(cmd[i], 2);
 			ft_putendl_fd("': not a valid identifier", 2);
-			//printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
 		}
 		else
 		{
-			if (is_alpha_numeric_underscore(cmd[i]) != 2 && !search_env_list(env_list, cmd[i]))
+			if (is_alpha_numeric_underscore(cmd[i]) != 2 && \
+			!search_env_list(env_list, cmd[i]))
 				add_envvar(env_list, cmd[i]);
 			if (!search_exp_list(exp_list, cmd[i]))
 				add_export_envvar(exp_list, cmd[i]);
@@ -93,39 +46,51 @@ int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
 	return (0);
 }
 
-static void	del_var(t_envvar *lst, int first)
+void	search_variable_to_delete(t_envvar *lst, char c, char *s)
 {
-	if (first == 1)
+	if (c == 'v')
 	{
-		if (!lst)
-			return ;
-		free(lst->name);
-		if (lst->content)
-			free(lst->content);
-		if (lst->next)
-			lst = lst->next;
+		if (!ft_strcmp(lst->name, s))
+			del_var(lst, 1);
 		else
-			lst->next = NULL;
-		return ;
+		{
+			while (lst->next)
+			{
+				if (ft_strcmp(lst->next->name, s) == 0)
+				{
+					del_var(lst, 0);
+					break ;
+				}
+				lst = lst->next;
+			}
+		}
 	}
-	if (!lst->next)
-		return ;
-	free(lst->next->name);
-	if (lst->next->content)
-		free(lst->next->content);
-	if (lst->next->next)
-		lst->next = lst->next->next;
-	else
-		lst->next = NULL;
+	if (c == 'x')
+	{
+		if (!ft_strcmp(lst->name, s))
+			del_var(lst, 1);
+		else
+		{
+			while (lst->next)
+			{
+				if (!ft_strcmp(lst->next->name, s))
+				{
+					del_var(lst, 0);
+					break ;
+				}
+				lst = lst->next;
+			}
+		}
+	}
 }
 
 int	builtin_unset(t_envvar *env_list, t_envvar *exp_list, char **cmd)
 {
-	int	i;
-	t_envvar	*lst;
-	t_envvar	*export;
+	int			i;
+	bool		exit_value;
 
 	i = 1;
+	exit_value = 0;
 	if (!cmd[i])
 	{
 		g_last_exit = 0;
@@ -136,41 +101,15 @@ int	builtin_unset(t_envvar *env_list, t_envvar *exp_list, char **cmd)
 		if (!is_alpha_numeric_underscore(cmd[i]) || ft_strchr(cmd[i], '='))
 		{
 			printf("minishell: export: '%s': not a valid identifier\n", cmd[i]);
-			i++;
-			break ;
+			exit_value = 1;
 		}
-		lst = env_list;
-		export = exp_list;
-		if (!ft_strcmp(lst->name, cmd[i]))
-			del_var(lst, 1);
 		else
 		{
-			while (lst->next)
-			{
-				if (ft_strcmp(lst->next->name, cmd[i]) == 0)
-				{
-					del_var(lst, 0);
-					break ;
-				}
-				lst = lst->next;
-			}
-		}
-		if (!ft_strcmp(export->name, cmd[i]))
-			del_var(export, 1);
-		else
-		{
-			while (export->next)
-			{
-				if (ft_strcmp(export->next->name, cmd[i]) == 0)
-				{
-					del_var(export, 0);
-					break ;
-				}
-				export = export->next;
-			}
+			search_variable_to_delete(env_list, 'v', cmd[i]);
+			search_variable_to_delete(exp_list, 'x', cmd[i]);
 		}
 		i++;
 	}
-	g_last_exit = 0;
+	g_last_exit = exit_value;
 	return (0);
 }
