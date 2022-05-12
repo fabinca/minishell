@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/06 09:37:29 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 09:40:03 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,32 +87,34 @@ t_envvar	*duplicate_list(t_envvar *lst)
 	return (new_list);
 }
 
-void	print_export_no_args(t_envvar *lst, int fd)
+void	print_export_no_args(t_envvar *export_list, int fd)
 {
-	t_envvar	*export_lst;
-	t_envvar	*start_export_lst;
-
-	export_lst = duplicate_list(lst);
-	start_export_lst = export_lst;
-	while (export_lst->next)
+	while (export_list->next)
 	{
-		if (ft_strcmp(export_lst->name, "_"))
+		if (ft_strcmp(export_list->name, "_"))
 		{
 			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(export_lst->name, fd);
-			ft_putstr_fd("=\"", fd);
-			ft_putstr_fd(export_lst->content, fd);
-			ft_putstr_fd("\"\n", fd);
+			ft_putstr_fd(export_list->name, fd);
+			if (export_list->content)
+			{
+				ft_putstr_fd("=\"", fd);
+				ft_putstr_fd(export_list->content, fd);
+				ft_putstr_fd("\"", fd);
+			}
+			ft_putstr_fd("\n", fd);
 		}
-		export_lst = export_lst->next;
+		export_list = export_list->next;
 	}
-	if (ft_strcmp(export_lst->name, "_"))
+	if (ft_strcmp(export_list->name, "_"))
 	{
 		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(export_lst->name, fd);
-		ft_putstr_fd("=\"", fd);
-		ft_putstr_fd(export_lst->content, fd);
-		ft_putstr_fd("\"\n", fd);
+		ft_putstr_fd(export_list->name, fd);
+		if (export_list->content)
+		{
+			ft_putstr_fd("=\"", fd);
+			ft_putstr_fd(export_list->content, fd);
+			ft_putstr_fd("\"", fd);
+		}
+		ft_putstr_fd("\n", fd);
 	}
-	free_var_list(start_export_lst);
 }

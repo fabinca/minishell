@@ -6,19 +6,19 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 12:27:16 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 09:30:22 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_prompt(void)
+void	display_prompt(t_envvar *env_list)
 {
 	char	*user;
 	char	*dir;
 	char	pwd[100];
 
-	user = getenv("USER");
+	user = ft_get_envvar(env_list, "USER");
 	dir = ft_strrchr(getcwd(pwd, 100), '/');
 	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
 }
@@ -29,8 +29,8 @@ void	sighandler(int num)
 	{
 		rl_replace_line("", 0);
 		printf("\n");
-		display_prompt();
-		printf("\033[1;36m\033[1mMinishell\033[0m$ ");
+		//display_prompt();
+		printf("\033[1;36m\033[1mMinishell\033[0m$      ");
 		rl_redisplay();
 	}
 }
@@ -54,11 +54,11 @@ void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing 
 	free_tokens(lexer_tokens);
 } */
 
-void	lex_parse_execute(char *line, t_envvar *env_list)
+void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_command	*cmd_start;
+	//t_command	*cmd_start;
 	t_pipedata	p_data;
 
 	if (is_only_whitespaces(line))
@@ -72,13 +72,13 @@ void	lex_parse_execute(char *line, t_envvar *env_list)
 	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0]) //do we need this? 
 		return ;
 	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
-		parse_builtin(cmd_struct, env_list);
+		parse_builtin(cmd_struct, env_list, export_list);
 	else
 	{
 		p_data.paths = find_paths(env_list);
-		cmd_start = cmd_struct;
+		//cmd_start = cmd_struct;
 		pipe (p_data.oldpipe);
-		pipex(p_data, env_list, cmd_struct);
+		pipex(p_data, env_list, export_list, cmd_struct);
 	}
 	//unlink(".tmpheredoc");
 	//while (cmd_start)
@@ -95,6 +95,7 @@ int	main(int argc, char **argv, char **envp)
 {
 	char 		*line;
 	t_envvar	*env_list;
+	t_envvar	*export_list;
 
 	g_last_exit = 0;
 	if (argc != 1 || argv[1])
@@ -107,17 +108,19 @@ int	main(int argc, char **argv, char **envp)
 	signal(SIGQUIT, SIG_IGN); // ctrl backslash
 	//signal(EOF, sighandler);
 	env_list = init_envp_list(envp);
+	export_list = duplicate_list(env_list);
 	while (1)
 	{
-		display_prompt();
+		display_prompt(env_list);
 		line = readline("\033[1;36m\033[1mMinishell\033[0m$ ");
 		if (!line)
 			break ;
 		add_history(line);
-		lex_parse_execute(line, env_list);
+		lex_parse_execute(line, env_list, export_list);
 		free(line);
 	}
 	free_var_list(env_list);
+	free_var_list(export_list);
 	printf("\n");
 	return (0);
 }

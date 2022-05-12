@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 10:50:08 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/04 17:55:38 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 09:35:42 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,37 @@ t_envvar	*init_envp_list(char **envp)
 		var = new;
 	}
 	return (start);
+}
+
+t_envvar	*init_export_var(t_envvar *var, char *envp)
+{
+	int	i;
+	int	len;
+
+	len = 0;
+	while (envp[len] && envp[len] != '=')
+		len++;
+	i = len + 1;
+	var->next = NULL;
+	var->name = malloc(sizeof(char) * (len + 1));
+	if (!var->name)
+		return (0);
+	var->name[len] = '\0';
+	while (--len >= 0)
+		var->name[len] = envp[len];
+	if (!envp[i])
+	{
+		var->content = NULL;
+		return (var);
+	}
+	var->content = malloc(sizeof(char) * (ft_strlen(envp) - i - 1));
+	if (!var->content)
+		return (0);
+	len = 0;
+	while (envp[i])
+		var->content[len++] = envp[i++];
+	var->content[len] = '\0';
+	return (var);
 }
 
 t_envvar	*init_var(t_envvar *var, char *envp)
@@ -83,6 +114,36 @@ int	search_env_list(t_envvar *lst, char *cmd)
 		if (!ft_strncmp(cmd, lst->name, i) && (int)ft_strlen(lst->name) == i)
 		{
 			free(lst->content);
+			lst->content = malloc(sizeof(char) * \
+			ft_strlen(ft_strchr(cmd, '=')));
+			i++;
+			while (cmd[i])
+				lst->content[j++] = cmd[i++];
+			lst->content[j] = '\0';
+			return (1);
+		}
+		lst = lst->next;
+	}
+	return (0);
+}
+
+int	search_exp_list(t_envvar *lst, char *cmd)
+{
+	int	i;
+	int	j;
+
+	i = 0;
+	j = 0;
+	while (cmd[i] && cmd[i] != '=')
+		i++;
+	while (lst)
+	{
+		if (!ft_strncmp(cmd, lst->name, i) && (int)ft_strlen(lst->name) == i)
+		{
+			if (!cmd[i])
+				return (1);
+			if (lst->content)
+				free(lst->content);
 			lst->content = malloc(sizeof(char) * \
 			ft_strlen(ft_strchr(cmd, '=')));
 			i++;

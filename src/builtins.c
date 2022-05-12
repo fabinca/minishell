@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 09:05:35 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 08:09:50 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	builtin_echo(char **cmd, int fd_out)
 }
 
 //returns 1 if no builtin is found, 0 on success
-int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
+int	parse_builtin(t_command *cmd_struct, t_envvar *env_list, t_envvar *export_list)
 {
 	char **cmd;
 	int	fd_out;
@@ -155,12 +155,12 @@ int	parse_builtin(t_command *cmd_struct, t_envvar *env_list)
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		return (builtin_env(cmd, fd_out, env_list));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		return (builtin_exit(cmd, env_list));
+		return (builtin_exit(cmd, env_list, export_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		return (builtin_cd(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "unset") == 0)
-		return (builtin_unset(env_list, cmd));
+		return (builtin_unset(env_list, export_list, cmd));
 	else if (ft_strcmp(cmd[0], "export") == 0)
-		return (builtin_export(env_list, cmd, fd_out));
+		return (builtin_export(env_list, export_list, cmd, fd_out));
 	return (1);
 }

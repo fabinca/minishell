@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/11 12:04:22 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 09:01:13 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ static void	parent_process(t_pipedata pdata) //, pid_t pid
 	close(pdata.newpipe[1]);
 }
 
-static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
+static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
 {
 	char	*path;
 	char	**own_env;
@@ -49,7 +49,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_s
 	close(pdata.newpipe[0]);
 	close(pdata.oldpipe[1]);
 	if (is_builtin(cmd_struct->cmd))
-		parse_builtin(cmd_struct, pdata.envlist);
+		parse_builtin(cmd_struct, env_list, exp_list);
 	else
 	{
 		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
@@ -69,7 +69,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_command *cmd_s
 	exit(0);
 }
 
-int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
+int	pipex(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
 {
 	if (!cmd_struct)
 	{
@@ -83,11 +83,11 @@ int	pipex(t_pipedata pdata, t_envvar *env_list, t_command *cmd_struct)
 	if (pdata.pid < 0)
 		perror("Fork");
 	else if (pdata.pid == 0)
-		child_process(pdata, env_list, cmd_struct);
+		child_process(pdata, env_list, exp_list, cmd_struct);
 	else
 	{
 		parent_process(pdata); // pid
-		pipex(pdata, env_list, cmd_struct->next);
+		pipex(pdata, env_list, exp_list, cmd_struct->next);
 	}
 	return (0);
 }
