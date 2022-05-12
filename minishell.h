@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 16:34:39 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 17:19:30 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,10 @@
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
 # define BUFFER_SIZE 40
+# define INPUT 1
+# define HEREDOC 2
+# define OUTPUT_TRUNC 3
+# define OUTPUT_APP 4
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
@@ -123,7 +127,6 @@ void		exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);
-int			is_redirection_symbol(char *token_string);
 
 //list_to_string.c
 char		**ft_listtostr(t_envvar *env_list);
@@ -141,6 +144,10 @@ t_envvar	*exp_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
+
+//redirection.c
+int			is_redi_sym(char *token_string);
+int			redir(t_command *cmd, t_list *token, int type);
 
 //signals.c
 void		sighandler(int num);
