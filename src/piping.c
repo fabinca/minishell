@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 12:12:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 12:34:43 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,14 @@
 
 static void	parent_process(t_pipedata pdata, t_command *cmd_struct) //, pid_t pid
 {
+	signal(SIGINT, SIG_IGN);
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
-	if (cmd_struct->next)
+	if (cmd_struct->next && cmd_struct->cmd && ft_strcmp(cmd_struct->cmd[0], "cat"))
 		waitpid(pdata.pid, &g_last_exit, WNOHANG);
 	else
 		waitpid(pdata.pid, &g_last_exit, 0);
+	signal(SIGINT, sighandler);
 	g_last_exit = g_last_exit / 255;
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
 	close(pdata.newpipe[0]);
@@ -32,6 +34,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 	char	*path;
 	char	**own_env;
 
+	signal(SIGINT, sighandler_child);
 	if (!pdata.first_cmd)
 	{
 		if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
