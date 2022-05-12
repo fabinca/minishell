@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 12:34:43 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:48:16 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_li
 	char	*path;
 	char	**own_env;
 
+	path = NULL;
 	signal(SIGINT, sighandler_child);
 	if (!pdata.first_cmd)
 	{
