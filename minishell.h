@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:29:54 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 19:11:12 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_pipedata
+typedef struct s_pdata
 {
 	int			newpipe[2];
 	int			oldpipe[2];
@@ -80,7 +80,7 @@ typedef struct s_pipedata
 	bool		first_cmd;
 	pid_t		pid;
 	t_envvar	*envlist;
-}	t_pipedata;
+}	t_pdata;
 
 //builtin_utils.c
 char		*ft_get_envvar(t_envvar *env_list, char *s);
@@ -109,6 +109,9 @@ t_envvar	*init_export_var(t_envvar *var, char *envp);
 int			search_env_list(t_envvar *lst, char *cmd);
 int			search_exp_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
+
+//error_msg.c
+void		print_error(char *str1, char *str2, char *str3, char *str4);
 
 //execute.c
 int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
@@ -142,14 +145,12 @@ t_list		*lexer(char *line);
 char		**ft_listtostr(t_envvar *env_list);
 void		ft_double_free(char **s);
 
-//main.c
-//int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
-int			pipex(t_pipedata pdata, t_envvar *env_list, \
+int			pipex(t_pdata pdata, t_envvar *env_list, \
 t_envvar	*exp_list, t_command *cmd_struct);
 
 //quotes and envars

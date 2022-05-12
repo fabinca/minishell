@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 16:34:48 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 19:08:04 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 {
 	t_list		*lexer_tokens;
 	t_command	*cmd_struct;
-	t_pipedata	p_data;
+	t_pdata		p_data;
 
 	if (is_only_whitespaces(line))
 		return ;
