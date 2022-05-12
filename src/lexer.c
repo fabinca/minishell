@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 17:15:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 18:05:40 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,13 @@ char	*tok_err(t_list *tokens)
 	if (ft_strcmp("|", tokens->content) == 0)
 		return (tokens->content);
 	last_tok = 's';
-	if (is_redi_sym(tokens->content))
+	if (is_rdr(tokens->content))
 		last_tok = 'r';
 	while (tokens->next)
 	{
 		tokens = tokens->next;
 		new_tok = 's';
-		if (is_redi_sym(tokens->content))
+		if (is_rdr(tokens->content))
 			new_tok = 'r';
 		else if (ft_strcmp("|", tokens->content) == 0)
 			new_tok = 'p';

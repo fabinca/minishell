@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 17:19:14 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 18:02:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ static t_command	*create_cmd_struct( void )
 	new->cmd = (char **)ft_calloc(10, sizeof(char *));
 	return (new);
 }
-
 
 bool	is_builtin(char **cmd)
 {
@@ -66,40 +65,40 @@ t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 	return (cmd_first);
 }
 
-t_command	*parser(t_list *token, t_envvar *env_list)
+t_command	*hnd_cmd_s(t_command *c_s, char *s, t_command *first, t_envvar *env)
 {
-	t_command	*commands;
-	t_command	*commands_first;
+	if (c_s->ct >= 10)
+		c_s->cmd = ft_realloc(c_s->cmd, (c_s->ct + 2) * sizeof(char *));
+	c_s->cmd[++c_s->ct] = quotes_and_envvars(s, ft_strlen(s) + 1, env);
+	if (c_s->ct == 1)
+		return (look_for_builtin(first, c_s));
+	return (first);
+}
 
-	if (!token)
-		return (NULL);
-	commands_first = create_cmd_struct();
-	commands = commands_first;
-	while (token)
+t_command	*parser(t_list *tok, t_envvar *env_list)
+{
+	t_command	*c_s;
+	t_command	*cmds_first;
+
+	cmds_first = create_cmd_struct();
+	c_s = cmds_first;
+	while (tok)
 	{
-		if (ft_strcmp(token->content, "|") == 0)
+		if (is_rdr(tok->content) && rdr(c_s, tok->next, is_rdr(tok->content)))
+			tok = tok->next;
+		else if (is_rdr(tok->content))
 		{
-			commands->next = create_cmd_struct();
-			commands = commands->next;
+			free_complete_struct(cmds_first);
+			return (NULL);
 		}
-		else if (is_redi_sym(token->content))
+		else if (ft_strcmp(tok->content, "|") == 0)
 		{
-			if (!redir(commands, token->next, is_redi_sym(token->content)))
-			{
-				free_complete_struct(commands_first);
-				return (NULL);
-			}
-			token = token->next;
+			c_s->next = create_cmd_struct();
+			c_s = c_s->next;
 		}
 		else
-		{
-			if (commands->ct >= 10)
-				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
-			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1, env_list);
-			if (commands->ct == 1)
-				commands_first = look_for_builtin(commands_first, commands);
-		}
-		token = token->next; //is it ok? 
+			cmds_first = hnd_cmd_s(c_s, tok->content, cmds_first, env_list);
+		tok = tok->next;
 	}
-	return(commands_first);
+	return (cmds_first);
 }

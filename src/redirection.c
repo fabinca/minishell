@@ -6,13 +6,13 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:41:26 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 17:32:13 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 18:03:31 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	is_redi_sym(char *token_string)
+int	is_rdr(char *token_string)
 {
 	if (ft_strcmp(">", token_string) == 0)
 		return (OUTPUT_TRUNC);
@@ -43,7 +43,7 @@ static bool	check_redi_error(int type, t_command *cmd, char *str)
 	return (1);
 }
 
-int	redir(t_command *cmd, t_list *token, int type)
+int	rdr(t_command *cmd, t_list *token, int type)
 {
 	if (type == OUTPUT_TRUNC)
 		output_redirection(cmd, token, O_TRUNC);

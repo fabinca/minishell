@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 17:19:30 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 18:04:51 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,8 +146,8 @@ t_envvar	*exp_list, t_command *cmd_struct);
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
 
 //redirection.c
-int			is_redi_sym(char *token_string);
-int			redir(t_command *cmd, t_list *token, int type);
+int			is_rdr(char *token_string);
+int			rdr(t_command *cmd, t_list *token, int type);
 
 //signals.c
 void		sighandler(int num);
