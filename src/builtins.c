@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 11:57:52 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 13:45:18 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,7 +148,7 @@ int	parse_builtin(t_command *cmd_struct, t_envvar *env_list, t_envvar *export_li
 	else if (ft_strcmp(cmd[0], "env") == 0)
 		return (builtin_env(cmd, fd_out, env_list));
 	else if (ft_strcmp(cmd[0], "exit") == 0)
-		return (builtin_exit(cmd, env_list, export_list));
+		return (builtin_exit(cmd_struct, env_list, export_list));
 	else if (ft_strcmp(cmd[0], "cd") == 0)
 		return (builtin_cd(cmd, env_list));
 	else if (ft_strcmp(cmd[0], "unset") == 0)

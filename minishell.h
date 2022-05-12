@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 13:26:55 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:44:53 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
+# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -63,18 +63,10 @@ typedef struct s_pipedata
 	int			oldpipe[2];
 	char		**paths;
 	char		*c_p;
-	//int			error;
 	bool		first_cmd;
 	pid_t		pid;
-	//int			ct;
 	t_envvar	*envlist;
-	//t_envvar	*explist;
 }	t_pipedata;
-
-//typedef struct s_shell
-//{
-//	t_envvar	**vars;
-//}	t_shell;
 
 //builtin_utils.c
 char		*ft_get_envvar(t_envvar *env_list, char *s);
@@ -118,7 +110,7 @@ void		free_cmd(char **cmd);
 void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
-int			builtin_exit(char **cmd, t_envvar *env_lst, t_envvar *exp_lst);
+int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_lst);
 void		free_var_list(t_envvar *lst);
 
 //get_next_line_delimit

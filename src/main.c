@@ -3,33 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 12:58:20 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 13:39:16 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-/* 
-void	lex_parse_execute(char *line, t_envvar *envvar, char **envp) //for testing builtins
-{
-	t_list		*lexer_tokens;
-	t_command	*cmd_struct;
-	t_command	*cmd_temp;
-	t_pipedata	p_data;
-
-	if (is_only_whitespaces(line))
-		return ;
-	p_data.ct = 0;
-	lexer_tokens = lexer(line);
-	cmd_struct = parser(lexer_tokens);
-	if (!cmd_struct) //do we need this? 
-		return ;
-	exec_cmd(cmd_struct, envvar, envp);
-	free_tokens(lexer_tokens);
-} */
 
 void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 {
