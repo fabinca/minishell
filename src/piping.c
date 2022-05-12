@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 11:42:15 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 11:13:30 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,24 @@ static void	parent_process(t_pipedata pdata) //, pid_t pid
 	close(pdata.oldpipe[0]);
 	close(pdata.oldpipe[1]);
 	waitpid(pdata.pid, &g_last_exit, 0);
+	g_last_exit = g_last_exit / 255;
 	dup2(pdata.newpipe[0], pdata.oldpipe[0]);
 	close(pdata.newpipe[0]);
 	dup2(pdata.newpipe[1], pdata.oldpipe[1]);
 	close(pdata.newpipe[1]);
 }
 
-static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
+static void	child_process(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
 {
 	char	*path;
+	char	**own_env;
 
-	if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
-		perror("dup2 replacing stdin");
-	close(pdata.oldpipe[0]);
+	if (!pdata.first_cmd)
+	{
+		if (dup2(pdata.oldpipe[0], STDIN_FILENO) < 0)
+			perror("dup2 replacing stdin");
+		close(pdata.oldpipe[0]);
+	}
 	if (cmd_struct->fd_in != 0)
 	{
 		dup2(cmd_struct->fd_in, STDIN_FILENO);
@@ -46,14 +51,28 @@ static void	child_process(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	close(pdata.newpipe[1]);
 	close(pdata.newpipe[0]);
 	close(pdata.oldpipe[1]);
-	path = joined_path(pdata.paths, cmd_struct->cmd[0]);
-	if (path)
-		execve(path, cmd_struct->cmd, envp);
-	//free_t_data(dt);
-	exit(EXIT_FAILURE);
+	if (is_builtin(cmd_struct->cmd))
+		parse_builtin(cmd_struct, env_list, exp_list);
+	else
+	{
+		path = joined_path(pdata.paths, cmd_struct->cmd[0]);
+		own_env = ft_listtostr(env_list);
+		if (path)
+			execve(path, cmd_struct->cmd, own_env);
+		free(path);
+		execve(cmd_struct->cmd[0], cmd_struct->cmd, own_env);
+		perror("execve");
+		ft_double_free(own_env);
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(cmd_struct->cmd[0], 2);
+		ft_putstr_fd(": command not found\n", 2);
+		exit(127);
+	}
+		//free_t_data(dt);
+	exit(0);
 }
 
-int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct)
+int	pipex(t_pipedata pdata, t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
 {
 	if (!cmd_struct)
 	{
@@ -67,11 +86,12 @@ int	pipex(t_pipedata pdata, char **envp, t_command *cmd_struct)
 	if (pdata.pid < 0)
 		perror("Fork");
 	else if (pdata.pid == 0)
-		child_process(pdata, envp, cmd_struct);
+		child_process(pdata, env_list, exp_list, cmd_struct);
 	else
 	{
 		parent_process(pdata); // pid
-		pipex(pdata, envp, cmd_struct->next);
+		pdata.first_cmd = 0;
+		pipex(pdata, env_list, exp_list, cmd_struct->next);
 	}
 	return (0);
 }

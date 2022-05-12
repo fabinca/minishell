@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/10 10:06:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:04:02 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static void	expand_exit_status(char *buf, size_t *i, size_t *j)
 	free(exit_status);
 }
 
-static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
+static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j, t_envvar *env_list)
 {
 	size_t	end;
 	char	*envvar;
@@ -37,7 +37,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	}
 	while (string[++end] != 0)
 	{
-		if (string[end] == '"' || string[end] == 39)
+		if (string[end] == '"' || string[end] == 39 || string[end] == ' ')
 		{
 			end--;
 			break ;
@@ -45,7 +45,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j)
 	}
 	*i += end;
 	str = ft_substr(string, 1, end);
-	envvar = getenv(str);
+	envvar = ft_get_envvar(env_list, str);
 	//printf("%s %s %ld\n", str, envvar, end);
 	free(str);
 	if (!envvar)
@@ -80,7 +80,7 @@ static char	*update(char *string, char *buf)
 	return (string);
 }
 
-char	*quotes_and_envvars(char *string, size_t len)
+char	*quotes_and_envvars(char *string, size_t len, t_envvar *env_list)
 {
 	size_t	i;
 	size_t	j;
@@ -98,7 +98,7 @@ char	*quotes_and_envvars(char *string, size_t len)
 			continue ;
 		if (!quote[1] && string[i] == '$' && \
 		string[i + 1] != ' ' && string[i + 1] != 0)
-			expand_envvar((string + i), buf, &i, &j);
+			expand_envvar((string + i), buf, &i, &j, env_list);
 		else
 			buf[j++] = string[i];
 	}

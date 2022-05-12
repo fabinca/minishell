@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/06 11:00:02 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/12 00:33:46 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,16 @@ static int	redirection(t_command *cmd, t_list *token)
 {
 	if (ft_strcmp(token->content, ">") == 0)
 	{
+		if (cmd->fd_out > 1)
+			close(cmd->fd_out);
 		token = token->next;
 		cmd->fd_out = open(token->content, O_CREAT | O_TRUNC | O_RDWR, 0666);
 	}
 	else if (ft_strcmp(token->content, ">>") == 0)
 	{
 		token = token->next;
+		if (cmd->fd_out > 1)
+			close(cmd->fd_out);
 		cmd->fd_out = open(token->content, O_CREAT | O_APPEND | O_RDWR, 0666);
 	}
 	if (cmd->fd_out == -1)
@@ -46,6 +50,8 @@ static int	redirection(t_command *cmd, t_list *token)
 	}
 	if (ft_strcmp(token->content, "<") == 0)
 	{
+		if (cmd->fd_in > 0)
+			close(cmd->fd_in);
 		token = token->next;
 		cmd->fd_in = open(token->content, O_RDONLY);
 	}
@@ -53,6 +59,12 @@ static int	redirection(t_command *cmd, t_list *token)
 	{
 		token = token->next;
 		exe_heredoc(token->content);
+		if (cmd->fd_in > 0)
+			close(cmd->fd_in);
+		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
+		unlink(".tmpheredoc");
+		if (g_last_exit == 1)
+			return (0);
 	}
 	if (cmd->fd_in == -1)
 	{
@@ -64,7 +76,7 @@ static int	redirection(t_command *cmd, t_list *token)
 
 bool	is_builtin(char **cmd)
 {
-	if (!cmd)
+	if (!cmd || !cmd[0])
 		return (0);
 	if (ft_strcmp(cmd[0], "echo") == 0)
 		return (1);
@@ -100,11 +112,13 @@ t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 	return (cmd_first);
 }
 
-t_command	*parser(t_list *token)
+t_command	*parser(t_list *token, t_envvar *env_list)
 {
 	t_command	*commands;
 	t_command	*commands_first;
 
+	if (!token)
+		return (NULL);
 	commands_first = create_cmd_struct();
 	commands = commands_first;
 	while (token)
@@ -116,19 +130,22 @@ t_command	*parser(t_list *token)
 		}
 		else if (is_redirection_symbol(token->content))
 		{
-			redirection(commands, token);
+			if (!redirection(commands, token))
+			{
+				free_complete_struct(commands_first);
+				return (NULL);
+			}
 			token = token->next;
 		}
 		else
 		{
 			if (commands->ct >= 10)
 				commands->cmd = ft_realloc(commands->cmd, (commands->ct + 2) * sizeof(char *));
-			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1);
+			commands->cmd[++commands->ct] = quotes_and_envvars(token->content, ft_strlen(token->content) + 1, env_list);
 			if (commands->ct == 1)
 				commands_first = look_for_builtin(commands_first, commands);
 		}
 		token = token->next; //is it ok? 
 	}
-	//printf("%s\n", commands_first->cmd[0]);
 	return(commands_first);
 }

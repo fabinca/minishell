@@ -3,14 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_delimit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/04/06 07:35:46 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/12 00:52:11 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../libft.h"
+#include "../minishell.h"
 
 static char	*increase_buffer(int fd, char *buf)
 {
@@ -92,22 +92,29 @@ char	*move_pointer(char *buf)
 char	*gnl_delimit(int fd, char *delimiter)
 {
 	char		*line;
-	static char	*buf;
+	char		*buf;
 
+	buf = NULL;
 	if (fd < 0)
 		return (0);
 	if (BUFFER_SIZE <= 0)
 		return (0);
+	write(1, ">", 1);
 	buf = increase_buffer(fd, buf);
 	if (!buf)
 		return (0);
 	line = get_line(buf);
 	buf = move_pointer(buf);
-	if (!ft_strncmp(line, delimiter, ft_strlen(line) - 1))
+	if (!ft_strcmp(line, "\n"))
+		return (line);
+	if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && ft_strlen(line) - 1 == ft_strlen(delimiter))
 	{
-		free(buf);
-		free(line);
+		if (buf)
+			free(buf);
+		if (line)
+			free(line);
 		return (NULL);
 	}
+	
 	return (line);
 }
