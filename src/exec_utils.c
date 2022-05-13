@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/25 11:10:20 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 20:10:03 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 17:21:45 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ char	*joined_path(char **my_paths, char *token)
 	int		i;
 
 	i = 0;
+	if (!my_paths)
+		return (NULL);
 	while (my_paths[i])
 	{
 		joined_path = ft_strjoin(my_paths[i], token);
@@ -62,5 +64,5 @@ char	*joined_path(char **my_paths, char *token)
 			i++;
 		}
 	}
-	return (0);
+	return (NULL);
 }

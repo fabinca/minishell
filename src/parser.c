@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 17:03:43 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 17:14:48 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,11 +86,11 @@ t_command	*parser(t_list *t, t_envvar *e_lst)
 	{
 		if (is_rdr(t->content) && rdr(c_s, t->next, is_rdr(t->content), e_lst))
 			t = t->next;
-		else if (is_rdr(t->content))
-		{
-			free_complete_struct(cmds_first);
-			return (NULL);
-		}
+		//else if (is_rdr(t->content))
+		//{
+		//	free_complete_struct(cmds_first);
+		//	return (NULL);
+		//}
 		else if (ft_strcmp(t->content, "|") == 0)
 		{
 			c_s->next = create_cmd_struct();
