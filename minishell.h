@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
 /*   Updated: 2022/05/13 16:03:18 by hrothery         ###   ########.fr       */
@@ -19,6 +19,10 @@
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
 # define BUFFER_SIZE 40
+# define INPUT 1
+# define HEREDOC 2
+# define OUTPUT_TRUNC 3
+# define OUTPUT_APP 4
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
@@ -41,6 +45,16 @@ typedef struct s_envvar
 	struct s_envvar	*next;
 }	t_envvar;
 
+typedef struct s_quotes_and_envvars
+{
+	size_t		i;
+	size_t		j;
+	char		*buf;
+	size_t		end;
+	bool		quote[2];
+	t_envvar	*env_list;
+}	t_quotes_and_envvars;
+
 typedef struct s_tok
 {
 	size_t	start;
@@ -57,7 +71,7 @@ typedef struct s_command
 	struct s_command	*next;
 }	t_command;
 
-typedef struct s_pipedata
+typedef struct s_pdata
 {
 	int			newpipe[2];
 	int			oldpipe[2];
@@ -66,7 +80,7 @@ typedef struct s_pipedata
 	bool		first_cmd;
 	pid_t		pid;
 	t_envvar	*envlist;
-}	t_pipedata;
+}	t_pdata;
 
 //builtin_utils.c
 char		*ft_get_envvar(t_envvar *env_list, char *s);
@@ -96,6 +110,9 @@ int			search_env_list(t_envvar *lst, char *cmd);
 int			search_exp_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
+//error_msg.c
+void		print_error(char *str1, char *str2, char *str3, char *str4);
+
 //execute.c
 int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 
@@ -106,11 +123,12 @@ char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
 
 //free.c
+void		free_everything(t_envvar *env, t_envvar *exp, t_command *cmd_s);
 void		free_cmd(char **cmd);
 void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
-int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_lst);
+int			builtin_exit(t_command *cmd_struct, t_envvar *env, t_envvar *exp);
 void		free_var_list(t_envvar *lst);
 
 //get_next_line_delimit
@@ -122,24 +140,25 @@ void		exe_heredoc(char *delimiter);
 
 //lexer.c
 t_list		*lexer(char *line);
-int			is_redirection_symbol(char *token_string);
 
 //list_to_string.c
 char		**ft_listtostr(t_envvar *env_list);
 void		ft_double_free(char **s);
 
-//main.c
-//int			parse_builtin(t_command *cmd_struct, t_envvar *env_list);
 //parser.c
 t_command	*parser(t_list *token, t_envvar *env_list);
 bool		is_builtin(char **cmd);
 
 //piping.c
-int			pipex(t_pipedata pdata, t_envvar *env_list, \
+int			pipex(t_pdata pdata, t_envvar *env_list, \
 t_envvar	*exp_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
+
+//redirection.c
+int			is_rdr(char *token_string);
+int			rdr(t_command *cmd, t_list *token, int type);
 
 //signals.c
 void		sighandler(int num);

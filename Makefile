@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/12 13:04:51 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/12 19:11:46 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/builtins2.c \
 				$(SRC)/builtin_utils.c \
 				$(SRC)/env_list.c \
+				$(SRC)/error_msg.c \
 				$(SRC)/exec_utils.c\
 				$(SRC)/free.c \
 				$(SRC)/gnl_delimit.c \
@@ -27,6 +28,7 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/parser.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
+				$(SRC)/redirection.c \
 				$(SRC)/signals.c \
 				$(SRC)/sort_envvars.c
 												
