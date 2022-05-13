@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 20:34:37 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 16:28:20 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,9 +77,9 @@ int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 		perror("Fork");
 	else if (pd.pid != 0)
 	{
-		parent_process(pd, cmd_s);
 		pd.first_cmd = 0;
 		pipex(pd, env_lst, exp_lst, cmd_s->next);
+		parent_process(pd, cmd_s);
 	}
 	else
 	{
