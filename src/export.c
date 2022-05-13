@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 13:48:00 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:58:14 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ t_envvar	*export_new_var(t_envvar *lst, t_envvar *new)
 	t_envvar	*start;
 
 	start = lst;
-	//lst = lst->next;
 	while (lst->next)
 	{
 		if (ft_strcmp(new->name, lst->next->name) > 0)
@@ -37,10 +36,28 @@ t_envvar	*export_new_var(t_envvar *lst, t_envvar *new)
 	return (start);
 }
 
+void	print_export_no_args(t_envvar *export_list, int fd)
+{
+	export_list = export_list->next;
+	while (export_list->next)
+	{
+		ft_putstr_fd("declare -x ", fd);
+		ft_putstr_fd(export_list->name, fd);
+		if (export_list->content)
+		{
+			ft_putstr_fd("=\"", fd);
+			ft_putstr_fd(export_list->content, fd);
+			ft_putstr_fd("\"", fd);
+		}
+		ft_putstr_fd("\n", fd);
+		export_list = export_list->next;
+	}
+}
+
 static void	export_variable(char *cmd, t_envvar *env_list, t_envvar *exp_list)
 {
 	t_envvar	*new;
-	
+
 	if (is_alpha_numeric_underscore(cmd) != 2 && \
 	!search_env_list(env_list, cmd))
 		add_envvar(env_list, cmd);
