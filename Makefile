@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/12 14:50:34 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/13 12:50:44 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -28,9 +28,11 @@ SRCS 		= 	$(SRC)/builtins.c \
 				$(SRC)/piping.c \
 				$(SRC)/quotes_and_envvars.c \
 				$(SRC)/signals.c \
-				$(SRC)/sort_envvars.c \
+				$(SRC)/init_export_list.c \
 				$(SRC)/builtin_parser.c \
-				$(SRC)/unset.c
+				$(SRC)/unset.c \
+				$(SRC)/error_msg.c \
+				$(SRC)/export_list.c
 												
 OBJ			= 	obj
 OBJS		= 	$(patsubst $(SRC)/%.c, $(OBJ)/%.o, $(SRCS))

@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:56:35 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 14:39:35 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 12:22:15 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	add_export_envvar(t_envvar *lst, char *s)
 {
 	t_envvar	*new;
 
-	while (lst->next)
+	while (lst->next && ft_strcmp(lst->next->name, "_"))
 		lst = lst->next;
 	new = malloc(sizeof(t_envvar));
 	if (!new)
@@ -95,4 +95,3 @@ void	add_envvar(t_envvar *lst, char *s)
 	new = init_var(new, s);
 	new->next = temp;
 }
-

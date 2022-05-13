@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   sort_envvars.c                                     :+:      :+:    :+:   */
+/*   init_export_list.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 09:40:03 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:48:33 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,18 @@ t_envvar	*duplicate_variable(t_envvar *lst, t_envvar *new)
 	return (new);
 }
 
+t_envvar	*create_first_export_var(t_envvar *exp_list)
+{
+	t_envvar	*new;
+	
+	new = malloc(sizeof(t_envvar));
+	new->name = malloc(sizeof(char) * 10);
+	new->name = "EXPRTLST0";
+	new->content = NULL;
+	new->next = exp_list;
+	return (new);
+}
+
 t_envvar	*duplicate_list(t_envvar *lst)
 {
 	t_envvar	*new_list;
@@ -84,28 +96,14 @@ t_envvar	*duplicate_list(t_envvar *lst)
 		new = duplicate_variable(lst, new);
 		new_list = add_var_to_list(new_list, new);
 	}
+	new_list = create_first_export_var(new_list);
 	return (new_list);
 }
 
 void	print_export_no_args(t_envvar *export_list, int fd)
 {
+	export_list = export_list->next;
 	while (export_list->next)
-	{
-		if (ft_strcmp(export_list->name, "_"))
-		{
-			ft_putstr_fd("declare -x ", fd);
-			ft_putstr_fd(export_list->name, fd);
-			if (export_list->content)
-			{
-				ft_putstr_fd("=\"", fd);
-				ft_putstr_fd(export_list->content, fd);
-				ft_putstr_fd("\"", fd);
-			}
-			ft_putstr_fd("\n", fd);
-		}
-		export_list = export_list->next;
-	}
-	if (ft_strcmp(export_list->name, "_"))
 	{
 		ft_putstr_fd("declare -x ", fd);
 		ft_putstr_fd(export_list->name, fd);
@@ -116,5 +114,6 @@ void	print_export_no_args(t_envvar *export_list, int fd)
 			ft_putstr_fd("\"", fd);
 		}
 		ft_putstr_fd("\n", fd);
+		export_list = export_list->next;
 	}
 }

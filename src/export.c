@@ -1,31 +1,55 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   builtins2.c                                        :+:      :+:    :+:   */
+/*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 14:45:32 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:48:00 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	print_export_error(char *cmd)
+t_envvar	*export_new_var(t_envvar *lst, t_envvar *new)
 {
-	ft_putstr_fd("minishell: export: '", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putendl_fd("': not a valid identifier", 2);
+	t_envvar	*temp;
+	t_envvar	*start;
+
+	start = lst;
+	//lst = lst->next;
+	while (lst->next)
+	{
+		if (ft_strcmp(new->name, lst->next->name) > 0)
+			lst = lst->next;
+		else
+			break ;
+	}
+	if (lst->next)
+	{
+		temp = lst->next;
+		lst->next = new;
+		new->next = temp;
+	}
+	else
+		lst->next = new;
+	return (start);
 }
 
 static void	export_variable(char *cmd, t_envvar *env_list, t_envvar *exp_list)
 {
+	t_envvar	*new;
+	
 	if (is_alpha_numeric_underscore(cmd) != 2 && \
 	!search_env_list(env_list, cmd))
 		add_envvar(env_list, cmd);
 	if (!search_exp_list(exp_list, cmd))
-		add_export_envvar(exp_list, cmd);
+	{
+		new = malloc(sizeof(t_envvar));
+		new = init_export_var(new, cmd);
+		export_new_var(exp_list, new);
+	}
 }
 
 int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
@@ -44,7 +68,8 @@ int	builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd)
 		if (!is_alpha_numeric_underscore(cmd[i]))
 		{
 			g_last_exit = 1;
-			print_export_error(cmd[i]);
+			print_error("minishell: export: '", cmd[i], \
+			"': not a valid identifier", 0);
 		}
 		else
 		{

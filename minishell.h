@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 14:51:15 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 12:30:08 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
@@ -96,6 +96,9 @@ int			search_env_list(t_envvar *lst, char *cmd);
 int			search_exp_list(t_envvar *lst, char *cmd);
 t_envvar	*new_var(t_envvar *lst);
 
+//error_msg.c
+void	print_error(char *str1, char *str2, char *str3, char *str4);
+
 //execute.c
 int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 
@@ -104,6 +107,9 @@ int			exec_cmd(t_command *cmd_struct, t_envvar *env_list, char **envp);
 void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
+
+//export_list.c
+
 
 //free.c
 void		free_cmd(char **cmd);
@@ -151,6 +157,6 @@ void		display_prompt(void);
 //sort_envvars.c
 void		print_export_no_args(t_envvar *lst, int fd);
 t_envvar	*duplicate_list(t_envvar *lst);
-
+t_envvar	*add_var_to_list(t_envvar *lst, t_envvar *new);
 
 #endif
