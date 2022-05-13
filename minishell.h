@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 16:08:44 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 16:10:13 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # define MAX_ENVVAR_LEN 128
 # define MAX_TOKEN_LEN 1256 //I increased this because my path doesn't fit in the parser
+//a solution might be to reallocate memory according to the strlen of the envvar?
 # define GRN  "\x1B[1;32m"
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
