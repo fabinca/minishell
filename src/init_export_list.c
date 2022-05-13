@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 13:48:33 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 13:54:11 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,16 @@ t_envvar	*create_first_export_var(t_envvar *exp_list)
 	
 	new = malloc(sizeof(t_envvar));
 	new->name = malloc(sizeof(char) * 10);
-	new->name = "EXPRTLST0";
+	new->name[0] = 'E';
+	new->name[1] = 'X';
+	new->name[2] = 'P';
+	new->name[3] = 'R';
+	new->name[4] = 'T';
+	new->name[5] = 'L';
+	new->name[6] = 'S';
+	new->name[7] = 'T';
+	new->name[8] = '0';
+	new->name[9] = '\0';
 	new->content = NULL;
 	new->next = exp_list;
 	return (new);
