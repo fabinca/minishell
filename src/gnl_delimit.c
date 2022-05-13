@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gnl_delimit.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 13:32:09 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 14:22:52 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ static char	*get_line(char *buf)
 	if (buf[i] == '\n')
 		out_line[i++] = '\n';
 	out_line[i] = '\0';
+	free(buf);  //new
 	return (out_line);
 }
 
@@ -107,10 +108,7 @@ char	*gnl_delimit(int fd, char *delimiter)
 		return (line);
 	if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && ft_strlen(line) - 1 == ft_strlen(delimiter))
 	{
-		if (buf)
-			free(buf);
-		if (line)
-			free(line);
+		free(line);
 		return (NULL);
 	}
 	return (line);
