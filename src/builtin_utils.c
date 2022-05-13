@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 11:56:35 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 12:22:15 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:09:46 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,6 @@ int	is_alpha_numeric_underscore(char *s)
 	if (!s[i])
 		return (2);
 	return (0);
-}
-
-void	del_var(t_envvar *lst, int first)
-{
-	if (first == 1)
-	{
-		if (!lst)
-			return ;
-		free(lst->name);
-		if (lst->content)
-			free(lst->content);
-		if (lst->next)
-			lst = lst->next;
-		else
-			lst->next = NULL;
-		return ;
-	}
-	if (!lst->next)
-		return ;
-	free(lst->next->name);
-	if (lst->next->content)
-		free(lst->next->content);
-	if (lst->next->next)
-		lst->next = lst->next->next;
-	else
-		lst->next = NULL;
 }
 
 void	add_export_envvar(t_envvar *lst, char *s)

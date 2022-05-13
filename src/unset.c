@@ -6,11 +6,36 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:45:38 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 12:17:57 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 14:15:08 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+void	del_var(t_envvar *lst, int first)
+{
+	t_envvar	*tmp;
+
+	if (first == 1)
+	{
+		tmp = lst;
+		lst = lst->next;
+		free(tmp->name);
+		if (tmp->content)
+			free(lst->content);
+		free(tmp);
+		return ;
+	}
+	tmp = lst->next;
+	if (lst->next->next)
+		lst->next = lst->next->next;
+	else
+		lst->next = NULL;
+	free(tmp->name);
+	if (tmp->content)
+		free(tmp->content);
+	free(tmp);
+}
 
 void	search_variable_to_delete(t_envvar *lst, char *s)
 {
