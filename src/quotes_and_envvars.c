@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 15:47:29 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:55:56 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ static void	expand_envvar(char *string, char *buf, size_t *i, size_t *j, t_envva
 	}
 	while (string[++end] != 0)
 	{
-		if (string[end] == '"' || string[end] == 39 || string[end] == ' ')
+		if (string[end] == '"' || string[end] == 39 || string[end] == ' ' || string[end] == '\n')
 		{
 			end--;
 			break ;
