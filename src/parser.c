@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 00:33:46 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 15:38:07 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static t_command	*create_cmd_struct( void )
 	return (new);
 }
 
-static int	redirection(t_command *cmd, t_list *token)
+static int	redirection(t_command *cmd, t_list *token, t_envvar *env_list)
 {
 	if (ft_strcmp(token->content, ">") == 0)
 	{
@@ -58,7 +58,7 @@ static int	redirection(t_command *cmd, t_list *token)
 	else if (ft_strcmp(token->content, "<<") == 0)
 	{
 		token = token->next;
-		exe_heredoc(token->content);
+		exe_heredoc(token->content, env_list);
 		if (cmd->fd_in > 0)
 			close(cmd->fd_in);
 		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
@@ -130,7 +130,7 @@ t_command	*parser(t_list *token, t_envvar *env_list)
 		}
 		else if (is_redirection_symbol(token->content))
 		{
-			if (!redirection(commands, token))
+			if (!redirection(commands, token, env_list))
 			{
 				free_complete_struct(commands_first);
 				return (NULL);

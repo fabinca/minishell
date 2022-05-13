@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 14:20:34 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 15:36:52 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ char		*gnl_delimit(int fd, char *delimiter);
 char		*ft_strjoin_gnl(char *s1, char*s2);
 
 //heredoc.c
-void		exe_heredoc(char *delimiter);
+void		exe_heredoc(char *delimiter, t_envvar *env_list);
 
 //lexer.c
 t_list		*lexer(char *line);
