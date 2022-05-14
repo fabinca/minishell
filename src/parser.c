@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:02:47 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 17:14:48 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,30 +75,30 @@ t_command	*hnd_cmd_s(t_command *c_s, char *s, t_command *first, t_envvar *env)
 	return (first);
 }
 
-t_command	*parser(t_list *tok, t_envvar *env_list)
+t_command	*parser(t_list *t, t_envvar *e_lst)
 {
 	t_command	*c_s;
 	t_command	*cmds_first;
 
 	cmds_first = create_cmd_struct();
 	c_s = cmds_first;
-	while (tok)
+	while (t)
 	{
-		if (is_rdr(tok->content) && rdr(c_s, tok->next, is_rdr(tok->content)))
-			tok = tok->next;
-		else if (is_rdr(tok->content))
-		{
-			free_complete_struct(cmds_first);
-			return (NULL);
-		}
-		else if (ft_strcmp(tok->content, "|") == 0)
+		if (is_rdr(t->content) && rdr(c_s, t->next, is_rdr(t->content), e_lst))
+			t = t->next;
+		//else if (is_rdr(t->content))
+		//{
+		//	free_complete_struct(cmds_first);
+		//	return (NULL);
+		//}
+		else if (ft_strcmp(t->content, "|") == 0)
 		{
 			c_s->next = create_cmd_struct();
 			c_s = c_s->next;
 		}
 		else
-			cmds_first = hnd_cmd_s(c_s, tok->content, cmds_first, env_list);
-		tok = tok->next;
+			cmds_first = hnd_cmd_s(c_s, t->content, cmds_first, e_lst);
+		t = t->next;
 	}
 	return (cmds_first);
 }

@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 14:06:08 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:34:59 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 16:55:25 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	expand_envvar(char *s, t_quotes_and_envvars q, size_t *i, size_t *j)
 	}
 	while (s[++q.end] != 0)
 	{
-		if (ft_strchr("' $", s[q.end]) || s[q.end] == '"')
+		if (ft_strchr("' $", s[q.end]) || s[q.end] == '"' || s[q.end] == '\n')
 		{
 			q.end--;
 			break ;

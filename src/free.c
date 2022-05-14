@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 19:33:20 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 17:04:34 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ void	free_var_list(t_envvar *lst)
 	while (lst->next)
 	{
 		tmp = lst->next;
-		free(lst->content);
+		if (lst->content)
+			free(lst->content);
 		free(lst->name);
 		free(lst);
 		lst = tmp;
 	}
-	free(lst->content);
+	if (lst->content)
+		free(lst->content);
 	free(lst->name);
 	free(lst);
 }
@@ -52,7 +54,7 @@ void	free_cmd_struct(t_command *cmd_struct)
 	if (cmd_struct->fd_out > 1)
 		close(cmd_struct->fd_out);
 	ft_double_free(cmd_struct->cmd);
-	free(cmd_struct);
+	//free(cmd_struct);
 	return ;
 }
 
@@ -91,7 +93,7 @@ void	free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_stru
 	rl_clear_history();
 }
 
-
+/*
 int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
 {
 	char	**cmd;
@@ -123,3 +125,4 @@ int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
 	return (0);
 }
 
+*/

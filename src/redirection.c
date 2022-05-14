@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:41:26 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/12 18:03:31 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 16:59:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ static bool	check_redi_error(int type, t_command *cmd, char *str)
 	return (1);
 }
 
-int	rdr(t_command *cmd, t_list *token, int type)
+int	rdr(t_command *cmd, t_list *token, int type, t_envvar *env_list)
 {
 	if (type == OUTPUT_TRUNC)
 		output_redirection(cmd, token, O_TRUNC);
@@ -57,7 +57,7 @@ int	rdr(t_command *cmd, t_list *token, int type)
 	}
 	else if (type == HEREDOC)
 	{
-		exe_heredoc(token->content);
+		exe_heredoc(token->content, env_list);
 		if (cmd->fd_in > 0)
 			close(cmd->fd_in);
 		cmd->fd_in = open(".tmpheredoc", O_RDONLY);

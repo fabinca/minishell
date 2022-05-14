@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 14:46:42 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/12 12:53:47 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 15:39:39 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	exe_heredoc(char *delimiter)
+void	exe_heredoc(char *delimiter, t_envvar *env_list)
 {
 	char	*str;
 	int		fd;
@@ -36,6 +36,7 @@ void	exe_heredoc(char *delimiter)
 			str = gnl_delimit(STDIN_FILENO, delimiter);
 			if (!str)
 				break ;
+			str = quotes_and_envvars(str, ft_strlen(str) + 1, env_list);
 			write(fd, str, ft_strlen(str));
 			free(str);
 		}

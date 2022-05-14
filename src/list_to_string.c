@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   list_to_string.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/11 09:06:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/11 23:25:24 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/13 12:10:09 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ static char	*copy_one_list_entry(t_envvar *envvar)
 
 	i = 0;
 	j = 0;
-	out_str = malloc(sizeof(char) * (ft_strlen(envvar->name) + ft_strlen(envvar->content) + 2));
+	out_str = malloc(sizeof(char) * (ft_strlen(envvar->name) + \
+	ft_strlen(envvar->content) + 2));
 	if (!out_str)
 	{
 		perror("memory allocation failed");

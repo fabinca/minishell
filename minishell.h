@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 16:03:18 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/13 17:00:24 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 # define MINISHELL_H
 
 # define MAX_ENVVAR_LEN 128
-# define MAX_TOKEN_LEN 256
+# define MAX_TOKEN_LEN 1256 //I increased this because my path doesn't fit in the parser
+//a solution might be to reallocate memory according to the strlen of the envvar?
 # define GRN  "\x1B[1;32m"
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
@@ -122,6 +123,9 @@ void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
 
+//export_list.c
+
+
 //free.c
 void		free_everything(t_envvar *env, t_envvar *exp, t_command *cmd_s);
 void		free_cmd(char **cmd);
@@ -130,13 +134,15 @@ void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
 int			builtin_exit(t_command *cmd_struct, t_envvar *env, t_envvar *exp);
 void		free_var_list(t_envvar *lst);
+void		free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct);
+
 
 //get_next_line_delimit
 char		*gnl_delimit(int fd, char *delimiter);
 char		*ft_strjoin_gnl(char *s1, char*s2);
 
 //heredoc.c
-void		exe_heredoc(char *delimiter);
+void		exe_heredoc(char *delimiter, t_envvar *env_list);
 
 //lexer.c
 t_list		*lexer(char *line);
@@ -158,7 +164,7 @@ char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);
 
 //redirection.c
 int			is_rdr(char *token_string);
-int			rdr(t_command *cmd, t_list *token, int type);
+int			rdr(t_command *cmd, t_list *token, int type, t_envvar *env_list);
 
 //signals.c
 void		sighandler(int num);
@@ -168,6 +174,6 @@ void		display_prompt(void);
 //sort_envvars.c
 void		print_export_no_args(t_envvar *lst, int fd);
 t_envvar	*duplicate_list(t_envvar *lst);
-
+t_envvar	*add_var_to_list(t_envvar *lst, t_envvar *new);
 
 #endif
