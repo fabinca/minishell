@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/14 21:56:21 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/14 22:18:47 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ static void	parent_process(t_pdata pdata, t_command *cmd_s)
 	{
 		while (true)
 		{
-			if (waitpid (-1, &g_last_exit, 0) <= 0)
+			if (wait (&g_last_exit) <= 0)
 				break ;
 		}
 	}
@@ -55,7 +55,7 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 	if (cmd_s->fd_in != -1 && cmd_s->fd_out != -1)
 	{
 		path = NULL;
-		if (!pd.first_cmd)
+		if (!(pd.start == cmd_s))
 			dup2_and_close(pd.oldpipe[0], STDIN_FILENO);
 		if (cmd_s->fd_in != 0)
 			dup2_and_close(cmd_s->fd_in, STDIN_FILENO);
@@ -80,7 +80,7 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 			print_error(cmd_s->cmd[0], ": command not found\n", NULL, NULL);
 		}
 	}
-	free_everything(env_l, exp_l, cmd_s);
+	free_everything(env_l, exp_l, pd.start);
 	exit(127);
 }
 
@@ -99,7 +99,6 @@ int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 		perror("Fork");
 	else if (pd.pid != 0)
 	{
-		pd.first_cmd = 0;
 		parent_process(pd, cmd_s);
 		pipex(pd, env_lst, exp_lst, cmd_s->next);
 	}

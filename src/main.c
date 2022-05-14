@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/14 21:37:28 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/14 22:19:44 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 
 	if (is_only_whitespaces(line))
 		return ;
-	p_data.first_cmd = 1;
 	p_data.envlist = env_list;
 	lexer_tokens = lexer(line);
 	if (!lexer_tokens)
@@ -34,6 +33,7 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 		parse_builtin(cmd_struct, env_list, export_list);
 	else
 	{
+		p_data.start = cmd_struct;
 		p_data.paths = find_paths(env_list);
 		pipe (p_data.oldpipe);
 		pipex(p_data, env_list, export_list, cmd_struct);
