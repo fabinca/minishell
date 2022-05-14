@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 17:21:03 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/14 13:09:50 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ static void	parent_process(t_pdata pdata, t_command *cmd_s)
 {
 	signal(SIGINT, SIG_IGN);
 	close_two(pdata.oldpipe[0], pdata.oldpipe[1]);
+	dup2_and_close(pdata.newpipe[0], pdata.oldpipe[0]);
+	dup2_and_close(pdata.newpipe[1], pdata.oldpipe[1]);
 	if (cmd_s->next && cmd_s->cmd && \
 	(ft_strcmp(cmd_s->cmd[0], "cat") || cmd_s->cmd[1]))
 		waitpid(pdata.pid, &g_last_exit, WNOHANG);
 	else
 		waitpid(pdata.pid, &g_last_exit, 0);
 	g_last_exit = g_last_exit / 255;
-	dup2_and_close(pdata.newpipe[0], pdata.oldpipe[0]);
-	dup2_and_close(pdata.newpipe[1], pdata.oldpipe[1]);
 }
 
 void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
@@ -84,8 +84,8 @@ int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 	else if (pd.pid != 0)
 	{
 		pd.first_cmd = 0;
-		pipex(pd, env_lst, exp_lst, cmd_s->next);
 		parent_process(pd, cmd_s);
+		pipex(pd, env_lst, exp_lst, cmd_s->next);
 	}
 	else
 	{
