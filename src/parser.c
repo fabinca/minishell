@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 17:14:48 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/15 19:50:52 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,8 +70,8 @@ t_command	*hnd_cmd_s(t_command *c_s, char *s, t_command *first, t_envvar *env)
 	if (c_s->ct >= 10)
 		c_s->cmd = ft_realloc(c_s->cmd, (c_s->ct + 2) * sizeof(char *));
 	c_s->cmd[++c_s->ct] = quotes_and_envvars(s, ft_strlen(s) + 1, env);
-	if (c_s->ct == 1)
-		return (look_for_builtin(first, c_s));
+	//if (c_s->ct == 1)
+	//	return (look_for_builtin(first, c_s));
 	return (first);
 }
 
