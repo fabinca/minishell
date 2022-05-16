@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/07 12:47:33 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 14:22:52 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/16 11:14:39 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,37 +58,9 @@ static char	*get_line(char *buf)
 	if (buf[i] == '\n')
 		out_line[i++] = '\n';
 	out_line[i] = '\0';
-	free(buf);  //new
+	free(buf);
 	return (out_line);
 }
-
-//char	*move_pointer(char *buf)
-//{
-//	int		i;
-//	int		j;
-//	char	*new_line;
-//	int		len;
-
-//	i = 0;
-//	j = 0;
-//	while (buf[i] != '\n' && buf[i])
-//		i++;
-//	if (!buf[i])
-//	{
-//		free (buf);
-//		return (0);
-//	}
-//	len = ft_strlen(buf) - i;
-//	new_line = (char *)malloc(sizeof(char) * (len + 1));
-//	if (!new_line)
-//		return (0);
-//	i++;
-//	while (buf[i])
-//		new_line[j++] = buf[i++];
-//	new_line[j] = '\0';
-//	free (buf);
-//	return (new_line);
-//}
 
 char	*gnl_delimit(int fd, char *delimiter)
 {
@@ -103,10 +75,10 @@ char	*gnl_delimit(int fd, char *delimiter)
 	if (!buf)
 		return (0);
 	line = get_line(buf);
-	//buf = move_pointer(buf);
 	if (!ft_strcmp(line, "\n"))
 		return (line);
-	if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) && ft_strlen(line) - 1 == ft_strlen(delimiter))
+	if (!ft_strncmp(line, delimiter, ft_strlen(delimiter)) \
+	&& ft_strlen(line) - 1 == ft_strlen(delimiter))
 	{
 		free(line);
 		return (NULL);
