@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/14 22:18:47 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/16 08:36:40 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 		close_two(pd.newpipe[0], pd.oldpipe[1]);
 		if (is_builtin(cmd_s->cmd))
 		{
-			perror(cmd_s->cmd[0]);
+			perror(cmd_s->cmd[0]); //are we sure we want this perror message?
 			parse_builtin(cmd_s, env_l, exp_l);
 		}
 		else
