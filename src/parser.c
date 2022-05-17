@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/15 19:50:52 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:30:17 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,11 @@ t_command	*parser(t_list *t, t_envvar *e_lst)
 	while (t)
 	{
 		if (is_rdr(t->content) && rdr(c_s, t->next, is_rdr(t->content), e_lst))
+		{
+			free(t->content);
 			t = t->next;
+		}
+			
 		//else if (is_rdr(t->content))
 		//{
 		//	free_complete_struct(cmds_first);
