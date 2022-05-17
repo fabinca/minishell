@@ -6,7 +6,7 @@
 #    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/16 10:42:27 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/17 09:26:22 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,14 +49,11 @@ all: $(NAME)
 fix:
 	./fix.sh
 
-#$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
-#	@$(CC) $(CFLAGS) -c $< -o $@ -g
-
-$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
-	@$(CC) $(CFLAGS) -c $< -o $@ -g
-
 $(OBJ):
 	mkdir $(OBJ)
+
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
+	@$(CC) $(CFLAGS) -c $< -o $@ -g
 
 ifeq ($(shell uname), Linux)
 
