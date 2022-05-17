@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/13 16:57:05 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/17 09:46:44 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,10 +49,7 @@ all: $(NAME)
 fix:
 	./fix.sh
 
-$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
-	@$(CC) $(CFLAGS) -c $< -o $@ -g
-
-$(OBJ)/%.o: $(SRC)/%.c $(OBJ)
+$(OBJ)/%.o: $(SRC)/%.c  | $(OBJ)
 	@$(CC) $(CFLAGS) -c $< -o $@ -g
 
 $(OBJ):
