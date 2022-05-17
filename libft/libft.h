@@ -6,10 +6,9 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/27 21:05:18 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/04 10:12:06 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:14:13 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef LIBFT_H
 # define LIBFT_H
@@ -76,8 +75,8 @@ void	ft_putchar_fd(char c, int fd);
 void	ft_putstr_fd(char *s, int fd);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putendl_fd(char *s, int fd);
-void	ft_lstadd_back(t_list **lst, t_list *new);
-void	ft_lstadd_front(t_list **lst, t_list *new);
+void	ft_lstadd_back(t_list **lst, t_list *new_lst);
+void	ft_lstadd_front(t_list **lst, t_list *new_lst);
 void	ft_lstclear(t_list **lst);
 void	ft_lstdelone(t_list *lst);
 void	ft_lstiter(t_list *lst, void (*f)(void *));

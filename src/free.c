@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/17 10:42:05 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 19:01:08 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,18 @@ void	free_complete_struct(t_command *cmd_struct)
 	}
 }
 
+void	free_everything(t_envvar *envlst, t_envvar *explst, t_command *cmd_str)
+{
+	if (cmd_str)
+		free_complete_struct(cmd_str);
+	if (envlst)
+		free_var_list(envlst);
+	if (explst)
+		free_var_list(explst);
+	rl_clear_history();
+}
+
+/*
 void	free_cmd(char **cmd)
 {
 	int	i;
@@ -81,14 +93,4 @@ void	free_cmd(char **cmd)
 		free(cmd[i++]);
 	free (cmd);
 }
-
-void	free_everything(t_envvar *envlst, t_envvar *explst, t_command *cmd_str)
-{
-	if (cmd_str)
-		free_complete_struct(cmd_str);
-	if (envlst)
-		free_var_list(envlst);
-	if (explst)
-		free_var_list(explst);
-	rl_clear_history();
-}
+*/

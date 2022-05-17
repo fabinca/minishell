@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/17 17:44:00 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:41:50 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static t_command	*create_cmd_struct( void )
 {
 	t_command	*new;
 
-	new = (t_command *)ft_calloc(1, sizeof(t_command));
+	new = (t_command *)malloc(1 * sizeof(t_command));
 	if (!new)
 		return (NULL);
 	new->fd_in = STDIN_FILENO;
@@ -65,14 +65,11 @@ t_command	*look_for_builtin(t_command *cmd_first, t_command *cmd)
 	return (cmd_first);
 }
 
-t_command	*hnd_cmd_s(t_command *c_s, char *s, t_command *first, t_envvar *env)
+static void	hnd_cmd_s(t_command *c_s, char *s, t_envvar *env)
 {
 	if (c_s->ct >= 10)
 		c_s->cmd = ft_realloc(c_s->cmd, (c_s->ct + 2) * sizeof(char *));
 	c_s->cmd[++c_s->ct] = quotes_and_envvars(s, ft_strlen(s) + 1, env);
-	//if (c_s->ct == 1)
-	//	return (look_for_builtin(first, c_s));
-	return (first);
 }
 
 t_command	*parser(t_list *t, t_envvar *e_lst)
@@ -90,12 +87,6 @@ t_command	*parser(t_list *t, t_envvar *e_lst)
 			t = t->next;
 			free(t->content);
 		}
-			
-		//else if (is_rdr(t->content))
-		//{
-		//	free_complete_struct(cmds_first);
-		//	return (NULL);
-		//}
 		else if (ft_strcmp(t->content, "|") == 0)
 		{
 			free(t->content);
@@ -103,7 +94,7 @@ t_command	*parser(t_list *t, t_envvar *e_lst)
 			c_s = c_s->next;
 		}
 		else
-			cmds_first = hnd_cmd_s(c_s, t->content, cmds_first, e_lst);
+			hnd_cmd_s(c_s, t->content, e_lst);
 		t = t->next;
 	}
 	return (cmds_first);
