@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:52:31 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/16 08:43:09 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 09:51:32 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	sighandler_child(int num)
 {
 	if (num == SIGINT)
 	{
+		printf("\n");
 		exit(1);
 	}
 }
