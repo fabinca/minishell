@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 13:56:46 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/17 17:30:17 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:32:18 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ t_command	*parser(t_list *t, t_envvar *e_lst)
 		//}
 		else if (ft_strcmp(t->content, "|") == 0)
 		{
+			free(t->content);
 			c_s->next = create_cmd_struct();
 			c_s = c_s->next;
 		}
