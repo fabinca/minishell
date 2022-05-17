@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
+#    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/17 09:46:44 by hrothery         ###   ########.fr        #
+#    Updated: 2022/05/17 17:21:34 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -49,11 +49,11 @@ all: $(NAME)
 fix:
 	./fix.sh
 
-$(OBJ)/%.o: $(SRC)/%.c  | $(OBJ)
-	@$(CC) $(CFLAGS) -c $< -o $@ -g
-
 $(OBJ):
 	mkdir $(OBJ)
+
+$(OBJ)/%.o: $(SRC)/%.c | $(OBJ)
+	@$(CC) $(CFLAGS) -c $< -o $@ -g
 
 ifeq ($(shell uname), Linux)
 

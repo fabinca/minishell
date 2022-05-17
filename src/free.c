@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   free.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 17:04:34 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 10:42:05 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_cmd_struct(t_command *cmd_struct)
 	if (cmd_struct->fd_out > 1)
 		close(cmd_struct->fd_out);
 	ft_double_free(cmd_struct->cmd);
-	//free(cmd_struct);
+	free(cmd_struct);
 	return ;
 }
 
@@ -64,9 +64,9 @@ void	free_complete_struct(t_command *cmd_struct)
 
 	while (cmd_struct)
 	{
-		temp = cmd_struct;
+		temp = cmd_struct->next;
 		free_cmd_struct(cmd_struct);
-		cmd_struct = temp->next;
+		cmd_struct = temp;
 	}
 }
 
@@ -82,47 +82,13 @@ void	free_cmd(char **cmd)
 	free (cmd);
 }
 
-void	free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct)
+void	free_everything(t_envvar *envlst, t_envvar *explst, t_command *cmd_str)
 {
-	if (cmd_struct)
-		free_complete_struct(cmd_struct);
-	if (env_list)
-		free_var_list(env_list);
-	if (exp_list)
-		free_var_list(exp_list);
+	if (cmd_str)
+		free_complete_struct(cmd_str);
+	if (envlst)
+		free_var_list(envlst);
+	if (explst)
+		free_var_list(explst);
 	rl_clear_history();
 }
-
-/*
-int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
-{
-	char	**cmd;
-
-	cmd = cmd_struct->cmd;
-	if (!cmd[1])
-	{
-		ft_putstr_fd("exit", 1);
-		g_last_exit = 0;
-	}
-	else
-	{
-		if (!ft_atoi_d_only(cmd[1]))
-		{
-			g_last_exit = 255;
-			ft_putstr_fd("minishell: exit: ", 2);
-			ft_putstr_fd(cmd[1], 2);
-			ft_putstr_fd(": numeric argument required", 2);
-		}
-		else
-		{
-			ft_putstr_fd("exit", 1);
-			g_last_exit = ft_atoi_d_only(cmd[1]);
-		}
-	}
-	free_everything(env_lst, exp_list, cmd_struct);
-	printf("\n");
-	exit(g_last_exit);
-	return (0);
-}
-
-*/
