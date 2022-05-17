@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:45:03 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/16 11:17:31 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 10:42:05 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	free_cmd_struct(t_command *cmd_struct)
 	if (cmd_struct->fd_out > 1)
 		close(cmd_struct->fd_out);
 	ft_double_free(cmd_struct->cmd);
-	//free(cmd_struct);
+	free(cmd_struct);
 	return ;
 }
 
@@ -64,9 +64,9 @@ void	free_complete_struct(t_command *cmd_struct)
 
 	while (cmd_struct)
 	{
-		temp = cmd_struct;
+		temp = cmd_struct->next;
 		free_cmd_struct(cmd_struct);
-		cmd_struct = temp->next;
+		cmd_struct = temp;
 	}
 }
 
