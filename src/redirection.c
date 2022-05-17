@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 16:41:26 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 16:59:47 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 17:29:21 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ static bool	check_redi_error(int type, t_command *cmd, char *str)
 
 int	rdr(t_command *cmd, t_list *token, int type, t_envvar *env_list)
 {
+	int	error;
+
 	if (type == OUTPUT_TRUNC)
 		output_redirection(cmd, token, O_TRUNC);
 	else if (type == OUTPUT_APP)
@@ -63,5 +65,6 @@ int	rdr(t_command *cmd, t_list *token, int type, t_envvar *env_list)
 		cmd->fd_in = open(".tmpheredoc", O_RDONLY);
 		unlink(".tmpheredoc");
 	}
-	return (check_redi_error(type, cmd, token->content));
+	error = check_redi_error(type, cmd, token->content);
+	return (error);
 }

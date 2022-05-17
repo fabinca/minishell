@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/16 08:36:40 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 17:40:33 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ static void	parent_process(t_pdata pdata, t_command *cmd_s)
 		while (true)
 		{
 			if (wait (&g_last_exit) <= 0)
+			{
 				break ;
+				signal(SIGINT, sighandler);
+			}
 		}
 	}
 	/*if (cmd_s->next && cmd_s->cmd && \
@@ -65,7 +68,7 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 		close_two(pd.newpipe[0], pd.oldpipe[1]);
 		if (is_builtin(cmd_s->cmd))
 		{
-			perror(cmd_s->cmd[0]); //are we sure we want this perror message?
+			//perror(cmd_s->cmd[0]); //are we sure we want this perror message?
 			parse_builtin(cmd_s, env_l, exp_l);
 		}
 		else
@@ -104,9 +107,8 @@ int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 	}
 	else
 	{
-		child_p(pd, env_lst, exp_lst, cmd_s);
 		signal(SIGINT, sighandler_child);
+		child_p(pd, env_lst, exp_lst, cmd_s);
 	}
-	signal(SIGINT, sighandler);
 	return (0);
 }
