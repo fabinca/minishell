@@ -6,22 +6,22 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 12:52:31 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 14:31:44 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 14:56:51 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	display_prompt(void)
-{
-	char	*user;
-	char	*dir;
-	char	pwd[100];
+//void	display_prompt(void)
+//{
+//	char	*user;
+//	char	*dir;
+//	char	pwd[MAX_PATH];
 
-	user = getenv("USER");
-	dir = ft_strrchr(getcwd(pwd, 100), '/');
-	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
-}
+//	user = getenv("USER");
+//	dir = ft_strrchr(getcwd(pwd, MAX_PATH), '/');
+//	printf("%s%s:%s~%s$%s  ", GRN, user, BLU, dir, NRM);
+//}
 
 void	sighandler_child(int num)
 {
