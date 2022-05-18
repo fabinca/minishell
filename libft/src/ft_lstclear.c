@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstclear.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/05/20 15:10:12 by cfabian           #+#    #+#             */
-/*   Updated: 2022/03/21 14:56:35 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 12:20:30 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,7 @@ void	ft_lstclear(t_list **lst)
 
 	if (!*lst)
 		return ;
-	tmp = (*lst)->next;
-	while (tmp != NULL)
+	while (lst != NULL)
 	{
 		tmp = (*lst)->next;
 		ft_lstdelone(*lst);
