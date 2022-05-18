@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/17 18:20:13 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 09:16:01 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	print_token_error(t_list *st)
 {
 	print_error("syntax error near unexpected token '", tok_err(st), \
 	"'\n", NULL);
-	g_last_exit = 258; //2?
+	g_last_exit = 258;
 }
 
 t_list	*lexer(char *line)

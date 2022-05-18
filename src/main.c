@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/14 22:19:44 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 11:30:10 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,9 @@ void	lex_parse_execute(char *line, t_envvar *env_list, t_envvar *export_list)
 	if (!lexer_tokens)
 		return ;
 	cmd_struct = parser(lexer_tokens, env_list);
-	if (!cmd_struct || !cmd_struct->cmd || !cmd_struct->cmd[0])
-		return ;
-	if (!cmd_struct->next && is_builtin(cmd_struct->cmd))
+	if (cmd_struct && !cmd_struct->next && is_builtin(cmd_struct->cmd))
 		parse_builtin(cmd_struct, env_list, export_list);
-	else
+	else if (cmd_struct && cmd_struct->cmd[0])
 	{
 		p_data.start = cmd_struct;
 		p_data.paths = find_paths(env_list);
