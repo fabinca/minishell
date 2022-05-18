@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/07 10:24:37 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 14:02:01 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/18 12:33:58 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_envvar	*create_first_export_var(t_envvar *exp_list)
 	new->name[1] = 'X';
 	new->name[2] = 'P';
 	new->name[3] = 'R';
-	new->name[4] = 'T';
+	new->name[4] = '?';
 	new->name[5] = 'L';
 	new->name[6] = 'S';
 	new->name[7] = 'T';
