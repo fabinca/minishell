@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/17 18:37:49 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 12:41:30 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 		prepare_pipes(pd, cmd_s);
 		if (is_builtin(cmd_s->cmd))
 			parse_builtin(cmd_s, env_l, exp_l);
-		else
+		else if (cmd_s->cmd && cmd_s->cmd[0])
 		{
 			own_env = ft_listtostr(env_l);
 			execve(cmd_s->cmd[0], cmd_s->cmd, own_env);
