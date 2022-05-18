@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 11:42:23 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:49:42 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,31 +80,50 @@ int	builtin_cd(char **cmd, t_envvar *env_list)
 	return (0);
 }
 
-int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
+static int	exit_support(t_command *cmd_s)
 {
-	char	**cmd;
+	int	ret;
 
-	cmd = cmd_struct->cmd;
-	if (!cmd[1])
+	ret = 0;
+	if (!ft_atoi_d_only(cmd_s->cmd[1]))
 	{
-		ft_putstr_fd("exit\n", 1);
-		g_last_exit = 0;
+		g_last_exit = 255;
+		print_error("exit\n", "minishell: exit: ", cmd_s->cmd[1], \
+		": numeric argument required\n");
+	}
+	else if (cmd_s->cmd[2])
+	{
+		g_last_exit = 1;
+		ft_putstr_fd("exit\n", 2);
+		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+		ret = 1;
 	}
 	else
 	{
-		if (!ft_atoi_d_only(cmd[1]))
-		{
-			g_last_exit = 255;
-			print_error("minishell: exit: ", cmd[1], \
-			": numeric argument required\n", 0);
-		}
-		else
-		{
-			ft_putstr_fd("exit\n", 1);
-			g_last_exit = ft_atoi_d_only(cmd[1]);
-		}
+		ft_putstr_fd("exit\n", 2);
+		g_last_exit = ft_atoi_d_only(cmd_s->cmd[1]);
 	}
-	free_everything(env_lst, exp_list, cmd_struct);
-	exit(g_last_exit);
+	return (ret);
+}
+
+int	builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list)
+{
+	char	**cmd;
+	int		ret;
+
+	ret = 0;
+	cmd = cmd_struct->cmd;
+	if (!cmd[1])
+	{
+		ft_putstr_fd("exit\n", 2);
+		g_last_exit = 0;
+	}
+	else
+		ret = exit_support(cmd_struct);
+	if (!ret)
+	{
+		free_everything(env_lst, exp_list, cmd_struct);
+		exit(g_last_exit);
+	}
 	return (0);
 }
