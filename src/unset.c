@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/12 14:45:38 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 14:15:08 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/18 11:50:15 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,8 @@ static int	check_valid_cmd(char *cmd, t_envvar *env_list, t_envvar *exp_list)
 	if (!is_alpha_numeric_underscore(cmd) || ft_strchr(cmd, '='))
 	{
 		if (ft_strcmp(cmd, "_"))
-			printf("minishell: export: '%s': not a valid identifier\n", cmd);
+			print_error("minishell: unset: '", cmd, \
+			"': not a valid identifier\n", 0);
 		exit_value = 1;
 	}
 	else
