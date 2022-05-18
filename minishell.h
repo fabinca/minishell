@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/16 08:06:41 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:24:27 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,7 @@
 # define MINISHELL_H
 
 # define MAX_ENVVAR_LEN 128
-# define MAX_TOKEN_LEN 1256 //I increased this because my path doesn't fit in the parser
-//a solution might be to reallocate memory according to the strlen of the envvar?
+# define MAX_TOKEN_LEN 1256
 # define GRN  "\x1B[1;32m"
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"
@@ -37,7 +36,7 @@
 # include <sys/types.h>
 # include <sys/wait.h>
 
-extern int g_last_exit;
+extern int	g_last_exit;
 
 typedef struct s_envvar
 {
@@ -100,8 +99,10 @@ char		*ft_get_envvar(t_envvar *env_list, char *s);
 
 //builtins2.c
 int			builtin_unset(t_envvar *lst, t_envvar *exp_list, char **cmd);
-int			builtin_export(t_envvar *lst, t_envvar *export_list, char **cmd, int fd);
-int			parse_builtin(t_command *cmd_struct, t_envvar *env_list, t_envvar *export_list);
+int			builtin_export(t_envvar *lst, t_envvar *exp_lst, char **cmd, \
+			int fd);
+int			parse_builtin(t_command *cmd_struct, t_envvar *env_list, \
+			t_envvar *export_list);
 bool		is_builtin(char **cmd);
 
 //env_list.c
@@ -124,19 +125,15 @@ void		free_my_paths(char **paths);
 char		**find_paths(t_envvar *env_list);
 char		*joined_path(char **my_paths, char *token);
 
-//export_list.c
-
-
 //free.c
 void		free_everything(t_envvar *env, t_envvar *exp, t_command *cmd_s);
-void		free_cmd(char **cmd);
 void		free_complete_struct(t_command *cmd_struct);
 void		free_tokens(t_list *tokens);
 void		free_cmd_struct(t_command *temp);
 int			builtin_exit(t_command *cmd_struct, t_envvar *env, t_envvar *exp);
 void		free_var_list(t_envvar *lst);
-void		free_everything(t_envvar *env_list, t_envvar *exp_list, t_command *cmd_struct);
-
+void		free_everything(t_envvar *env_list, t_envvar *exp_list, \
+			t_command *cmd_struct);
 
 //get_next_line_delimit
 char		*gnl_delimit(int fd, char *delimiter);
@@ -158,7 +155,7 @@ bool		is_builtin(char **cmd);
 
 //piping.c
 int			pipex(t_pdata pdata, t_envvar *env_list, \
-t_envvar	*exp_list, t_command *cmd_struct);
+			t_envvar *exp_list, t_command *cmd_struct);
 
 //quotes and envars
 char		*quotes_and_envvars(char *string, size_t len, t_envvar *env_list);

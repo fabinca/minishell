@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/13 17:09:57 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/17 18:20:13 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 static size_t	token_length(char *str)
 {
-	size_t	len;
+	size_t			len;
+	const size_t	max_len = ft_strlen(str);
 
 	len = 0;
 	while (str[len] == ' ')
@@ -25,7 +26,7 @@ static size_t	token_length(char *str)
 	if ((str[len] == '<' && str[len + 1] == '<') || \
 	(str[len] == '>' && str[len + 1] == '>'))
 		return (len + 2);
-	while (str[len] != 0 && str[len] != ' ' && \
+	while (len < max_len && str[len] != 0 && str[len] != ' ' && \
 	str[len] != '|' && str[len] != '<' && str[len] != '>')
 	{
 		if (str[len] == 39 || str[len] == '"')

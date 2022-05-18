@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/01 08:32:51 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/13 13:58:14 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/16 10:59:57 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,22 +36,30 @@ t_envvar	*export_new_var(t_envvar *lst, t_envvar *new)
 	return (start);
 }
 
+static void	print_export_variable(t_envvar *var, int fd)
+{
+	ft_putstr_fd("declare -x ", fd);
+	ft_putstr_fd(var->name, fd);
+	if (var->content)
+	{
+		ft_putstr_fd("=\"", fd);
+		ft_putstr_fd(var->content, fd);
+		ft_putstr_fd("\"", fd);
+	}
+	ft_putstr_fd("\n", fd);
+}
+
 void	print_export_no_args(t_envvar *export_list, int fd)
 {
 	export_list = export_list->next;
 	while (export_list->next)
 	{
-		ft_putstr_fd("declare -x ", fd);
-		ft_putstr_fd(export_list->name, fd);
-		if (export_list->content)
-		{
-			ft_putstr_fd("=\"", fd);
-			ft_putstr_fd(export_list->content, fd);
-			ft_putstr_fd("\"", fd);
-		}
-		ft_putstr_fd("\n", fd);
+		if (ft_strcmp(export_list->name, "_"))
+			print_export_variable(export_list, fd);
 		export_list = export_list->next;
 	}
+	if (ft_strcmp(export_list->name, "_"))
+		print_export_variable(export_list, fd);
 }
 
 static void	export_variable(char *cmd, t_envvar *env_list, t_envvar *exp_list)

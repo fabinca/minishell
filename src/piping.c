@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   piping.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/05/10 08:42:52 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/16 08:36:40 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/17 18:37:49 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,20 +15,15 @@
 static void	dup2_and_close(int oldfd, int newfd)
 {
 	if (dup2(oldfd, newfd) == -1)
-		perror("What the hell");
+		perror("What the hell- how did you manage to give dup2 an error?");
 	close(oldfd);
-}
-
-static void	close_two(int fd1, int fd2)
-{
-	close(fd1);
-	close(fd2);
 }
 
 static void	parent_process(t_pdata pdata, t_command *cmd_s)
 {
 	signal(SIGINT, SIG_IGN);
-	close_two(pdata.oldpipe[0], pdata.oldpipe[1]);
+	close(pdata.oldpipe[0]);
+	close(pdata.oldpipe[1]);
 	dup2_and_close(pdata.newpipe[0], pdata.oldpipe[0]);
 	dup2_and_close(pdata.newpipe[1], pdata.oldpipe[1]);
 	if (!cmd_s->next)
@@ -36,15 +31,26 @@ static void	parent_process(t_pdata pdata, t_command *cmd_s)
 		while (true)
 		{
 			if (wait (&g_last_exit) <= 0)
+			{
+				signal(SIGINT, sighandler);
 				break ;
+			}
 		}
 	}
-	/*if (cmd_s->next && cmd_s->cmd && \
-	(ft_strcmp(cmd_s->cmd[0], "cat") || cmd_s->cmd[1]))
-		waitpid(pdata.pid, &g_last_exit, WNOHANG);
-	else
-		waitpid(pdata.pid, &g_last_exit, 0);*/
 	g_last_exit = g_last_exit / 255;
+}
+
+static void	prepare_pipes(t_pdata pd, t_command *cmd_s)
+{
+	if (!(pd.start == cmd_s))
+		dup2_and_close(pd.oldpipe[0], STDIN_FILENO);
+	if (cmd_s->fd_in != 0)
+		dup2_and_close(cmd_s->fd_in, STDIN_FILENO);
+	if (!cmd_s->next || cmd_s->fd_out != 1)
+		dup2_and_close(cmd_s->fd_out, pd.newpipe[1]);
+	dup2_and_close(pd.newpipe[1], STDOUT_FILENO);
+	close(pd.newpipe[0]);
+	close(pd.oldpipe[1]);
 }
 
 void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
@@ -55,19 +61,9 @@ void	child_p(t_pdata pd, t_envvar *env_l, t_envvar *exp_l, t_command *cmd_s)
 	if (cmd_s->fd_in != -1 && cmd_s->fd_out != -1)
 	{
 		path = NULL;
-		if (!(pd.start == cmd_s))
-			dup2_and_close(pd.oldpipe[0], STDIN_FILENO);
-		if (cmd_s->fd_in != 0)
-			dup2_and_close(cmd_s->fd_in, STDIN_FILENO);
-		if (!cmd_s->next || cmd_s->fd_out != 1)
-			dup2_and_close(cmd_s->fd_out, pd.newpipe[1]);
-		dup2_and_close(pd.newpipe[1], STDOUT_FILENO);
-		close_two(pd.newpipe[0], pd.oldpipe[1]);
+		prepare_pipes(pd, cmd_s);
 		if (is_builtin(cmd_s->cmd))
-		{
-			perror(cmd_s->cmd[0]); //are we sure we want this perror message?
 			parse_builtin(cmd_s, env_l, exp_l);
-		}
 		else
 		{
 			own_env = ft_listtostr(env_l);
@@ -104,9 +100,8 @@ int	pipex(t_pdata pd, t_envvar *env_lst, t_envvar *exp_lst, t_command *cmd_s)
 	}
 	else
 	{
-		child_p(pd, env_lst, exp_lst, cmd_s);
 		signal(SIGINT, sighandler_child);
+		child_p(pd, env_lst, exp_lst, cmd_s);
 	}
-	signal(SIGINT, sighandler);
 	return (0);
 }
