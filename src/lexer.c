@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/18 12:15:16 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/18 09:16:01 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/19 12:56:00 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ t_list	*lexer(char *line)
 
 	token.start = 0;
 	st = NULL;
-	while (token.start < len)
+	while (token.start < len && !is_only_whitespaces(line + token.start))
 	{
 		token.len = token_length((line + token.start));
 		token.string = ft_substr_strip_space(line, token.start, token.len);
