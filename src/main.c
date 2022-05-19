@@ -6,7 +6,7 @@
 /*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/18 11:30:10 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/18 14:53:06 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	main(int argc, char **argv, char **envp)
 	export_list = duplicate_list(env_list);
 	while (1)
 	{
-		display_prompt();
-		line = readline("\033[1;36m\033[1mMinishell\033[0m$ ");
+		//display_prompt();
+		line = readline(PROMPT);
 		if (!line)
 			break ;
 		add_history(line);
