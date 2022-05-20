@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/20 09:53:31 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/20 10:00:28 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ endif
 
 ifeq ($(shell uname), Darwin)
 
-$(NAME): $(LIB) $(OBJS) fix
+$(NAME): fix $(LIB) $(OBJS)
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
 
 endif
