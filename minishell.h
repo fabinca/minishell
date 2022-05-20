@@ -6,7 +6,7 @@
 /*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 09:57:47 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/20 10:01:30 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,8 +86,9 @@ typedef struct s_pdata
 }	t_pdata;
 
 //builtin_parser.c
-int	builtin_echo(char **cmd, int fd_out);
-int	parse_builtin(t_command *cmd_str, t_envvar *env_list, t_envvar *exp_list);
+int			builtin_echo(char **cmd, int fd_out);
+int			parse_builtin(t_command *cmd_str, t_envvar *env_list, \
+			t_envvar *exp_list);
 
 //builtin_utils.c
 char		*ft_get_envvar(t_envvar *env_list, char *s);
@@ -99,7 +100,8 @@ void		add_envvar(t_envvar *lst, char *s);
 int			builtin_env(char **cmd_struct, int fd, t_envvar *list);
 int			builtin_pwd(int fd);
 int			builtin_cd(char **cmd, t_envvar *env_list);
-int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, t_envvar *exp_list);
+int			builtin_exit(t_command *cmd_struct, t_envvar *env_lst, \
+			t_envvar *exp_list);
 
 //env_list.c
 t_envvar	*new_var(t_envvar *lst);
@@ -122,7 +124,8 @@ int			search_exp_list(t_envvar *lst, char *cmd);
 //export.c
 t_envvar	*export_new_var(t_envvar *lst, t_envvar *new);
 void		print_export_no_args(t_envvar *export_list, int fd);
-int			builtin_export(t_envvar *env_list, t_envvar *exp_list, char **cmd, int fd);
+int			builtin_export(t_envvar *env_list, t_envvar *exp_list, \
+			char **cmd, int fd);
 
 //free.c
 void		free_var_list(t_envvar *lst);
