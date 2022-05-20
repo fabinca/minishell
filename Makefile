@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+         #
+#    By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/20 10:00:28 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/20 10:41:17 by hrothery         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -64,7 +64,7 @@ endif
 
 ifeq ($(shell uname), Darwin)
 
-$(NAME): fix $(LIB) $(OBJS)
+$(NAME): $(LIB) $(OBJS)
 	$(CC) $(OBJS) $(LIB) -g  -o $(NAME) -lreadline $(CFLAGS) $(RL_MAC)
 
 endif
