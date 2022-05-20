@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
+/*   By: cfabian <cfabian@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/20 09:31:33 by hrothery         ###   ########.fr       */
+/*   Updated: 2022/05/20 09:52:03 by cfabian          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@
 # include <unistd.h>
 # include <stdio.h>
 # include <limits.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/readline.h>
-# include </Users/hrothery/goinfre/.brew/opt/readline/include/readline/history.h>
+# include <readline/readline.h>
+# include <readline/history.h>
 # include <stdlib.h>
 # include "./libft.h"
 # include <stdbool.h>
