@@ -6,7 +6,7 @@
 #    By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2022/01/21 15:18:52 by cfabian           #+#    #+#              #
-#    Updated: 2022/05/17 17:21:34 by cfabian          ###   ########.fr        #
+#    Updated: 2022/05/19 11:23:28 by cfabian          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,7 +89,7 @@ norm:
 	@make norm -C ./libft/
 
 memcheck: all
-	valgrind --leak-check=full --show-leak-kinds=all --track-origins=yes ./minishell
+	valgrind --leak-check=full ./minishell
 
 	
 .PHONY: all clean fclean re norm memcheck

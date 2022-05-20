@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/16 15:37:21 by cfabian           #+#    #+#             */
-/*   Updated: 2022/05/17 18:24:27 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/20 09:31:33 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 
 # define MAX_ENVVAR_LEN 128
 # define MAX_TOKEN_LEN 1256
+# define MAX_PWD 128
+# define PROMPT "\033[1;36m\033[1mMinishell\033[0m$ "
 # define GRN  "\x1B[1;32m"
 # define BLU  "\x1B[1;34m"
 # define NRM  "\x1B[0m"

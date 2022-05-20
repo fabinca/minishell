@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtins.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:47:22 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/18 14:51:22 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/20 09:32:00 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 int	builtin_pwd(int fd)
 {
-	char	pwd[MAX_PATH];
+	char	pwd[MAX_PWD];
 
-	if (!getcwd(pwd, MAX_PATH))
+	if (!getcwd(pwd, MAX_PWD))
 	{
 		perror("pwd");
 		g_last_exit = 127;
