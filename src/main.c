@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cfabian <cfabian@student.42wolfsburg.de>   +#+  +:+       +#+        */
+/*   By: hrothery <hrothery@student.42wolfsburg.de> +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/25 11:52:25 by hrothery          #+#    #+#             */
-/*   Updated: 2022/05/18 14:53:06 by cfabian          ###   ########.fr       */
+/*   Updated: 2022/05/20 09:13:36 by hrothery         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	main(int argc, char **argv, char **envp)
 	export_list = duplicate_list(env_list);
 	while (1)
 	{
-		//display_prompt();
 		line = readline(PROMPT);
 		if (!line)
 			break ;
